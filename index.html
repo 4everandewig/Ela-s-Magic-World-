@@ -151,8 +151,14 @@ function introZu(){
   try { vid.pause(); sessionStorage.setItem("ela-intro", "1"); } catch(e){}
 }
 // Oktober: Hexen-Ela zaubert Glitzer ins Zimmer, sonst das Logo-Video
-const introDatei = halloween ? "bilder/intro-halloween" : "bilder/intro";
-vid.addEventListener("ended", introZu);
+// Oktober: erst Ela am Maltisch mit Zauber-Glitzer, dann das Logo im Halloween-Zimmer
+const introListe = halloween ? ["bilder/intro-halloween-1", "bilder/intro-halloween"] : ["bilder/intro"];
+let introNr = 0, introDatei = introListe[0];
+vid.addEventListener("ended", () => {
+  if (++introNr >= introListe.length) return introZu();
+  introDatei = introListe[introNr]; vid.poster = introDatei + ".jpg"; vid.src = introDatei + ".mp4";
+  const p = vid.play(); if (p && p.catch) p.catch(introZu);
+});
 vid.addEventListener("error", introZu);
 if (!introGesehen) {   // Video nur laden, wenn das Intro auch gezeigt wird
   intro.hidden = false;

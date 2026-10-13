@@ -165,6 +165,14 @@ function elaVideo(src, ersatz){
   const p = v.play(); if (p && p.catch) p.catch(fehler);
 }
 
+/* Bild von Ela antippbar machen: spielt die Videos der Reihe nach (leere Liste = nichts) */
+function elaTippen(img, videos){
+  if (!img || !videos || !videos.length) return;
+  let nr = 0;
+  img.classList.add("tippbar"); img.title = "▶";
+  img.onclick = () => elaVideo(videos[nr++ % videos.length]);
+}
+
 /* Sterne sammeln (gilt für alle Spiele) */
 function sterne(){ return parseInt(store.get("ela-sterne") || "0", 10) || 0; }
 function zeigeSterne(){ const el = document.getElementById("stars-n"); if (el) el.textContent = sterne(); }

@@ -352,6 +352,7 @@ document.getElementById("save").onclick = () => {
   const a = document.createElement("a");
   a.download = `Ela-Coloring-${current.L}-${current.wort.en}.png`; a.href = cv.toDataURL("image/png"); a.click();
   say(t("m_saved"));
+  const gv = ELA_VIDEOS.gespeichert[thema.id]; if (gv) setTimeout(() => elaVideo(gv), 600);   // "It's alive! It's blinking!"
 };
 /* Ausdrucken: leeres Ausmalbild als Druckblatt (siehe #druckblatt) */
 document.getElementById("print").onclick = () => {
