@@ -70,6 +70,7 @@ canvas{display:block;max-width:100%;max-height:62vh;width:auto;height:auto;touch
 .word .watch svg{width:18px;height:18px}
 #print{background:#fff3e3;color:var(--ink);font-size:17px;padding:6px 8px;box-shadow:inset 0 -4px 0 var(--orange)}
 #print img{width:64px;height:auto}
+#ela-img.tippbar{cursor:pointer}
 
 /* Druckblatt im Stil der "Free Coloring Page"-PDFs: Buchstabe zum Ausmalen, Bild, "P is for Pumpkin", Name, Kanal.
    Immer Englisch (wie das ABC). Nur beim Drucken sichtbar. */
@@ -190,6 +191,10 @@ function openTheme(id, letter){
   [...themesNav.children].forEach(b => b.setAttribute("aria-pressed", b.id === "thema-" + thema.id));
   store.set("ela-thema", thema.id);
   const ei = document.getElementById("ela-img"); ei.src = thema.ela || "bilder/ela-rund.png"; ei.classList.toggle("round", !thema.ela);
+  // Auf Ela tippen: ihr Video zum Thema ("Do you want to color with me?")
+  const tv = ELA_VIDEOS.thema[thema.id];
+  ei.classList.toggle("tippbar", !!tv);
+  ei.onclick = tv ? () => elaVideo(tv) : null;
   pics.innerHTML = "";
   BILDER.forEach((b, i) => {
     const el = document.createElement("button");
@@ -201,7 +206,9 @@ function openTheme(id, letter){
   });
   const i = BILDER.findIndex(b => b.L === letter);
   open(i >= 0 ? i : 0);
+  if (tv && !elaHinweis) { elaHinweis = true; say(t("m_tapela")); }   // einmal pro Besuch: "Tap me!"
 }
+let elaHinweis = false;
 const pal = document.getElementById("palette");
 FARBEN.forEach(f => {
   const s = document.createElement("button");

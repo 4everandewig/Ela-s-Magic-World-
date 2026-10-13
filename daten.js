@@ -62,11 +62,13 @@ function karten(L){
 }
 /* Elas Videos (in videos/, 640 px breit, mit Ton; Standbild = gleicher Name .jpg).
    abc:  ersetzt im ABC das Vorlesen, Schlüssel = englisches Wort der Karte ("P is for Pumpkin")
-   bild: Knopf "Watch Ela" im Malbuch beim Ausmalbild "<thema-id>-<Buchstabe>" (mehrere = der Reihe nach) */
+   bild: Knopf "Watch Ela" im Malbuch beim Ausmalbild "<thema-id>-<Buchstabe>" (mehrere = der Reihe nach)
+   thema: Video, wenn man im Malbuch auf Ela tippt (pro Thema) */
 const ELA_VIDEOS = {
   abc:  { Pumpkin: "videos/P-is-for-Pumpkin.mp4", Hat: "videos/H-is-for-Hat.mp4" },
   bild: { "halloween-P": ["videos/P-Wave-to-the-Pumpkin.mp4", "videos/P-Ela-and-Pumpkin.mp4"],
-          "halloween-H": ["videos/H-Witch-hat-like-mine.mp4", "videos/H-Hat-is-smiling.mp4"] }
+          "halloween-H": ["videos/H-Witch-hat-like-mine.mp4", "videos/H-Hat-is-smiling.mp4"] },
+  thema: { halloween: "videos/Color-with-me.mp4" }
 };
 function bildFuer(L){ for (const t of THEMEN) { const b = t.bilder.find(b => b.L === L); if (b) return b; } return null; }
 
