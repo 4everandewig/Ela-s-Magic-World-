@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Ela's Halloween Malbuch</title>
+<title>Ela's Malbuch</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@600;800&display=swap">
 <style>
@@ -39,6 +39,14 @@ header h1{font-family:var(--display);font-weight:800;font-size:clamp(22px,4vw,34
 header h1 .h{color:var(--orange)} header h1 .m{color:var(--purple)}
 header .ava{height:62px;width:62px}
 
+.themes{display:flex;gap:10px;overflow-x:auto;padding:2px 2px 4px}
+.theme{flex:none;display:flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:6px 16px 6px 6px;cursor:pointer;
+  font-family:var(--display);font-weight:800;font-size:18px;color:var(--ink);background:var(--paper);box-shadow:inset 0 -4px 0 var(--c)}
+.theme img{width:38px;height:38px;object-fit:contain;border-radius:50%;background:#fff;border:2px solid var(--c)}
+.theme em{font-style:normal;font-size:12px;background:var(--yellow);color:var(--ink);border-radius:999px;padding:2px 8px}
+.theme[aria-pressed="true"]{background:var(--c);color:#fff}
+.theme.soon{opacity:.75}
+.theme:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
 .pics{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 10px;scroll-snap-type:x mandatory}
 .pic{flex:none;scroll-snap-align:start;width:98px;border:0;border-radius:20px;background:var(--paper);
   padding:7px 6px 8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;font:inherit;color:var(--ink);
@@ -96,10 +104,11 @@ canvas{display:block;max-width:100%;max-height:62vh;width:auto;height:auto;touch
 <div class="app">
   <header>
     <img class="logo" src="bilder/logo.png" alt="Ela's Magic World">
-    <h1><span class="h">Halloween</span> <span class="m">Malbuch</span></h1>
+    <h1><span class="h">Ela's</span> <span class="m">Malbuch</span></h1>
     <img class="ava" src="bilder/ela-rund.png" alt="Ela">
   </header>
 
+  <nav class="themes" id="themes" aria-label="Thema auswählen"></nav>
   <nav class="pics" id="pics" aria-label="Bild auswählen"></nav>
 
   <div class="main">
@@ -144,17 +153,26 @@ canvas{display:block;max-width:100%;max-height:62vh;width:auto;height:auto;touch
 </div>
 
 <script>
-/* ===== Bilder: neue Buchstaben einfach hier eintragen und die PNG in den Ordner "bilder" legen ===== */
-const BILDER = [
-  { L: "B", wort: "Bat",          de: "Fledermaus",   datei: "bilder/B-Bat.png" },
-  { L: "F", wort: "Frankenstein", de: "Frankenstein", datei: "bilder/F-Frankenstein.png" },
-  { L: "G", wort: "Ghost",        de: "Gespenst",     datei: "bilder/G-Ghost.png" },
-  { L: "H", wort: "Hat",          de: "Hexenhut",     datei: "bilder/H-Hat.png" },
-  { L: "P", wort: "Pumpkin",      de: "Kürbis",       datei: "bilder/P-Pumpkin.png" },
-  { L: "S", wort: "Spider",       de: "Spinne",       datei: "bilder/S-Spider.png" },
-  { L: "V", wort: "Vampire",      de: "Vampir",       datei: "bilder/V-Vampire.png" },
-  { L: "W", wort: "Witch",        de: "Hexe",         datei: "bilder/W-Witch.png" },
+/* ===== Themen und Bilder =====
+   Neues Thema: einen Block in THEMEN ergänzen und die PNGs in den Ordner bilder/<id>/ legen.
+   Ein Thema ohne Bilder wird als "Bald!" angezeigt. */
+const THEMEN = [
+  { id: "halloween", name: "Halloween", farbe: "#ff8a1f", bilder: [
+    { L: "B", wort: "Bat",          de: "Fledermaus",   datei: "bilder/halloween/B-Bat.png" },
+    { L: "F", wort: "Frankenstein", de: "Frankenstein", datei: "bilder/halloween/F-Frankenstein.png" },
+    { L: "G", wort: "Ghost",        de: "Gespenst",     datei: "bilder/halloween/G-Ghost.png" },
+    { L: "H", wort: "Hat",          de: "Hexenhut",     datei: "bilder/halloween/H-Hat.png" },
+    { L: "P", wort: "Pumpkin",      de: "Kürbis",       datei: "bilder/halloween/P-Pumpkin.png" },
+    { L: "S", wort: "Spider",       de: "Spinne",       datei: "bilder/halloween/S-Spider.png" },
+    { L: "V", wort: "Vampire",      de: "Vampir",       datei: "bilder/halloween/V-Vampire.png" },
+    { L: "W", wort: "Witch",        de: "Hexe",         datei: "bilder/halloween/W-Witch.png" },
+  ]},
+  { id: "weihnachten", name: "Weihnachten", farbe: "#f2545b", bilder: [] },
+  { id: "tiere",       name: "Tiere",       farbe: "#5cc45c", bilder: [] },
+  { id: "suesses",     name: "Süßes",       farbe: "#e8479c", bilder: [] },
+  { id: "meer",        name: "Meer",        farbe: "#3fa0f0", bilder: [] },
 ];
+let thema = THEMEN[0], BILDER = thema.bilder;
 
 /* Halloween- und Regenbogenfarben; Weiß dient als Radiergummi */
 const FARBEN = ["#ff8a1f","#ffb347","#ffd93d","#8bd450","#2fbf71","#5bd1c9",
@@ -174,15 +192,33 @@ const store = {
 };
 
 /* ---------- Oberfläche aufbauen ---------- */
-const pics = document.getElementById("pics");
-BILDER.forEach((b, i) => {
+const pics = document.getElementById("pics"), themesNav = document.getElementById("themes");
+THEMEN.forEach(t => {
   const el = document.createElement("button");
-  el.className = "pic"; el.type = "button"; el.id = "pic-" + b.L;
-  el.style.setProperty("--c", ["#ff8a1f","#8f4fd8","#e8479c","#5cc45c","#3fa0f0","#f25c7a"][i % 6]);
-  el.innerHTML = `<img alt="" src="${b.datei}"><b>${b.L}</b><small>${b.wort}</small>`;
-  el.onclick = () => open(i);
-  pics.appendChild(el);
+  el.className = "theme"; el.type = "button"; el.id = "thema-" + t.id;
+  el.style.setProperty("--c", t.farbe);
+  const leer = t.bilder.length === 0;
+  el.innerHTML = `<img alt="" src="${leer ? "bilder/ela-rund.png" : t.bilder[0].datei}"><span>${t.name}</span>${leer ? "<em>Bald!</em>" : ""}`;
+  if (leer) { el.classList.add("soon"); el.onclick = () => say(`${t.name}-Bilder kommen bald!`); }
+  else el.onclick = () => openTheme(t.id);
+  themesNav.appendChild(el);
 });
+function openTheme(id, letter){
+  thema = THEMEN.find(t => t.id === id) || THEMEN[0]; BILDER = thema.bilder;
+  [...themesNav.children].forEach(b => b.setAttribute("aria-pressed", b.id === "thema-" + thema.id));
+  store.set("ela-thema", thema.id);
+  pics.innerHTML = "";
+  BILDER.forEach((b, i) => {
+    const el = document.createElement("button");
+    el.className = "pic"; el.type = "button"; el.id = "pic-" + b.L;
+    el.style.setProperty("--c", ["#ff8a1f","#8f4fd8","#e8479c","#5cc45c","#3fa0f0","#f25c7a"][i % 6]);
+    el.innerHTML = `<img alt="" src="${b.datei}"><b>${b.L}</b><small>${b.wort}</small>`;
+    el.onclick = () => open(i);
+    pics.appendChild(el);
+  });
+  const i = BILDER.findIndex(b => b.L === letter);
+  open(i >= 0 ? i : 0);
+}
 const pal = document.getElementById("palette");
 FARBEN.forEach(f => {
   const s = document.createElement("button");
@@ -220,7 +256,7 @@ function open(i){
   document.getElementById("bigL").textContent = current.L + current.L.toLowerCase();
   document.getElementById("word").textContent = current.wort;
   document.getElementById("de").textContent = current.de;
-  store.set("ela-letztes", current.L);
+  store.set("ela-letztes-" + thema.id, current.L);
   say(`Lass uns ${current.de === current.wort ? current.wort : current.wort + " (" + current.de + ")"} ausmalen!`);
   const img = new Image();
   img.onload = () => {
@@ -232,7 +268,7 @@ function open(i){
     for (let p = 0; p < W*H; p++) { const a = d[p*4+3]; const lum = a < 10 ? 255 : (d[p*4]*.3 + d[p*4+1]*.59 + d[p*4+2]*.11); wall[p] = lum < 170 ? 1 : 0; }
     cctx.fillStyle = "#fff"; cctx.fillRect(0, 0, W, H);
     undoStack = [];
-    const saved = store.get("ela-bild-" + current.L);
+    const saved = store.get("ela-bild-" + thema.id + "-" + current.L);
     if (saved) { const s = new Image(); s.onload = () => { cctx.drawImage(s, 0, 0); render(); }; s.src = saved; }
     render();
   };
@@ -247,7 +283,7 @@ function render(){
   ctx.globalCompositeOperation = "source-over";
 }
 let saveTimer;
-function remember(){ clearTimeout(saveTimer); saveTimer = setTimeout(() => store.set("ela-bild-" + current.L, colorCv.toDataURL("image/png")), 400); }
+function remember(){ clearTimeout(saveTimer); saveTimer = setTimeout(() => store.set("ela-bild-" + thema.id + "-" + current.L, colorCv.toDataURL("image/png")), 400); }
 function pushUndo(){ undoStack.push(cctx.getImageData(0, 0, W, H)); if (undoStack.length > 20) undoStack.shift(); }
 
 /* ---------- Füllen (Flood Fill an den Linien entlang) ---------- */
@@ -313,7 +349,7 @@ document.getElementById("clear").onclick = e => {
   const b = e.currentTarget;
   if (!clearArmed) { clearArmed = true; b.lastChild.textContent = "Sicher?"; setTimeout(() => { clearArmed = false; b.lastChild.textContent = "Neu"; }, 2500); return; }
   clearArmed = false; b.lastChild.textContent = "Neu";
-  pushUndo(); cctx.fillStyle = "#fff"; cctx.fillRect(0, 0, W, H); render(); store.del("ela-bild-" + current.L);
+  pushUndo(); cctx.fillStyle = "#fff"; cctx.fillRect(0, 0, W, H); render(); store.del("ela-bild-" + thema.id + "-" + current.L);
   say("Ein neues leeres Bild für dich!");
 };
 document.getElementById("save").onclick = () => {
@@ -322,10 +358,9 @@ document.getElementById("save").onclick = () => {
   say("Dein Bild ist gespeichert. Toll gemacht!");
 };
 
-/* Start mit dem zuletzt gemalten Bild, sonst mit dem Kürbis */
-const lastL = store.get("ela-letztes");
-const startIdx = Math.max(0, BILDER.findIndex(b => b.L === (lastL || "P")));
-open(startIdx);
+/* Start mit dem zuletzt benutzten Thema und Bild */
+const startThema = store.get("ela-thema") || "halloween";
+openTheme(startThema, store.get("ela-letztes-" + startThema) || "P");
 </script>
 </body>
 </html>

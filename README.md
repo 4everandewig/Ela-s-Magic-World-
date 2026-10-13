@@ -1,6 +1,6 @@
-# Ela's Halloween Malbuch
+# Ela's Malbuch
 
-Eine bunte Mal-App für Kinder von **Ela's Magic World – Draw · Learn · Play**.
+Eine bunte Mal-App mit vielen Themen (Halloween, bald Weihnachten, Tiere …) für Kinder von **Ela's Magic World – Draw · Learn · Play**.
 
 Bild aussuchen, Farbe antippen, ins Bild tippen – fertig! Mit Pinsel, Zurück-Knopf und Speichern.
 
