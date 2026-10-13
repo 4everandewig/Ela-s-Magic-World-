@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ela's Halloween Malbuch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@600;800&display=swap">
+<style>
+/* Layout: bunter Kopf mit Logo und Ela, Bilderleiste, Malfläche mit Regenbogenrahmen, rechts Ela + Farben + Werkzeuge.
+   Bewusst ein helles, buntes Design für Kinder (nur ein Farbschema). */
+:root{
+  --bg:#f3e8fb; --paper:#ffffff; --ink:#3b2547; --muted:#8a6f98; --line:#ead9f2;
+  --pink:#e8479c; --orange:#ff8a1f; --purple:#8f4fd8; --green:#5cc45c; --yellow:#ffc928; --blue:#3fa0f0;
+  --rainbow:linear-gradient(90deg,#f25c7a,#ff8a1f,#ffc928,#5cc45c,#3fa0f0,#8f4fd8);
+  --display:"Baloo 2","Nunito",system-ui,sans-serif; --body:"Nunito",system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{color:var(--ink);font-family:var(--body);-webkit-tap-highlight-color:transparent;min-height:100vh;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  background-color:var(--bg);
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(255,138,31,.22) 0 14px, transparent 15px),
+    radial-gradient(circle at 78% 9%, rgba(143,79,216,.18) 0 22px, transparent 23px),
+    radial-gradient(circle at 88% 62%, rgba(92,196,92,.18) 0 16px, transparent 17px),
+    radial-gradient(circle at 6% 74%, rgba(232,71,156,.18) 0 20px, transparent 21px),
+    radial-gradient(circle at 46% 96%, rgba(255,201,40,.25) 0 18px, transparent 19px);
+  background-size:520px 520px;}
+.app{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:14px 28px;display:flex;flex-direction:column;gap:14px}
+
+header{position:relative;background:var(--paper);border-radius:26px;padding:10px 16px 14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  box-shadow:0 12px 30px -20px rgba(90,30,110,.5);overflow:hidden}
+header::after{content:"";position:absolute;left:0;right:0;bottom:0;height:7px;background:var(--rainbow)}
+header .logo{height:62px;width:auto}
+header h1{font-family:var(--display);font-weight:800;font-size:clamp(22px,4vw,34px);margin:0;line-height:1;flex:1;min-width:0}
+header h1 .h{color:var(--orange)} header h1 .m{color:var(--purple)}
+header .ava{height:62px;width:62px}
+
+.pics{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 10px;scroll-snap-type:x mandatory}
+.pic{flex:none;scroll-snap-align:start;width:98px;border:0;border-radius:20px;background:var(--paper);
+  padding:7px 6px 8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;font:inherit;color:var(--ink);
+  box-shadow:inset 0 -5px 0 var(--c,var(--orange))}
+.pic img{width:80px;height:54px;object-fit:contain}
+.pic b{font-family:var(--display);font-size:22px;line-height:1;color:var(--c,var(--orange))}
+.pic small{font-size:12px;font-weight:800}
+.pic[aria-pressed="true"]{background:var(--c,var(--orange));color:#fff;transform:translateY(-3px)}
+.pic[aria-pressed="true"] b{color:#fff}
+.pic[aria-pressed="true"] img{background:#fff;border-radius:10px}
+
+.main{display:grid;grid-template-columns:1fr 270px;gap:16px;align-items:start}
+@media (max-width:860px){.main{grid-template-columns:1fr}}
+.frame{background:var(--rainbow);padding:6px;border-radius:30px;min-width:0;box-shadow:0 16px 34px -20px rgba(90,30,110,.55)}
+.stage{background:var(--paper);border-radius:24px;padding:12px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.word{font-family:var(--display);font-weight:800;font-size:clamp(28px,5vw,44px);line-height:1;display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;justify-content:center}
+.word .L{color:var(--pink)} .word #word{color:var(--purple)}
+.word .de{font-family:var(--body);font-size:15px;color:var(--muted);font-weight:800}
+canvas{display:block;max-width:100%;max-height:62vh;width:auto;height:auto;touch-action:none;cursor:crosshair;border-radius:12px}
+
+.side{display:flex;flex-direction:column;gap:14px}
+.ela{display:flex;align-items:flex-end;gap:6px}
+.ela img{width:150px;height:auto;flex:none;filter:drop-shadow(0 8px 10px rgba(90,30,110,.25))}
+.bubble{position:relative;background:var(--paper);border-radius:20px;padding:12px 14px;font-family:var(--display);font-weight:800;font-size:18px;line-height:1.15;
+  color:var(--purple);margin-bottom:60px;border:3px solid var(--yellow)}
+.bubble::after{content:"";position:absolute;left:-12px;bottom:18px;border:9px solid transparent;border-right-color:var(--yellow);border-left:0}
+.bubble.pop{animation:pop .45s ease}
+@keyframes pop{0%{transform:scale(.85)}60%{transform:scale(1.08)}100%{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.bubble.pop{animation:none}}
+@media (max-width:860px){.ela{order:3}.ela img{width:90px}.bubble{margin-bottom:40px}}
+
+.box{background:var(--paper);border-radius:22px;padding:14px;display:flex;flex-direction:column;gap:10px;box-shadow:0 10px 26px -20px rgba(90,30,110,.5)}
+.label{font-family:var(--display);font-weight:800;font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.palette{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+@media (max-width:860px){.palette{grid-template-columns:repeat(9,1fr)}}
+.sw{aspect-ratio:1;max-width:100%;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px var(--line);cursor:pointer;padding:0;transition:transform .12s}
+.sw[aria-pressed="true"]{box-shadow:0 0 0 3px var(--ink);transform:scale(1.15)}
+.tools{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.btn{font:inherit;font-weight:800;font-size:15px;border:0;border-radius:16px;padding:12px 8px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;
+  background:var(--bg);color:var(--ink);box-shadow:inset 0 -4px 0 rgba(0,0,0,.08)}
+.btn svg{width:22px;height:22px}
+#t-fill[aria-pressed="true"]{background:var(--purple);color:#fff}
+#t-brush[aria-pressed="true"]{background:var(--blue);color:#fff}
+.sizes .btn[aria-pressed="true"]{background:var(--blue);color:#fff}
+#undo{background:#fff3c4} #clear{background:#ffe0ec}
+.btn.wide{grid-column:1/-1}
+.btn.go{background:var(--orange);color:#fff}
+.btn:focus-visible,.sw:focus-visible,.pic:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+.sizes{display:flex;gap:8px}
+.sizes .btn{flex:1}
+.dot{display:inline-block;border-radius:50%;background:currentColor}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <img class="logo" src="bilder/logo.png" alt="Ela's Magic World">
+    <h1><span class="h">Halloween</span> <span class="m">Malbuch</span></h1>
+    <img class="ava" src="bilder/ela-rund.png" alt="Ela">
+  </header>
+
+  <nav class="pics" id="pics" aria-label="Bild auswählen"></nav>
+
+  <div class="main">
+    <div class="frame"><section class="stage">
+      <div class="word"><span class="L" id="bigL">P</span><span id="word">Pumpkin</span><span class="de" id="de">Kürbis</span></div>
+      <canvas id="cv" aria-label="Malfläche"></canvas>
+    </section></div>
+
+    <aside class="side">
+      <div class="ela">
+        <img src="bilder/ela-hexe.png" alt="Ela mit ihrer Katze">
+        <div class="bubble" id="bubble" role="status">Such dir eine Farbe aus und tipp ins Bild!</div>
+      </div>
+      <div class="box">
+        <div class="label">Farbe</div>
+        <div class="palette" id="palette"></div>
+      </div>
+      <div class="box">
+        <div class="label">Werkzeug</div>
+        <div class="tools">
+          <button class="btn" id="t-fill" type="button" aria-pressed="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11l7-7 7 7-7 7z"/><path d="M19 15c0 1.5 1 2.5 1 3.5a1 1 0 0 1-2 0c0-1 1-2 1-3.5z"/></svg>Füllen</button>
+          <button class="btn" id="t-brush" type="button" aria-pressed="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 3l3 3-9 9-3-3z"/><path d="M9 12c-3 0-5 2-5 5 0 1-1 2-2 2 2 2 7 2 9-1 1-1.5 1-4 1-4"/></svg>Malen</button>
+        </div>
+        <div class="sizes" id="sizes" hidden>
+          <button class="btn" type="button" data-s="10" aria-pressed="false" aria-label="Dünner Pinsel"><span class="dot" style="width:8px;height:8px"></span></button>
+          <button class="btn" type="button" data-s="24" aria-pressed="true" aria-label="Mittlerer Pinsel"><span class="dot" style="width:14px;height:14px"></span></button>
+          <button class="btn" type="button" data-s="46" aria-pressed="false" aria-label="Dicker Pinsel"><span class="dot" style="width:22px;height:22px"></span></button>
+        </div>
+        <div class="tools">
+          <button class="btn" id="undo" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg>Zurück</button>
+          <button class="btn" id="clear" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Neu</button>
+          <button class="btn go wide" id="save" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>Bild speichern</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script>
+/* ===== Bilder: neue Buchstaben einfach hier eintragen und die PNG in den Ordner "bilder" legen ===== */
+const BILDER = [
+  { L: "B", wort: "Bat",          de: "Fledermaus",   datei: "bilder/B-Bat.png" },
+  { L: "F", wort: "Frankenstein", de: "Frankenstein", datei: "bilder/F-Frankenstein.png" },
+  { L: "G", wort: "Ghost",        de: "Gespenst",     datei: "bilder/G-Ghost.png" },
+  { L: "H", wort: "Hat",          de: "Hexenhut",     datei: "bilder/H-Hat.png" },
+  { L: "P", wort: "Pumpkin",      de: "Kürbis",       datei: "bilder/P-Pumpkin.png" },
+  { L: "S", wort: "Spider",       de: "Spinne",       datei: "bilder/S-Spider.png" },
+  { L: "V", wort: "Vampire",      de: "Vampir",       datei: "bilder/V-Vampire.png" },
+  { L: "W", wort: "Witch",        de: "Hexe",         datei: "bilder/W-Witch.png" },
+];
+
+/* Halloween- und Regenbogenfarben; Weiß dient als Radiergummi */
+const FARBEN = ["#ff8a1f","#ffb347","#ffd93d","#8bd450","#2fbf71","#5bd1c9",
+                "#4fa3f7","#6c63ff","#9b5de5","#c9a7f5","#ff6fb5","#ffb3d9",
+                "#f2545b","#a0522d","#ffe0bd","#9aa0a6","#3a2f4b","#ffffff"];
+
+const cv = document.getElementById("cv"), ctx = cv.getContext("2d");
+const colorCv = document.createElement("canvas"), cctx = colorCv.getContext("2d", { willReadFrequently: true });
+let lineImg = null, wall = null, W = 0, H = 0;
+let current = null, color = FARBEN[0], tool = "fill", brush = 24;
+let undoStack = [];
+
+const store = {
+  get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } },
+  set(k,v){ try { localStorage.setItem(k,v); } catch(e){} },
+  del(k){ try { localStorage.removeItem(k); } catch(e){} }
+};
+
+/* ---------- Oberfläche aufbauen ---------- */
+const pics = document.getElementById("pics");
+BILDER.forEach((b, i) => {
+  const el = document.createElement("button");
+  el.className = "pic"; el.type = "button"; el.id = "pic-" + b.L;
+  el.style.setProperty("--c", ["#ff8a1f","#8f4fd8","#e8479c","#5cc45c","#3fa0f0","#f25c7a"][i % 6]);
+  el.innerHTML = `<img alt="" src="${b.datei}"><b>${b.L}</b><small>${b.wort}</small>`;
+  el.onclick = () => open(i);
+  pics.appendChild(el);
+});
+const pal = document.getElementById("palette");
+FARBEN.forEach(f => {
+  const s = document.createElement("button");
+  s.className = "sw"; s.type = "button"; s.style.background = f;
+  s.setAttribute("aria-label", f === "#ffffff" ? "Weiß (Radiergummi)" : "Farbe " + f);
+  s.onclick = () => { color = f; markPalette(); };
+  pal.appendChild(s);
+});
+function markPalette(){ [...pal.children].forEach((s,i)=>s.setAttribute("aria-pressed", FARBEN[i]===color)); }
+markPalette();
+
+const tFill = document.getElementById("t-fill"), tBrush = document.getElementById("t-brush"), sizes = document.getElementById("sizes");
+function setTool(t){
+  tool = t;
+  tFill.setAttribute("aria-pressed", t==="fill"); tBrush.setAttribute("aria-pressed", t==="brush");
+  sizes.hidden = t !== "brush";
+  say(t==="fill" ? "Tipp in eine Fläche, dann wird sie bunt!" : "Jetzt kannst du frei malen!");
+}
+tFill.onclick = () => setTool("fill"); tBrush.onclick = () => setTool("brush");
+sizes.querySelectorAll("button").forEach(b => b.onclick = () => {
+  brush = +b.dataset.s; sizes.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x===b));
+});
+
+/* ---------- Ela spricht ---------- */
+const LOB = ["Super!", "Wow, tolle Farbe!", "Das sieht magisch aus!", "Weiter so!", "Hui, wie schön!", "Du bist ein Mal-Profi!", "Zauberhaft!"];
+const bubble = document.getElementById("bubble");
+let lobCount = 0;
+function say(t){ bubble.textContent = t; bubble.classList.remove("pop"); void bubble.offsetWidth; bubble.classList.add("pop"); }
+function praise(){ lobCount++; if (lobCount % 3 === 1) say(LOB[Math.floor(Math.random()*LOB.length)]); }
+
+/* ---------- Bild laden ---------- */
+function open(i){
+  current = BILDER[i];
+  [...pics.children].forEach((p,j)=>p.setAttribute("aria-pressed", j===i));
+  document.getElementById("bigL").textContent = current.L + current.L.toLowerCase();
+  document.getElementById("word").textContent = current.wort;
+  document.getElementById("de").textContent = current.de;
+  store.set("ela-letztes", current.L);
+  say(`Lass uns ${current.de === current.wort ? current.wort : current.wort + " (" + current.de + ")"} ausmalen!`);
+  const img = new Image();
+  img.onload = () => {
+    lineImg = img; W = cv.width = colorCv.width = img.naturalWidth; H = cv.height = colorCv.height = img.naturalHeight;
+    // Linienmaske: dunkle Pixel sind Wände für das Füllen
+    const t = document.createElement("canvas"); t.width = W; t.height = H;
+    const tc = t.getContext("2d"); tc.drawImage(img, 0, 0);
+    const d = tc.getImageData(0, 0, W, H).data; wall = new Uint8Array(W*H);
+    for (let p = 0; p < W*H; p++) { const a = d[p*4+3]; const lum = a < 10 ? 255 : (d[p*4]*.3 + d[p*4+1]*.59 + d[p*4+2]*.11); wall[p] = lum < 170 ? 1 : 0; }
+    cctx.fillStyle = "#fff"; cctx.fillRect(0, 0, W, H);
+    undoStack = [];
+    const saved = store.get("ela-bild-" + current.L);
+    if (saved) { const s = new Image(); s.onload = () => { cctx.drawImage(s, 0, 0); render(); }; s.src = saved; }
+    render();
+  };
+  img.src = current.datei;
+}
+
+function render(){
+  ctx.globalCompositeOperation = "source-over";
+  ctx.drawImage(colorCv, 0, 0);
+  ctx.globalCompositeOperation = "multiply";   // Linien liegen immer oben
+  ctx.drawImage(lineImg, 0, 0);
+  ctx.globalCompositeOperation = "source-over";
+}
+let saveTimer;
+function remember(){ clearTimeout(saveTimer); saveTimer = setTimeout(() => store.set("ela-bild-" + current.L, colorCv.toDataURL("image/png")), 400); }
+function pushUndo(){ undoStack.push(cctx.getImageData(0, 0, W, H)); if (undoStack.length > 20) undoStack.shift(); }
+
+/* ---------- Füllen (Flood Fill an den Linien entlang) ---------- */
+function hex(c){ return [parseInt(c.slice(1,3),16), parseInt(c.slice(3,5),16), parseInt(c.slice(5,7),16)]; }
+function fill(x, y){
+  let start = y*W + x;
+  if (wall[start]) { // auf eine Linie getippt: nächste freie Stelle suchen
+    let found = -1;
+    for (let r = 1; r < 10 && found < 0; r++)
+      for (let dy = -r; dy <= r && found < 0; dy++)
+        for (let dx = -r; dx <= r; dx++) {
+          const nx = x+dx, ny = y+dy;
+          if (nx>=0 && ny>=0 && nx<W && ny<H && !wall[ny*W+nx]) { found = ny*W+nx; break; }
+        }
+    if (found < 0) return; start = found;
+  }
+  pushUndo();
+  const region = new Uint8Array(W*H), stack = [start]; region[start] = 1;
+  while (stack.length) {
+    const p = stack.pop(), px = p % W;
+    if (px > 0     && !region[p-1] && !wall[p-1]) { region[p-1] = 1; stack.push(p-1); }
+    if (px < W-1   && !region[p+1] && !wall[p+1]) { region[p+1] = 1; stack.push(p+1); }
+    if (p >= W     && !region[p-W] && !wall[p-W]) { region[p-W] = 1; stack.push(p-W); }
+    if (p < W*(H-1)&& !region[p+W] && !wall[p+W]) { region[p+W] = 1; stack.push(p+W); }
+  }
+  // 3 Pixel unter die Linien hineinmalen, damit keine weißen Ränder bleiben
+  for (let it = 0; it < 3; it++) {
+    const add = [];
+    for (let p = 0; p < W*H; p++) if (!region[p] && wall[p]) {
+      const px = p % W;
+      if ((px>0 && region[p-1]===1) || (px<W-1 && region[p+1]===1) || (p>=W && region[p-W]===1) || (p<W*(H-1) && region[p+W]===1)) add.push(p);
+    }
+    add.forEach(p => region[p] = 1);
+  }
+  const img = cctx.getImageData(0, 0, W, H), d = img.data, [r,g,b] = hex(color);
+  for (let p = 0; p < W*H; p++) if (region[p]) { d[p*4]=r; d[p*4+1]=g; d[p*4+2]=b; d[p*4+3]=255; }
+  cctx.putImageData(img, 0, 0);
+  render(); remember(); praise();
+}
+
+/* ---------- Malen mit Pinsel ---------- */
+let drawing = false, last = null;
+function pos(e){ const r = cv.getBoundingClientRect(); return [Math.floor((e.clientX - r.left) * W / r.width), Math.floor((e.clientY - r.top) * H / r.height)]; }
+cv.addEventListener("pointerdown", e => {
+  if (!lineImg) return;
+  const [x, y] = pos(e);
+  if (tool === "fill") { fill(Math.max(0,Math.min(W-1,x)), Math.max(0,Math.min(H-1,y))); return; }
+  pushUndo(); drawing = true; last = [x, y]; cv.setPointerCapture(e.pointerId); stroke(x, y);
+});
+cv.addEventListener("pointermove", e => { if (drawing) { const [x, y] = pos(e); stroke(x, y); } });
+const stop = () => { if (drawing) { drawing = false; remember(); } };
+cv.addEventListener("pointerup", stop); cv.addEventListener("pointercancel", stop);
+function stroke(x, y){
+  cctx.strokeStyle = color; cctx.lineWidth = brush; cctx.lineCap = "round"; cctx.lineJoin = "round";
+  cctx.beginPath(); cctx.moveTo(last[0], last[1]); cctx.lineTo(x + 0.01, y); cctx.stroke();
+  last = [x, y]; render();
+}
+
+/* ---------- Knöpfe ---------- */
+document.getElementById("undo").onclick = () => { const s = undoStack.pop(); if (s) { cctx.putImageData(s, 0, 0); render(); remember(); } };
+let clearArmed = false;
+document.getElementById("clear").onclick = e => {
+  const b = e.currentTarget;
+  if (!clearArmed) { clearArmed = true; b.lastChild.textContent = "Sicher?"; setTimeout(() => { clearArmed = false; b.lastChild.textContent = "Neu"; }, 2500); return; }
+  clearArmed = false; b.lastChild.textContent = "Neu";
+  pushUndo(); cctx.fillStyle = "#fff"; cctx.fillRect(0, 0, W, H); render(); store.del("ela-bild-" + current.L);
+  say("Ein neues leeres Bild für dich!");
+};
+document.getElementById("save").onclick = () => {
+  const a = document.createElement("a");
+  a.download = `Ela-Malbuch-${current.L}-${current.wort}.png`; a.href = cv.toDataURL("image/png"); a.click();
+  say("Dein Bild ist gespeichert. Toll gemacht!");
+};
+
+/* Start mit dem zuletzt gemalten Bild, sonst mit dem Kürbis */
+const lastL = store.get("ela-letztes");
+const startIdx = Math.max(0, BILDER.findIndex(b => b.L === (lastL || "P")));
+open(startIdx);
+</script>
+</body>
+</html>
