@@ -61,6 +61,27 @@ canvas{display:block;max-width:100%;max-height:62vh;width:auto;height:auto;touch
 .sizes{display:flex;gap:8px}
 .sizes .btn{flex:1}
 .dot{display:inline-block;border-radius:50%;background:currentColor}
+#print{background:#fff3e3;color:var(--ink);font-size:17px;padding:6px 8px;box-shadow:inset 0 -4px 0 var(--orange)}
+#print img{width:64px;height:auto}
+
+/* Druckblatt im Stil der "Free Coloring Page"-PDFs: Buchstabe zum Ausmalen, Bild, "P is for Pumpkin", Name, Kanal.
+   Immer Englisch (wie das ABC). Nur beim Drucken sichtbar. */
+#druckblatt{display:none}
+@page{size:A4 portrait;margin:12mm}
+@media print{
+  body{background:#fff!important;padding:0}
+  .app{display:none!important}
+  #druckblatt{display:flex;flex-direction:column;align-items:center;justify-content:space-between;height:268mm;color:#000;font-family:var(--display);font-weight:800;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact}   /* sonst färbt der Browser die hohlen Buchstaben grau */
+  .d-hohl{color:#fff;-webkit-text-stroke:8px #000;paint-order:stroke fill;line-height:1}
+  .d-L{font-size:150px}
+  .d-bild{width:100%;height:140mm;object-fit:contain}
+  .d-satz{font-size:46px;-webkit-text-stroke-width:5px}
+  .d-name{align-self:stretch;display:flex;align-items:flex-end;gap:10px;font-family:var(--body);font-size:18px;margin:0 6mm}
+  .d-name i{flex:1;border-bottom:2px solid #000}
+  .d-fuss{display:flex;align-items:center;gap:10px;font-family:var(--body);font-size:14px;color:#8b5cf6}
+  .d-fuss img{height:34px;width:auto}
+}
 </style>
 </head>
 <body>
@@ -111,10 +132,19 @@ canvas{display:block;max-width:100%;max-height:62vh;width:auto;height:auto;touch
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg><span data-t="neu"></span></button>
           <button class="btn go wide" id="save" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg><span data-t="save"></span></button>
+          <button class="btn wide" id="print" type="button"><img src="bilder/drucker.png" alt=""><span data-t="print"></span></button>
         </div>
       </div>
     </aside>
   </div>
+</div>
+
+<div id="druckblatt" aria-hidden="true">
+  <div class="d-hohl d-L" id="d-L"></div>
+  <img class="d-bild" id="d-bild" alt="">
+  <div class="d-hohl d-satz" id="d-satz"></div>
+  <div class="d-name">My name: <i></i></div>
+  <div class="d-fuss"><img src="bilder/logo.png" alt=""><span>Ela's Magic World · youtube.com/@ElasMagicPhonics</span></div>
 </div>
 
 <script src="gemeinsam.js"></script>
@@ -298,6 +328,16 @@ document.getElementById("save").onclick = () => {
   const a = document.createElement("a");
   a.download = `Ela-Coloring-${current.L}-${current.wort.en}.png`; a.href = cv.toDataURL("image/png"); a.click();
   say(t("m_saved"));
+};
+/* Ausdrucken: leeres Ausmalbild als Druckblatt (siehe #druckblatt) */
+document.getElementById("print").onclick = () => {
+  const bild = document.getElementById("d-bild"), w = current.wort.en;
+  document.getElementById("d-L").textContent = current.L + current.L.toLowerCase();
+  document.getElementById("d-satz").textContent = `${current.L} is for ${w}`;
+  say(t("m_print"));
+  const los = () => window.print();
+  if (bild.getAttribute("src") === current.datei && bild.complete) los();
+  else { bild.onload = los; bild.src = current.datei; }
 };
 
 /* Start mit dem zuletzt benutzten Thema und Bild */
