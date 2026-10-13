@@ -56,6 +56,9 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
 - Farben aus dem Logo: Pink (`--pink`) + Regenbogen (Rot, Orange, Gelb, Grün, Blau, Lila), heller rosa Hintergrund.
   Halloween-Farben nur im Halloween-Thema, nicht für die ganze App.
 - Maskottchen: Ela mit Schürze (`bilder/ela-rund.png`); Hexen-Ela (`bilder/ela-hexe.png`) nur bei Halloween.
+  Elas Kätzchen (`bilder/katze.jpg`), der Regenbogen-Pinsel mit Gesicht (`bilder/pinsel.png`, neben dem Logo und als „Paint“-Knopf),
+  der Halloween-Drucker (`bilder/drucker.png`, „Print“-Knopf). ABC-Bilder im 3D-Stil der Videos: `bilder/abc/<L>-<Word>.jpg` (600×600).
+- Keine Fotos von echten Kindern auf der Webseite (nur die gezeichnete Ela).
 - Schriften: "Baloo 2" (Überschriften), "Nunito" (Text). Große Knöpfe für Finger, kein horizontales Scrollen.
 - Ausmalbilder: Kawaii, dicke runde Linien, magische Augen (weißer Kreis + kleiner Glitzerstern), Wimpern, KEINE Bäckchen.
 - Ela lobt freundlich, nie gruselig. Falsche Antworten nur sanft („Almost! Try again.“), nie bestrafen.
