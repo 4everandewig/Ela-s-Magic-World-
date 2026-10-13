@@ -44,6 +44,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   `bild` (Schlüssel `<thema-id>-<Buchstabe>`, Knopf „Watch Ela“ im Malbuch, mehrere der Reihe nach).
 - Abspielen über `elaVideo(src, ersatz)` in `gemeinsam.js` (Fenster mit ✕, schließt am Ende selbst).
 - **Oktober (Halloween):** Startseite mit Hexen-Ela als Video im Kreis (`bilder/ela-hexe-schaut.mp4` stumm, beim Antippen `ela-hexe-hallo.mp4`),
+  Kätzchen mit Hexenhut (`bilder/katze-hexe.jpg`), Halloween-Zimmer als Hintergrund (`bilder/zimmer-halloween.jpg`),
   Intro = `bilder/intro-halloween.mp4` (Logo im Halloween-Zimmer; sonst `bilder/intro.mp4`).
 - Malbuch: Tippen auf Ela spielt `ELA_VIDEOS.thema[<thema-id>]` (Halloween: „Do you want to color with me?“).
 
