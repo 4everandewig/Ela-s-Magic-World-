@@ -123,7 +123,7 @@ if (halloween) {
     Object.assign(elaClip, { src: "bilder/ela-hexe-schaut.mp4", muted: true, loop: true });
     const q = elaClip.play(); if (q && q.catch) q.catch(() => {});
   });
-  document.querySelector("#cat-friend img").src = "bilder/katze-hexe.jpg";
+  // Kätzchen mit Hexenhut: kommt, sobald es ein freigestelltes Bild gibt (bilder/katze-hexe.jpg)
   say(t(HALLO));
 }
 const n = sterne();
