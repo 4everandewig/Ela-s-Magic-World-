@@ -28,7 +28,7 @@ const ABC_WOERTER = {
   C:{en:"Cat",de:"Katze",tr:"Kedi",foto:"bilder/katze.jpg"}, D:{en:"Dog",de:"Hund",tr:"Köpek",foto:"bilder/abc/D-Dog.jpg"},
   E:{en:"Elephant",de:"Elefant",tr:"Fil",foto:"bilder/abc/E-Elephant.jpg"}, F:{en:"Frog",de:"Frosch",tr:"Kurbağa",foto:"bilder/abc/F-Frog.jpg"},
   G:{en:"Giraffe",de:"Giraffe",tr:"Zürafa",foto:"bilder/abc/G-Giraffe.jpg"}, H:{en:"Horse",de:"Pferd",tr:"At",foto:"bilder/abc/H-Horse.jpg"},
-  I:{en:"Ice cream",de:"Eis",tr:"Dondurma",foto:"bilder/abc/I-Ice-cream.jpg"}, J:{en:"Jellyfish",de:"Qualle",tr:"Denizanası"},
+  I:{en:"Ice cream",de:"Eis",tr:"Dondurma",foto:"bilder/abc/I-Ice-cream.jpg"}, J:{en:"Jellyfish",de:"Qualle",tr:"Denizanası",foto:"bilder/abc/J-Jellyfish.jpg"},
   K:{en:"Kite",de:"Drachen",tr:"Uçurtma",foto:"bilder/abc/K-Kite.jpg"}, L:{en:"Lamb",de:"Lamm",tr:"Kuzu",foto:"bilder/abc/L-Lamb.jpg"},
   M:{en:"Mummy",de:"Mumie",tr:"Mumya"}, N:{en:"Night",de:"Nacht",tr:"Gece"}, O:{en:"Owl",de:"Eule",tr:"Baykuş"},
   P:{en:"Pumpkin",de:"Kürbis",tr:"Balkabağı"}, Q:{en:"Queen",de:"Königin",tr:"Kraliçe"}, R:{en:"Raven",de:"Rabe",tr:"Kuzgun"},
