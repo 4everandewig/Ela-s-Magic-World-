@@ -9,11 +9,34 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@600;800&display=swap">
 <link rel="stylesheet" href="gemeinsam.css">
 <style>
-/* Startseite: großes Logo + Ela (mit Schürze) mit Begrüßung, darunter große bunte Kacheln für jeden Bereich */
-.hero{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}
-.hero .logo-big{width:min(520px,100%);height:auto}
-.hero .ela img.round{width:150px}
-@media (max-width:700px){.hero{grid-template-columns:1fr}.hero .logo-big{justify-self:center;width:min(360px,100%)}}
+/* Startseite: Intro-Video, dann Elas Zimmer mit Logo, Ela (mit Begrüßung) und Kätzchen, darunter große bunte Kacheln für jeden Bereich */
+#intro{position:fixed;inset:0;z-index:60;background:#f6dccb;display:flex;align-items:center;justify-content:center}
+#intro video{width:100%;height:100%;object-fit:cover}
+@media (orientation:portrait){#intro video{height:64vh}}
+#intro .go{position:absolute;left:50%;bottom:max(28px,env(safe-area-inset-bottom));transform:translateX(-50%);border:0;cursor:pointer;white-space:nowrap;
+  font-family:var(--display);font-weight:800;font-size:clamp(24px,5vw,34px);color:#fff;background:var(--pink);border-radius:999px;padding:12px 34px;
+  box-shadow:0 0 0 5px #fff,0 14px 30px -10px rgba(90,30,110,.6);animation:pulse 1.6s ease-in-out infinite}
+#intro .skip{position:absolute;right:16px;top:max(16px,env(safe-area-inset-top));border:0;cursor:pointer;font:inherit;font-weight:800;font-size:15px;
+  background:rgba(255,255,255,.85);color:var(--ink);border-radius:999px;padding:8px 16px}
+@keyframes pulse{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(1.07)}}
+
+.hero{position:relative;border-radius:28px;overflow:hidden;min-height:360px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:12px;
+  padding:22px 14px 14px;background:#f6dccb url("bilder/zimmer.jpg") center 30%/cover;box-shadow:0 16px 34px -20px rgba(90,30,110,.55)}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.5))}
+.hero .logo-row{position:relative;display:flex;align-items:center;justify-content:center;gap:2px;width:100%}
+.hero .pinsel{height:clamp(72px,15vw,140px);width:auto;transform-origin:50% 90%;filter:drop-shadow(0 6px 10px rgba(90,30,110,.3));animation:pinsel 2.4s ease-in-out infinite}
+@keyframes pinsel{0%,100%{transform:rotate(-12deg)}50%{transform:rotate(8deg)}}
+.hero .logo-big{position:relative;width:min(380px,72%);height:auto;filter:drop-shadow(0 8px 14px rgba(90,30,110,.3));animation:float 3.5s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-6px) scale(1.03)}}
+.hero .friends{position:relative;width:100%;display:flex;align-items:flex-end;justify-content:space-between;gap:10px}
+.hero .ela{flex:1;min-width:0}
+.hero .bubble{margin-bottom:14px;max-width:380px}
+.friend{flex:none;border:0;padding:4px;cursor:pointer;border-radius:50%;background:var(--rainbow);box-shadow:0 8px 18px -8px rgba(90,30,110,.6)}
+.hero .friend img,.hero .friend video{display:block;width:88px;height:88px;border-radius:50%;object-fit:cover;border:3px solid #fff;filter:none}
+.friend.hop{animation:hop .6s ease}
+@keyframes hop{0%,100%{transform:rotate(0)}25%{transform:rotate(-10deg)}75%{transform:rotate(10deg)}}
+@media (max-width:600px){.hero{min-height:300px}.hero .friend img,.hero .friend video{width:62px;height:62px}.hero .bubble{font-size:15px;margin-bottom:8px}}
+@media (prefers-reduced-motion:reduce){#intro .go,.hero .logo-big,.hero .pinsel,.friend.hop{animation:none}}
 .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
 .tile{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;color:#fff;border-radius:28px;padding:20px 16px 18px;
   background:var(--c);box-shadow:inset 0 -8px 0 rgba(0,0,0,.12),0 14px 28px -18px rgba(90,30,110,.6);transition:transform .15s}
@@ -32,6 +55,13 @@
 </style>
 </head>
 <body>
+<!-- Intro: Video läuft stumm, nach "Let's go!" mit Ton. Pro Besuch nur einmal (sessionStorage). -->
+<div id="intro" hidden>
+  <video id="intro-vid" muted loop playsinline preload="auto"></video>
+  <button class="skip" id="intro-skip" type="button" data-t="intro_skip"></button>
+  <button class="go" id="intro-go" type="button" data-t="intro_go"></button>
+</div>
+
 <div class="app">
   <header class="top">
     <h1 style="font-size:clamp(20px,3vw,26px)" data-t="home_title"></h1>
@@ -40,10 +70,16 @@
   </header>
 
   <section class="hero">
-    <img class="logo-big" src="bilder/logo.png" alt="Ela's Magic World – Draw, Learn, Play">
-    <div class="ela">
-      <img class="round" src="bilder/ela-rund.png" alt="Ela">
-      <div class="bubble" id="bubble" role="status" data-t="home_hello"></div>
+    <div class="logo-row">
+      <img class="pinsel" src="bilder/pinsel.png" alt="">
+      <img class="logo-big" src="bilder/logo.png" alt="Ela's Magic World – Draw, Learn, Play">
+    </div>
+    <div class="friends">
+      <div class="ela">
+        <button class="friend" id="ela-friend" type="button" aria-label="Ela"><img src="bilder/ela-rund.png" alt=""></button>
+        <div class="bubble" id="bubble" role="status" data-t="home_hello"></div>
+      </div>
+      <button class="friend" id="cat-friend" type="button" data-t-label="kitty"><img src="bilder/katze.jpg" alt=""></button>
     </div>
   </section>
 
@@ -72,8 +108,62 @@
 document.querySelectorAll(".tile.soon").forEach(tile => tile.addEventListener("click", e => {
   e.preventDefault(); say(t("home_soon", { x: t(tile.dataset.soon) }));
 }));
+/* Im Oktober: Hexen-Ela und Kätzchen mit Hexenhut (Halloween-Look), sonst die normale Ela */
+const halloween = new Date().getMonth() === 9;
+const HALLO = halloween ? "hw_hello" : "home_hello", MIAU = halloween ? "hw_meow" : "meow";
+let elaClip = null;
+if (halloween) {
+  // Hexen-Ela als kleines Video: schaut zu (stumm, Schleife); beim Antippen sagt sie "Hallo" mit ihrer Stimme
+  elaClip = document.createElement("video");
+  Object.assign(elaClip, { src: "bilder/ela-hexe-schaut.mp4", poster: "bilder/ela-hexe-rund.jpg", muted: true, loop: true, autoplay: true, playsInline: true });
+  elaClip.setAttribute("playsinline", ""); elaClip.setAttribute("aria-hidden", "true");
+  document.querySelector("#ela-friend img").replaceWith(elaClip);
+  const p = elaClip.play(); if (p && p.catch) p.catch(() => {});
+  elaClip.addEventListener("ended", () => {   // nach "Hallo" wieder zuschauen
+    Object.assign(elaClip, { src: "bilder/ela-hexe-schaut.mp4", muted: true, loop: true });
+    const q = elaClip.play(); if (q && q.catch) q.catch(() => {});
+  });
+  document.querySelector("#cat-friend img").src = "bilder/katze-hexe.jpg";
+  say(t(HALLO));
+}
 const n = sterne();
 if (n > 0) say(t("home_stars", { n }));
+
+/* Ela und ihr Kätzchen sprechen, wenn man sie antippt */
+function hop(el){ el.classList.remove("hop"); void el.offsetWidth; el.classList.add("hop"); }
+document.getElementById("ela-friend").onclick = e => {
+  hop(e.currentTarget); say(t(HALLO));
+  if (!elaClip) return speak(t(HALLO));
+  try { speechSynthesis.cancel(); } catch(err){}
+  Object.assign(elaClip, { src: "bilder/ela-hexe-hallo.mp4", muted: false, loop: false });
+  const p = elaClip.play(); if (p && p.catch) p.catch(() => speak(t(HALLO)));
+};
+document.getElementById("cat-friend").onclick = e => { hop(e.currentTarget); say(t(MIAU)); speak(t(MIAU)); };
+
+/* Intro-Video: einmal pro Besuch, nicht bei jeder Rückkehr zur Startseite */
+const intro = document.getElementById("intro"), vid = document.getElementById("intro-vid");
+let introGesehen = false;
+try { introGesehen = sessionStorage.getItem("ela-intro") === "1"; } catch(e){}
+function introZu(){
+  if (intro.hidden) return;
+  intro.hidden = true;
+  try { vid.pause(); sessionStorage.setItem("ela-intro", "1"); } catch(e){}
+}
+// Oktober: Hexen-Ela zaubert Glitzer ins Zimmer, sonst das Logo-Video
+const introDatei = halloween ? "bilder/intro-halloween" : "bilder/intro";
+vid.addEventListener("ended", introZu);
+vid.addEventListener("error", introZu);
+if (!introGesehen) {   // Video nur laden, wenn das Intro auch gezeigt wird
+  intro.hidden = false;
+  vid.poster = introDatei + ".jpg"; vid.src = introDatei + ".mp4";
+  const p = vid.play(); if (p && p.catch) p.catch(() => {});
+}
+document.getElementById("intro-skip").onclick = introZu;
+document.getElementById("intro-go").onclick = e => {
+  e.currentTarget.hidden = true;
+  vid.loop = false; vid.muted = false; vid.currentTime = 0;
+  const p = vid.play(); if (p && p.catch) p.catch(introZu);
+};
 </script>
 </body>
 </html>

@@ -37,7 +37,8 @@
 .word{font-family:var(--display);font-weight:800;font-size:clamp(28px,5vw,44px);line-height:1;display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;justify-content:center}
 .word .L{color:var(--pink)} .word #word{color:var(--purple)}
 .word .de{font-family:var(--body);font-size:15px;color:var(--muted);font-weight:800}
-canvas{display:block;max-width:100%;max-height:62vh;width:auto;height:auto;touch-action:none;cursor:crosshair;border-radius:12px}
+canvas{display:block;max-width:100%;max-height:62vh;width:auto;height:auto;touch-action:none;cursor:crosshair;border-radius:12px;
+  box-shadow:0 0 0 3px var(--line)}   /* zeigt, wo die Malfläche aufhört */
 
 .side{display:flex;flex-direction:column;gap:14px}
 @media (max-width:860px){.ela{order:3}}
@@ -53,6 +54,10 @@ canvas{display:block;max-width:100%;max-height:62vh;width:auto;height:auto;touch
 .btn svg{width:22px;height:22px}
 #t-fill[aria-pressed="true"]{background:var(--purple);color:#fff}
 #t-brush[aria-pressed="true"]{background:var(--blue);color:#fff}
+#t-brush .pinsel{height:30px;width:auto;margin:-6px 0;transform-origin:50% 90%}   /* Regenbogen-Pinsel aus den Videos */
+#t-brush[aria-pressed="true"] .pinsel{animation:pinsel 1.4s ease-in-out infinite}
+@keyframes pinsel{0%,100%{transform:rotate(-10deg)}50%{transform:rotate(10deg)}}
+@media (prefers-reduced-motion:reduce){#t-brush .pinsel{animation:none!important}}
 .sizes .btn[aria-pressed="true"]{background:var(--blue);color:#fff}
 #undo{background:#fff3c4} #clear{background:#ffe0ec}
 .btn.wide{grid-column:1/-1}
@@ -61,6 +66,29 @@ canvas{display:block;max-width:100%;max-height:62vh;width:auto;height:auto;touch
 .sizes{display:flex;gap:8px}
 .sizes .btn{flex:1}
 .dot{display:inline-block;border-radius:50%;background:currentColor}
+.word .watch{align-self:center;font-family:var(--body);font-size:15px;padding:8px 14px;background:var(--purple);color:#fff;border-radius:999px}
+.word .watch svg{width:18px;height:18px}
+#print{background:#fff3e3;color:var(--ink);font-size:17px;padding:6px 8px;box-shadow:inset 0 -4px 0 var(--orange)}
+#print img{width:64px;height:auto}
+
+/* Druckblatt im Stil der "Free Coloring Page"-PDFs: Buchstabe zum Ausmalen, Bild, "P is for Pumpkin", Name, Kanal.
+   Immer Englisch (wie das ABC). Nur beim Drucken sichtbar. */
+#druckblatt{display:none}
+@page{size:A4 portrait;margin:12mm}
+@media print{
+  body{background:#fff!important;padding:0}
+  .app{display:none!important}
+  #druckblatt{display:flex;flex-direction:column;align-items:center;justify-content:space-between;height:268mm;color:#000;font-family:var(--display);font-weight:800;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact}   /* sonst färbt der Browser die hohlen Buchstaben grau */
+  .d-hohl{color:#fff;-webkit-text-stroke:8px #000;paint-order:stroke fill;line-height:1}
+  .d-L{font-size:150px}
+  .d-bild{width:100%;height:140mm;object-fit:contain}
+  .d-satz{font-size:46px;-webkit-text-stroke-width:5px}
+  .d-name{align-self:stretch;display:flex;align-items:flex-end;gap:10px;font-family:var(--body);font-size:18px;margin:0 6mm}
+  .d-name i{flex:1;border-bottom:2px solid #000}
+  .d-fuss{display:flex;align-items:center;gap:10px;font-family:var(--body);font-size:14px;color:#8b5cf6}
+  .d-fuss img{height:34px;width:auto}
+}
 </style>
 </head>
 <body>
@@ -78,7 +106,8 @@ canvas{display:block;max-width:100%;max-height:62vh;width:auto;height:auto;touch
 
   <div class="main">
     <div class="frame"><section class="stage">
-      <div class="word"><span class="L" id="bigL">P</span><span id="word">Pumpkin</span><span class="de" id="de"></span></div>
+      <div class="word"><span class="L" id="bigL">P</span><span id="word">Pumpkin</span><span class="de" id="de"></span>
+        <button class="btn watch" id="watch" type="button" hidden><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span data-t="watch"></span></button></div>
       <canvas id="cv" aria-label="Canvas"></canvas>
     </section></div>
 
@@ -97,7 +126,7 @@ canvas{display:block;max-width:100%;max-height:62vh;width:auto;height:auto;touch
           <button class="btn" id="t-fill" type="button" aria-pressed="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11l7-7 7 7-7 7z"/><path d="M19 15c0 1.5 1 2.5 1 3.5a1 1 0 0 1-2 0c0-1 1-2 1-3.5z"/></svg><span data-t="fill"></span></button>
           <button class="btn" id="t-brush" type="button" aria-pressed="false">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 3l3 3-9 9-3-3z"/><path d="M9 12c-3 0-5 2-5 5 0 1-1 2-2 2 2 2 7 2 9-1 1-1.5 1-4 1-4"/></svg><span data-t="paint"></span></button>
+            <img class="pinsel" src="bilder/pinsel.png" alt=""><span data-t="paint"></span></button>
         </div>
         <div class="sizes" id="sizes" hidden>
           <button class="btn" type="button" data-s="10" aria-pressed="false" data-t-label="thin"><span class="dot" style="width:8px;height:8px"></span></button>
@@ -111,10 +140,19 @@ canvas{display:block;max-width:100%;max-height:62vh;width:auto;height:auto;touch
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg><span data-t="neu"></span></button>
           <button class="btn go wide" id="save" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg><span data-t="save"></span></button>
+          <button class="btn wide" id="print" type="button"><img src="bilder/drucker.png" alt=""><span data-t="print"></span></button>
         </div>
       </div>
     </aside>
   </div>
+</div>
+
+<div id="druckblatt" aria-hidden="true">
+  <div class="d-hohl d-L" id="d-L"></div>
+  <img class="d-bild" id="d-bild" alt="">
+  <div class="d-hohl d-satz" id="d-satz"></div>
+  <div class="d-name">My name: <i></i></div>
+  <div class="d-fuss"><img src="bilder/logo.png" alt=""><span>Ela's Magic World · youtube.com/@ElasMagicPhonics</span></div>
 </div>
 
 <script src="gemeinsam.js"></script>
@@ -200,18 +238,27 @@ function open(i){
   document.getElementById("de").textContent = LANG === "en" ? "" : tx(current.wort);
   store.set("ela-letztes-" + thema.id, current.L);
   say(t("m_lets", { w: tx(current.wort) }));
+  // "Watch Ela": Elas Videos zu diesem Bild, bei mehreren der Reihe nach
+  const vids = ELA_VIDEOS.bild[thema.id + "-" + current.L] || [], watch = document.getElementById("watch");
+  let vNr = 0;
+  watch.hidden = !vids.length;
+  watch.onclick = () => elaVideo(vids[vNr++ % vids.length]);
   const img = new Image();
   img.onload = () => {
-    lineImg = img; W = cv.width = colorCv.width = img.naturalWidth; H = cv.height = colorCv.height = img.naturalHeight;
-    // Linienmaske: dunkle Pixel sind Wände für das Füllen
+    // Weißer Rand rund ums Bild, damit man auch neben der Figur malen kann (die PNGs sind eng zugeschnitten)
+    const PAD = Math.round(Math.max(img.naturalWidth, img.naturalHeight) * 0.08);
+    W = cv.width = colorCv.width = img.naturalWidth + 2*PAD; H = cv.height = colorCv.height = img.naturalHeight + 2*PAD;
     const tmp = document.createElement("canvas"); tmp.width = W; tmp.height = H;
-    const tc = tmp.getContext("2d"); tc.drawImage(img, 0, 0);
+    const tc = tmp.getContext("2d"); tc.fillStyle = "#fff"; tc.fillRect(0, 0, W, H); tc.drawImage(img, PAD, PAD);
+    lineImg = tmp;
+    // Linienmaske: dunkle Pixel sind Wände für das Füllen
     const d = tc.getImageData(0, 0, W, H).data; wall = new Uint8Array(W*H);
     for (let p = 0; p < W*H; p++) { const a = d[p*4+3]; const lum = a < 10 ? 255 : (d[p*4]*.3 + d[p*4+1]*.59 + d[p*4+2]*.11); wall[p] = lum < 170 ? 1 : 0; }
     cctx.fillStyle = "#fff"; cctx.fillRect(0, 0, W, H);
     undoStack = [];
     const saved = store.get("ela-bild-" + thema.id + "-" + current.L);
-    if (saved) { const s = new Image(); s.onload = () => { cctx.drawImage(s, 0, 0); render(); }; s.src = saved; }
+    // Ältere Speicherstände haben noch keinen Rand → um PAD verschoben einsetzen
+    if (saved) { const s = new Image(); s.onload = () => { const alt = s.naturalWidth === img.naturalWidth; cctx.drawImage(s, alt ? PAD : 0, alt ? PAD : 0); render(); }; s.src = saved; }
     render();
   };
   img.src = current.datei;
@@ -298,6 +345,16 @@ document.getElementById("save").onclick = () => {
   const a = document.createElement("a");
   a.download = `Ela-Coloring-${current.L}-${current.wort.en}.png`; a.href = cv.toDataURL("image/png"); a.click();
   say(t("m_saved"));
+};
+/* Ausdrucken: leeres Ausmalbild als Druckblatt (siehe #druckblatt) */
+document.getElementById("print").onclick = () => {
+  const bild = document.getElementById("d-bild"), w = current.wort.en;
+  document.getElementById("d-L").textContent = current.L + current.L.toLowerCase();
+  document.getElementById("d-satz").textContent = `${current.L} is for ${w}`;
+  say(t("m_print"));
+  const los = () => window.print();
+  if (bild.getAttribute("src") === current.datei && bild.complete) los();
+  else { bild.onload = los; bild.src = current.datei; }
 };
 
 /* Start mit dem zuletzt benutzten Thema und Bild */

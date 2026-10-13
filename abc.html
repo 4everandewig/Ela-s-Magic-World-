@@ -97,37 +97,51 @@ LETTERS.forEach(L => {
   b.onclick = () => zeige(L, true);
   raster.appendChild(b);
 });
-let aktuell = "A";
+let aktuell = "A", nr = 0, karteJetzt = null;
+// Nochmal auf denselben Buchstaben tippen = nächste Karte (z. B. B: Bear → Bat)
 function zeige(L, laut){
+  nr = (L === aktuell && laut) ? nr + 1 : 0;
   aktuell = L;
-  const w = ABC_WOERTER[L], en = w.en, bild = bildFuer(L);
+  const alle = karten(L), k = alle[nr % alle.length], en = k.wort.en;
+  karteJetzt = k;
   const karte = document.getElementById("karte"); karte.style.setProperty("--c", farbe(L));
   document.getElementById("k-letter").textContent = L + L.toLowerCase();
   document.getElementById("k-word").textContent = en;
-  document.getElementById("k-de").textContent = LANG === "en" ? "" : tx(w);
-  document.getElementById("k-bild").innerHTML = bild ? `<img src="${bild.datei}" alt="${en}">` : "";
+  document.getElementById("k-de").textContent = LANG === "en" ? "" : tx(k.wort);
+  document.getElementById("k-bild").innerHTML = k.bild ? `<img src="${k.bild}" alt="${en}">` : "";
   [...raster.children].forEach(b => b.setAttribute("aria-pressed", b.id === "abc-" + L));
   store.set("ela-abc", L);
-  if (laut) { sprich(L); say(t(bild ? "a_is" : "a_nopic", { L, w: en })); }
+  if (laut) { sprich(L, k); say(t(k.bild ? "a_is" : "a_nopic", { L, w: en })); }
 }
-function sprich(L){ const en = ABC_WOERTER[L].en; speak(`${L}. ${L} is for ${en}.`, "en-US"); }
-document.getElementById("k-say").onclick = () => sprich(aktuell);
+function sprich(L, k){
+  const en = k.wort.en, ersatz = `${L}. ${L} is for ${en}.`;
+  const hauptwort = k.wort === ABC_WOERTER[L];   // Elas Aufnahmen gehören zum ABC-Hauptwort ("K is for Kite")
+  if (ELA_VIDEOS.abc[en]) return elaVideo(ELA_VIDEOS.abc[en], ersatz);   // Ela im Video: "P is for Pumpkin"
+  // Elas echte Stimme, wenn möglich mit "Can you say it with me?" und dem Wort zum Nachsprechen
+  if (hauptwort && STIMMEN.abc[L]) elaSagt(STIMMEN.wort[L] ? [STIMMEN.abc[L], STIMMEN.mitsprechen, STIMMEN.wort[L]] : [STIMMEN.abc[L]], ersatz);
+  else if (STIMMEN.buchstabe[L]) elaSagt([STIMMEN.buchstabe[L]], ersatz, `${L} is for ${en}.`);
+  else speak(ersatz, "en-US");
+}
+document.getElementById("k-say").onclick = () => sprich(aktuell, karteJetzt);
 
 /* ---------- Spielen ---------- */
 // Zwei Rätselarten: Bild zeigen -> Buchstabe wählen, oder Buchstabe zeigen -> Bild wählen
-const MIT_BILD = LETTERS.filter(L => bildFuer(L));
-let richtig = null, art = 0, sperre = false;
+// Spielbar sind alle Buchstaben mit Bild (Foto oder Ausmalbild); pro Runde wird je Buchstabe eine Karte gewählt
+const MIT_BILD = LETTERS.filter(L => karten(L).some(k => k.bild));
+const bildKarte = L => zufall(karten(L).filter(k => k.bild));
+let richtig = null, art = 0, sperre = false, gewaehlt = {};
 const mischen = a => a.map(v => [Math.random(), v]).sort((x, y) => x[0] - y[0]).map(v => v[1]);
 function neueFrage(){
-  sperre = false;
+  sperre = false; gewaehlt = {};
   richtig = zufall(MIT_BILD.filter(L => L !== richtig));
+  gewaehlt[richtig] = bildKarte(richtig);
   art = MIT_BILD.length >= 3 ? (Math.random() < .5 ? 0 : 1) : 0;
   const choices = document.getElementById("choices"); choices.innerHTML = "";
   const sBild = document.getElementById("s-bild"), sLetter = document.getElementById("s-letter");
   if (art === 0) {
     document.getElementById("frage").textContent = t("a_q1");
     sBild.hidden = false; sLetter.hidden = true;
-    sBild.innerHTML = `<img src="${bildFuer(richtig).datei}" alt="?">`;
+    sBild.innerHTML = `<img src="${gewaehlt[richtig].bild}" alt="?">`;
     const opts = mischen([richtig, ...mischen(LETTERS.filter(L => L !== richtig)).slice(0, 2)]);
     opts.forEach(L => {
       const b = document.createElement("button"); b.type = "button"; b.className = "choice l";
@@ -141,21 +155,27 @@ function neueFrage(){
     const opts = mischen([richtig, ...mischen(MIT_BILD.filter(L => L !== richtig)).slice(0, 2)]);
     opts.forEach(L => {
       const b = document.createElement("button"); b.type = "button"; b.className = "choice";
-      b.innerHTML = `<img src="${bildFuer(L).datei}" alt="${ABC_WOERTER[L].en}">`;
+      if (!gewaehlt[L]) gewaehlt[L] = bildKarte(L);
+      b.innerHTML = `<img src="${gewaehlt[L].bild}" alt="${gewaehlt[L].wort.en}">`;
       b.onclick = () => antwort(b, L); choices.appendChild(b);
     });
   }
   frageVorlesen();
 }
 function frageVorlesen(){
-  speak(art === 0 ? t("a_q1") : t("a_q2", { L: richtig }));
+  const text = art === 0 ? t("a_q1") : t("a_q2", { L: richtig });
+  if (art === 1 && LANG === "en" && STIMMEN.frage[richtig]) elaSagt([STIMMEN.frage[richtig]], text);   // "What starts with G?"
+  else speak(text);
 }
 function antwort(btn, L){
   if (sperre) return;
   if (L === richtig) {
     sperre = true; btn.classList.add("ok", "yay");
-    const en = ABC_WOERTER[L].en;
-    say(`${lob()} ${t("a_is", { L, w: en })}`); speak(`${L} is for ${en}!`, "en-US");
+    const k = gewaehlt[L], en = k.wort.en;
+    say(`${lob()} ${t("a_is", { L, w: en })}`);
+    // "Yes!" / "You did it!" mit Elas Stimme, dann "B is for Bat!"
+    if (STIMMEN.abc[L] && k.wort === ABC_WOERTER[L]) elaSagt([zufall(STIMMEN.lob), STIMMEN.abc[L]], `${L} is for ${en}!`);
+    else elaSagt([zufall(STIMMEN.lob)], `${L} is for ${en}!`, `${L} is for ${en}!`);
     sternDazu(); sternRegen();
     setTimeout(neueFrage, 2200);
   } else {

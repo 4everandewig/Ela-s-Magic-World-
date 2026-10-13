@@ -17,6 +17,8 @@ const TEXTE = {
     start: "Home", stars: "Your stars", language: "Language", soon: "Soon!",
     home_title: "Hi! What do you want to do today?", home_hello: "Hi, I'm Ela! Let's draw and learn together!",
     home_stars: "Hi! You already have {n} stars!", home_soon: "{x} is coming soon! I can't wait!",
+    intro_go: "Let's go!", intro_skip: "Skip", kitty: "Kitty", meow: "Meow! I'm Ela's kitty.",
+    hw_hello: "Happy Halloween! Let's draw something spooky-cute together!", hw_meow: "Meow! Look at my witch hat!", watch: "Watch Ela", close: "Close",
     t_malbuch: "Coloring Book", t_malbuch_s: "Color in the pictures", t_abc: "ABC", t_abc_s: "Learn and guess letters",
     t_farben: "Colors", t_farben_s: "Learn and find colors", t_zahlen: "Numbers", t_zahlen_s: "Learn to count",
     color: "Color", tool: "Tool", fill: "Fill", paint: "Paint", undo: "Undo", neu: "New", sure: "Sure?", save: "Save picture",
@@ -24,6 +26,7 @@ const TEXTE = {
     m_start: "Pick a color and tap the picture!", m_fill: "Tap an area to make it colorful!", m_paint: "Now you can paint freely!",
     m_star: "A star for you, because you color so nicely!", m_lets: "Let's color the {w}!", m_new: "A fresh new picture for you!",
     m_saved: "Your picture is saved. Great job!", m_soon: "{x} pictures are coming soon!",
+    print: "Print", m_print: "Print it out and color it with your crayons!",
     explore: "Explore", play: "Play", hear: "Hear again", hear_q: "Hear question",
     a_tap: "Tap a letter!", a_is: "{L} is for {w}!", a_nopic: "{L} is for {w}! I'm still drawing the picture.",
     a_q1: "Which letter does this start with?", a_q2: "Which picture starts with {L}?", a_play: "Let's guess! You get a star for every right answer.",
@@ -35,6 +38,8 @@ const TEXTE = {
     start: "Start", stars: "Deine Sterne", language: "Sprache", soon: "Bald!",
     home_title: "Hallo! Was möchtest du heute machen?", home_hello: "Hallo, ich bin Ela! Komm, wir malen und lernen zusammen!",
     home_stars: "Hallo! Du hast schon {n} Sterne gesammelt!", home_soon: "{x} kommt bald! Ich freu mich schon!",
+    intro_go: "Los geht's!", intro_skip: "Überspringen", kitty: "Kätzchen", meow: "Miau! Ich bin Elas Kätzchen.",
+    hw_hello: "Fröhliches Halloween! Komm, wir malen was Gruselig-Süßes!", hw_meow: "Miau! Schau mal, mein Hexenhut!", watch: "Ela anschauen", close: "Schließen",
     t_malbuch: "Malbuch", t_malbuch_s: "Bilder bunt ausmalen", t_abc: "ABC", t_abc_s: "Buchstaben lernen und raten",
     t_farben: "Farben", t_farben_s: "Farben lernen und finden", t_zahlen: "Zahlen", t_zahlen_s: "Zählen lernen",
     color: "Farbe", tool: "Werkzeug", fill: "Füllen", paint: "Malen", undo: "Zurück", neu: "Neu", sure: "Sicher?", save: "Bild speichern",
@@ -42,6 +47,7 @@ const TEXTE = {
     m_start: "Such dir eine Farbe aus und tipp ins Bild!", m_fill: "Tipp in eine Fläche, dann wird sie bunt!", m_paint: "Jetzt kannst du frei malen!",
     m_star: "Ein Stern für dich, weil du so fleißig malst!", m_lets: "Lass uns {w} ausmalen!", m_new: "Ein neues leeres Bild für dich!",
     m_saved: "Dein Bild ist gespeichert. Toll gemacht!", m_soon: "{x}-Bilder kommen bald!",
+    print: "Ausdrucken", m_print: "Druck es aus und mal es mit deinen Stiften an!",
     explore: "Entdecken", play: "Spielen", hear: "Nochmal hören", hear_q: "Frage hören",
     a_tap: "Tipp auf einen Buchstaben!", a_is: "{L} wie {w}!", a_nopic: "{L} wie {w}! Das Bild male ich noch.",
     a_q1: "Mit welchem Buchstaben beginnt das?", a_q2: "Welches Bild beginnt mit {L}?", a_play: "Rate mal! Für jede richtige Antwort bekommst du einen Stern.",
@@ -53,6 +59,8 @@ const TEXTE = {
     start: "Ana sayfa", stars: "Yıldızların", language: "Dil", soon: "Yakında!",
     home_title: "Merhaba! Bugün ne yapmak istersin?", home_hello: "Merhaba, ben Ela! Hadi birlikte boyayalım ve öğrenelim!",
     home_stars: "Merhaba! Şimdiden {n} yıldızın var!", home_soon: "{x} yakında geliyor! Çok heyecanlıyım!",
+    intro_go: "Hadi başlayalım!", intro_skip: "Geç", kitty: "Kedicik", meow: "Miyav! Ben Ela'nın kedisiyim.",
+    hw_hello: "Mutlu Cadılar Bayramı! Hadi birlikte ürkütücü-tatlı bir şey çizelim!", hw_meow: "Miyav! Cadı şapkama bak!", watch: "Ela'yı izle", close: "Kapat",
     t_malbuch: "Boyama Kitabı", t_malbuch_s: "Resimleri renklendir", t_abc: "ABC", t_abc_s: "Harfleri öğren ve tahmin et",
     t_farben: "Renkler", t_farben_s: "Renkleri öğren ve bul", t_zahlen: "Sayılar", t_zahlen_s: "Saymayı öğren",
     color: "Renk", tool: "Araç", fill: "Doldur", paint: "Boya", undo: "Geri al", neu: "Yeni", sure: "Emin misin?", save: "Resmi kaydet",
@@ -60,6 +68,7 @@ const TEXTE = {
     m_start: "Bir renk seç ve resme dokun!", m_fill: "Bir alana dokun, renkli olsun!", m_paint: "Şimdi serbestçe boyayabilirsin!",
     m_star: "Bu yıldız senin, çok güzel boyuyorsun!", m_lets: "Hadi {w} boyayalım!", m_new: "Senin için yepyeni bir resim!",
     m_saved: "Resmin kaydedildi. Harika!", m_soon: "{x} resimleri yakında geliyor!",
+    print: "Yazdır", m_print: "Yazdır ve boya kalemlerinle boya!",
     explore: "Keşfet", play: "Oyna", hear: "Tekrar dinle", hear_q: "Soruyu dinle",
     a_tap: "Bir harfe dokun!", a_is: "{L}: {w}!", a_nopic: "{L}: {w}! Resmi hâlâ çiziyorum.",
     a_q1: "Bu hangi harfle başlıyor?", a_q2: "Hangi resim {L} ile başlıyor?", a_play: "Hadi tahmin et! Her doğru cevaba bir yıldız.",
@@ -107,6 +116,7 @@ function say(text){
 function speak(text, lang){
   lang = lang || SPRACHEN[LANG].stimme;
   try {
+    if (elaTon) elaTon.pause();
     if (!("speechSynthesis" in window)) return;
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
@@ -115,6 +125,44 @@ function speak(text, lang){
     if (v) u.voice = v;
     speechSynthesis.speak(u);
   } catch(e){}
+}
+
+/* Elas echte Stimme (MP3s im Ordner stimme/, siehe STIMMEN in daten.js).
+   Spielt die Dateien nacheinander ab. Klappt die erste nicht, liest stattdessen die Geräte-Stimme "ersatz" vor.
+   "danach" (optional) liest die Geräte-Stimme vor, wenn alle Dateien fertig sind. */
+let elaTon = null;
+function elaSagt(dateien, ersatz, danach, lang = "en-US"){
+  try { if ("speechSynthesis" in window) speechSynthesis.cancel(); } catch(e){}
+  if (elaTon) elaTon.pause();
+  let i = 0;
+  const weiter = () => {
+    if (i >= dateien.length) { if (danach) speak(danach, lang); return; }
+    const erste = i === 0, a = new Audio(dateien[i++]); elaTon = a;
+    const fehler = () => { if (erste && ersatz) speak(ersatz, lang); };
+    a.onended = () => setTimeout(weiter, 300);
+    a.onerror = fehler;
+    const p = a.play(); if (p && p.catch) p.catch(fehler);
+  };
+  weiter();
+}
+
+/* Ela-Video in einem Fenster mit Ton abspielen (Videos in videos/, siehe ELA_VIDEOS in daten.js).
+   Schließt sich am Ende von selbst. Klappt das Abspielen nicht, liest die Geräte-Stimme "ersatz" vor. */
+function elaVideo(src, ersatz){
+  try { if ("speechSynthesis" in window) speechSynthesis.cancel(); } catch(e){}
+  if (elaTon) elaTon.pause();
+  const alt = document.querySelector(".ela-video"); if (alt) alt.remove();
+  const box = document.createElement("div"); box.className = "ela-video";
+  box.innerHTML = `<div class="fenster"><video playsinline poster="${src.replace(/\.mp4$/, ".jpg")}"></video><button class="zu" type="button">✕</button></div>`;
+  const v = box.querySelector("video"), zu = () => { v.pause(); box.remove(); };
+  box.querySelector(".zu").setAttribute("aria-label", t("close"));
+  box.querySelector(".zu").onclick = zu;
+  box.onclick = e => { if (e.target === box) zu(); };
+  v.onended = zu;
+  const fehler = () => { zu(); if (ersatz) speak(ersatz, "en-US"); };
+  v.onerror = fehler;
+  v.src = src; document.body.appendChild(box);
+  const p = v.play(); if (p && p.catch) p.catch(fehler);
 }
 
 /* Sterne sammeln (gilt für alle Spiele) */

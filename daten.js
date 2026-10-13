@@ -20,18 +20,53 @@ const THEMEN = [
   { id: "meer",        name: { en: "Ocean",     de: "Meer",        tr: "Deniz" },     farbe: "#3d8ef0", bilder: [] },
 ];
 
-/* Englisches ABC: ein Wort pro Buchstabe (en) mit Übersetzung (de, tr).
-   Gibt es irgendwo in THEMEN ein Bild mit diesem Buchstaben, zeigt das ABC das Bild dazu. */
+/* Englisches ABC wie in Elas ABC-Videos: ein Hauptwort pro Buchstabe (en) mit Übersetzung (de, tr),
+   optional foto = 3D-Bild aus den Videos (bilder/abc/). Dazu kommen automatisch alle Ausmalbilder
+   mit diesem Buchstaben aus THEMEN (z. B. B: Bear + Bat). Siehe karten(L). */
 const ABC_WOERTER = {
-  A:{en:"Apple",de:"Apfel",tr:"Elma"}, B:{en:"Bat",de:"Fledermaus",tr:"Yarasa"}, C:{en:"Cat",de:"Katze",tr:"Kedi"},
-  D:{en:"Devil",de:"Teufelchen",tr:"Küçük şeytan"}, E:{en:"Eyeball",de:"Augapfel",tr:"Göz"}, F:{en:"Frankenstein",de:"Frankenstein",tr:"Frankenstein"},
-  G:{en:"Ghost",de:"Gespenst",tr:"Hayalet"}, H:{en:"Hat",de:"Hexenhut",tr:"Cadı şapkası"}, I:{en:"Ice cream",de:"Eis",tr:"Dondurma"},
-  J:{en:"Jack-o'-lantern",de:"Kürbislaterne",tr:"Balkabağı feneri"}, K:{en:"Kitten",de:"Kätzchen",tr:"Yavru kedi"}, L:{en:"Lollipop",de:"Lutscher",tr:"Lolipop"},
+  A:{en:"Apple",de:"Apfel",tr:"Elma",foto:"bilder/abc/A-Apple.jpg"}, B:{en:"Bear",de:"Bär",tr:"Ayı",foto:"bilder/abc/B-Bear.jpg"},
+  C:{en:"Cat",de:"Katze",tr:"Kedi",foto:"bilder/katze.jpg"}, D:{en:"Dog",de:"Hund",tr:"Köpek",foto:"bilder/abc/D-Dog.jpg"},
+  E:{en:"Elephant",de:"Elefant",tr:"Fil",foto:"bilder/abc/E-Elephant.jpg"}, F:{en:"Frog",de:"Frosch",tr:"Kurbağa",foto:"bilder/abc/F-Frog.jpg"},
+  G:{en:"Giraffe",de:"Giraffe",tr:"Zürafa",foto:"bilder/abc/G-Giraffe.jpg"}, H:{en:"Horse",de:"Pferd",tr:"At",foto:"bilder/abc/H-Horse.jpg"},
+  I:{en:"Ice cream",de:"Eis",tr:"Dondurma",foto:"bilder/abc/I-Ice-cream.jpg"}, J:{en:"Jellyfish",de:"Qualle",tr:"Denizanası",foto:"bilder/abc/J-Jellyfish.jpg"},
+  K:{en:"Kite",de:"Drachen",tr:"Uçurtma",foto:"bilder/abc/K-Kite.jpg"}, L:{en:"Lamb",de:"Lamm",tr:"Kuzu",foto:"bilder/abc/L-Lamb.jpg"},
   M:{en:"Mummy",de:"Mumie",tr:"Mumya"}, N:{en:"Night",de:"Nacht",tr:"Gece"}, O:{en:"Owl",de:"Eule",tr:"Baykuş"},
   P:{en:"Pumpkin",de:"Kürbis",tr:"Balkabağı"}, Q:{en:"Queen",de:"Königin",tr:"Kraliçe"}, R:{en:"Raven",de:"Rabe",tr:"Kuzgun"},
   S:{en:"Spider",de:"Spinne",tr:"Örümcek"}, T:{en:"Treat",de:"Süßigkeit",tr:"Şeker"}, U:{en:"Unicorn",de:"Einhorn",tr:"Tek boynuzlu at"},
   V:{en:"Vampire",de:"Vampir",tr:"Vampir"}, W:{en:"Witch",de:"Hexe",tr:"Cadı"}, X:{en:"X-ray",de:"Röntgenbild",tr:"Röntgen"},
   Y:{en:"Yummy",de:"Lecker",tr:"Lezzetli"}, Z:{en:"Zombie",de:"Zombie",tr:"Zombi"}
+};
+/* Elas echte Stimme (MP3s in stimme/). Wo nichts eingetragen ist, liest die Geräte-Stimme vor.
+   abc       = "K is for Kite"           (ABC entdecken + richtige Antwort)
+   wort      = nur das Wort, "Kite"      (mit abc: "K is for Kite!" – "Can you say it with me?" – "Kite!")
+   buchstabe = "Letter G"                (ABC entdecken, wenn es kein abc gibt; danach Geräte-Stimme "G is for Ghost")
+   frage     = "What starts with G?"     (ABC-Spiel: Buchstabe zeigen → Bild finden)
+   lob       = Lob bei richtigen Antworten (zufällig)
+   Neue Aufnahme: MP3 nach stimme/ legen (Name wie die vorhandenen) und hier eintragen. */
+const STIMMEN = {
+  abc:       { K: "stimme/K-is-for-Kite.mp3", L: "stimme/L-is-for-Lamb.mp3" },
+  wort:      { K: "stimme/Kite.mp3",          L: "stimme/Lamb.mp3" },
+  buchstabe: { G: "stimme/Letter-G.mp3",      H: "stimme/Letter-H.mp3" },
+  frage:     { G: "stimme/What-starts-with-G.mp3", H: "stimme/What-starts-with-H.mp3", I: "stimme/What-starts-with-I.mp3",
+               K: "stimme/What-starts-with-K.mp3", L: "stimme/What-starts-with-L.mp3" },
+  mitsprechen: "stimme/Can-you-say-it-with-me.mp3",
+  lob: ["stimme/Yes.mp3", "stimme/You-did-it.mp3"]
+};
+/* Alle Karten zu einem Buchstaben: erst das ABC-Wort (mit Foto), dann die Ausmalbilder. Jede Karte: { wort, bild } */
+function karten(L){
+  const w = ABC_WOERTER[L], out = [];
+  if (w.foto) out.push({ wort: w, bild: w.foto });
+  for (const t of THEMEN) for (const b of t.bilder) if (b.L === L) out.push({ wort: b.wort, bild: b.datei });
+  if (!out.length) out.push({ wort: w, bild: null });
+  return out;
+}
+/* Elas Videos (in videos/, 640 px breit, mit Ton; Standbild = gleicher Name .jpg).
+   abc:  ersetzt im ABC das Vorlesen, Schlüssel = englisches Wort der Karte ("P is for Pumpkin")
+   bild: Knopf "Watch Ela" im Malbuch beim Ausmalbild "<thema-id>-<Buchstabe>" (mehrere = der Reihe nach) */
+const ELA_VIDEOS = {
+  abc:  { Pumpkin: "videos/P-is-for-Pumpkin.mp4", Hat: "videos/H-is-for-Hat.mp4" },
+  bild: { "halloween-P": ["videos/P-Wave-to-the-Pumpkin.mp4", "videos/P-Ela-and-Pumpkin.mp4"],
+          "halloween-H": ["videos/H-Witch-hat-like-mine.mp4", "videos/H-Hat-is-smiling.mp4"] }
 };
 function bildFuer(L){ for (const t of THEMEN) { const b = t.bilder.find(b => b.L === L); if (b) return b; } return null; }
 
