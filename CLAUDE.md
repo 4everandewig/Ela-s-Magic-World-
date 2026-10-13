@@ -4,7 +4,9 @@ Lern- und Mal-App für Kinder (6–10 Jahre) zum YouTube-Kanal "Ela's Magic Worl
 Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
 
 ## Seiten
-- `index.html` – Startseite: Logo, Ela begrüßt, große Kacheln zu den Bereichen (Zahlen = „Soon!“).
+- `index.html` – Startseite: zuerst Intro-Video (`bilder/intro.mp4` + Standbild `intro.jpg`, stumm; „Let's go!“ = mit Ton;
+  einmal pro Besuch über `sessionStorage` `ela-intro`). Dann Elas Zimmer (`bilder/zimmer.jpg`) mit Logo, Ela (begrüßt) und
+  Elas Kätzchen (`bilder/katze.jpg`, sagt „Meow!“), darunter große Kacheln zu den Bereichen (Zahlen = „Soon!“).
 - `malbuch.html` – Malbuch mit **Themen** (Halloween aktiv; Christmas, Animals, Sweets, Ocean als „Soon!“).
   Bild wählen, Farbe wählen, in eine Fläche tippen → füllt sich. Zusätzlich Pinsel, Undo, Neu, Speichern.
 - `abc.html` – ABC: „Explore“ (Buchstabe antippen → Ela liest „B is for Bat“ vor) und „Play“ (Bild → Buchstabe raten oder Buchstabe → Bild finden).
