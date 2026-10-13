@@ -108,13 +108,21 @@
 document.querySelectorAll(".tile.soon").forEach(tile => tile.addEventListener("click", e => {
   e.preventDefault(); say(t("home_soon", { x: t(tile.dataset.soon) }));
 }));
+/* Im Oktober: Hexen-Ela und Kätzchen mit Hexenhut (Halloween-Look), sonst die normale Ela */
+const halloween = new Date().getMonth() === 9;
+const HALLO = halloween ? "hw_hello" : "home_hello", MIAU = halloween ? "hw_meow" : "meow";
+if (halloween) {
+  document.querySelector("#ela-friend img").src = "bilder/ela-hexe-rund.jpg";
+  document.querySelector("#cat-friend img").src = "bilder/katze-hexe.jpg";
+  say(t(HALLO));
+}
 const n = sterne();
 if (n > 0) say(t("home_stars", { n }));
 
 /* Ela und ihr Kätzchen sprechen, wenn man sie antippt */
 function hop(el){ el.classList.remove("hop"); void el.offsetWidth; el.classList.add("hop"); }
-document.getElementById("ela-friend").onclick = e => { hop(e.currentTarget); say(t("home_hello")); speak(t("home_hello")); };
-document.getElementById("cat-friend").onclick = e => { hop(e.currentTarget); say(t("meow")); speak(t("meow")); };
+document.getElementById("ela-friend").onclick = e => { hop(e.currentTarget); say(t(HALLO)); speak(t(HALLO)); };
+document.getElementById("cat-friend").onclick = e => { hop(e.currentTarget); say(t(MIAU)); speak(t(MIAU)); };
 
 /* Intro-Video: einmal pro Besuch, nicht bei jeder Rückkehr zur Startseite */
 const intro = document.getElementById("intro"), vid = document.getElementById("intro-vid");
