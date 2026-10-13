@@ -49,6 +49,8 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
 - Malbuch: Tippen auf Ela spielt `ELA_VIDEOS.thema[<thema-id>]` (Halloween: „Do you want to color with me?“).
 - ABC / Farben: Tippen auf Ela spielt `ELA_VIDEOS.seite.abc` / `.farben` der Reihe nach (`elaTippen()` in `gemeinsam.js`).
 - Nach „Save picture“: `ELA_VIDEOS.gespeichert[<thema-id>]` (Halloween: „It's alive! It's blinking!“).
+- Malbuch: nach der 4. Fläche erscheint Ela klein oben rechts an der Malfläche (`ELA_VIDEOS.zuschauen`, Halloween: „Look how spooky!“,
+  sie blickt im Video nach unten rechts aufs Bild), einmal pro Bild, Antippen schließt.
 - Oktober-Intro = zwei Videos nacheinander: `intro-halloween-1.mp4` (Ela am Maltisch, Zauber) → `intro-halloween.mp4` (Logo).
 
 ## Neues Malbuch-Bild

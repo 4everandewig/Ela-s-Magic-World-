@@ -65,7 +65,8 @@ function karten(L){
    bild: Knopf "Watch Ela" im Malbuch beim Ausmalbild "<thema-id>-<Buchstabe>" (mehrere = der Reihe nach)
    thema: Video, wenn man im Malbuch auf Ela tippt (pro Thema)
    seite: Videos, wenn man im ABC / bei den Farben auf Ela tippt (der Reihe nach)
-   gespeichert: Video nach "Save picture" im Malbuch (pro Thema) */
+   gespeichert: Video nach "Save picture" im Malbuch (pro Thema)
+   zuschauen: kleines Ela-Fenster oben rechts an der Malfläche nach der 4. Fläche, einmal pro Bild (pro Thema) */
 const ELA_VIDEOS = {
   abc:  { Pumpkin: "videos/P-is-for-Pumpkin.mp4", Hat: "videos/H-is-for-Hat.mp4" },
   bild: { "halloween-P": ["videos/P-Wave-to-the-Pumpkin.mp4", "videos/P-Ela-and-Pumpkin.mp4"],
@@ -73,7 +74,8 @@ const ELA_VIDEOS = {
   thema: { halloween: "videos/Color-with-me.mp4" },
   seite: { abc:    ["videos/Think-think-think.mp4", "videos/What-is-it.mp4", "videos/Something-is-happening.mp4", "videos/Peekaboo.mp4"],
            farben: ["videos/Which-color-is-next.mp4", "videos/Say-the-colours.mp4"] },
-  gespeichert: { halloween: "videos/Its-alive.mp4" }
+  gespeichert: { halloween: "videos/Its-alive.mp4" },
+  zuschauen: { halloween: "videos/Look-how-spooky.mp4" }
 };
 function bildFuer(L){ for (const t of THEMEN) { const b = t.bilder.find(b => b.L === L); if (b) return b; } return null; }
 
