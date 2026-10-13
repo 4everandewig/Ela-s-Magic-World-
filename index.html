@@ -32,10 +32,10 @@
 .hero .ela{flex:1;min-width:0}
 .hero .bubble{margin-bottom:14px;max-width:380px}
 .friend{flex:none;border:0;padding:4px;cursor:pointer;border-radius:50%;background:var(--rainbow);box-shadow:0 8px 18px -8px rgba(90,30,110,.6)}
-.hero .friend img{display:block;width:88px;height:88px;border-radius:50%;object-fit:cover;border:3px solid #fff;filter:none}
+.hero .friend img,.hero .friend video{display:block;width:88px;height:88px;border-radius:50%;object-fit:cover;border:3px solid #fff;filter:none}
 .friend.hop{animation:hop .6s ease}
 @keyframes hop{0%,100%{transform:rotate(0)}25%{transform:rotate(-10deg)}75%{transform:rotate(10deg)}}
-@media (max-width:600px){.hero{min-height:300px}.hero .friend img{width:62px;height:62px}.hero .bubble{font-size:15px;margin-bottom:8px}}
+@media (max-width:600px){.hero{min-height:300px}.hero .friend img,.hero .friend video{width:62px;height:62px}.hero .bubble{font-size:15px;margin-bottom:8px}}
 @media (prefers-reduced-motion:reduce){#intro .go,.hero .logo-big,.hero .pinsel,.friend.hop{animation:none}}
 .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
 .tile{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;color:#fff;border-radius:28px;padding:20px 16px 18px;
@@ -111,8 +111,18 @@ document.querySelectorAll(".tile.soon").forEach(tile => tile.addEventListener("c
 /* Im Oktober: Hexen-Ela und Kätzchen mit Hexenhut (Halloween-Look), sonst die normale Ela */
 const halloween = new Date().getMonth() === 9;
 const HALLO = halloween ? "hw_hello" : "home_hello", MIAU = halloween ? "hw_meow" : "meow";
+let elaVideo = null;
 if (halloween) {
-  document.querySelector("#ela-friend img").src = "bilder/ela-hexe-rund.jpg";
+  // Hexen-Ela als kleines Video: schaut zu (stumm, Schleife); beim Antippen sagt sie "Hallo" mit ihrer Stimme
+  elaVideo = document.createElement("video");
+  Object.assign(elaVideo, { src: "bilder/ela-hexe-schaut.mp4", poster: "bilder/ela-hexe-rund.jpg", muted: true, loop: true, autoplay: true, playsInline: true });
+  elaVideo.setAttribute("playsinline", ""); elaVideo.setAttribute("aria-hidden", "true");
+  document.querySelector("#ela-friend img").replaceWith(elaVideo);
+  const p = elaVideo.play(); if (p && p.catch) p.catch(() => {});
+  elaVideo.addEventListener("ended", () => {   // nach "Hallo" wieder zuschauen
+    Object.assign(elaVideo, { src: "bilder/ela-hexe-schaut.mp4", muted: true, loop: true });
+    const q = elaVideo.play(); if (q && q.catch) q.catch(() => {});
+  });
   document.querySelector("#cat-friend img").src = "bilder/katze-hexe.jpg";
   say(t(HALLO));
 }
@@ -121,7 +131,13 @@ if (n > 0) say(t("home_stars", { n }));
 
 /* Ela und ihr Kätzchen sprechen, wenn man sie antippt */
 function hop(el){ el.classList.remove("hop"); void el.offsetWidth; el.classList.add("hop"); }
-document.getElementById("ela-friend").onclick = e => { hop(e.currentTarget); say(t(HALLO)); speak(t(HALLO)); };
+document.getElementById("ela-friend").onclick = e => {
+  hop(e.currentTarget); say(t(HALLO));
+  if (!elaVideo) return speak(t(HALLO));
+  try { speechSynthesis.cancel(); } catch(err){}
+  Object.assign(elaVideo, { src: "bilder/ela-hexe-hallo.mp4", muted: false, loop: false });
+  const p = elaVideo.play(); if (p && p.catch) p.catch(() => speak(t(HALLO)));
+};
 document.getElementById("cat-friend").onclick = e => { hop(e.currentTarget); say(t(MIAU)); speak(t(MIAU)); };
 
 /* Intro-Video: einmal pro Besuch, nicht bei jeder Rückkehr zur Startseite */
