@@ -57,7 +57,7 @@
 <body>
 <!-- Intro: Video läuft stumm, nach "Let's go!" mit Ton. Pro Besuch nur einmal (sessionStorage). -->
 <div id="intro" hidden>
-  <video id="intro-vid" src="bilder/intro.mp4" poster="bilder/intro.jpg" muted loop playsinline preload="auto"></video>
+  <video id="intro-vid" muted loop playsinline preload="auto"></video>
   <button class="skip" id="intro-skip" type="button" data-t="intro_skip"></button>
   <button class="go" id="intro-go" type="button" data-t="intro_go"></button>
 </div>
@@ -111,17 +111,17 @@ document.querySelectorAll(".tile.soon").forEach(tile => tile.addEventListener("c
 /* Im Oktober: Hexen-Ela und Kätzchen mit Hexenhut (Halloween-Look), sonst die normale Ela */
 const halloween = new Date().getMonth() === 9;
 const HALLO = halloween ? "hw_hello" : "home_hello", MIAU = halloween ? "hw_meow" : "meow";
-let elaVideo = null;
+let elaClip = null;
 if (halloween) {
   // Hexen-Ela als kleines Video: schaut zu (stumm, Schleife); beim Antippen sagt sie "Hallo" mit ihrer Stimme
-  elaVideo = document.createElement("video");
-  Object.assign(elaVideo, { src: "bilder/ela-hexe-schaut.mp4", poster: "bilder/ela-hexe-rund.jpg", muted: true, loop: true, autoplay: true, playsInline: true });
-  elaVideo.setAttribute("playsinline", ""); elaVideo.setAttribute("aria-hidden", "true");
-  document.querySelector("#ela-friend img").replaceWith(elaVideo);
-  const p = elaVideo.play(); if (p && p.catch) p.catch(() => {});
-  elaVideo.addEventListener("ended", () => {   // nach "Hallo" wieder zuschauen
-    Object.assign(elaVideo, { src: "bilder/ela-hexe-schaut.mp4", muted: true, loop: true });
-    const q = elaVideo.play(); if (q && q.catch) q.catch(() => {});
+  elaClip = document.createElement("video");
+  Object.assign(elaClip, { src: "bilder/ela-hexe-schaut.mp4", poster: "bilder/ela-hexe-rund.jpg", muted: true, loop: true, autoplay: true, playsInline: true });
+  elaClip.setAttribute("playsinline", ""); elaClip.setAttribute("aria-hidden", "true");
+  document.querySelector("#ela-friend img").replaceWith(elaClip);
+  const p = elaClip.play(); if (p && p.catch) p.catch(() => {});
+  elaClip.addEventListener("ended", () => {   // nach "Hallo" wieder zuschauen
+    Object.assign(elaClip, { src: "bilder/ela-hexe-schaut.mp4", muted: true, loop: true });
+    const q = elaClip.play(); if (q && q.catch) q.catch(() => {});
   });
   document.querySelector("#cat-friend img").src = "bilder/katze-hexe.jpg";
   say(t(HALLO));
@@ -133,10 +133,10 @@ if (n > 0) say(t("home_stars", { n }));
 function hop(el){ el.classList.remove("hop"); void el.offsetWidth; el.classList.add("hop"); }
 document.getElementById("ela-friend").onclick = e => {
   hop(e.currentTarget); say(t(HALLO));
-  if (!elaVideo) return speak(t(HALLO));
+  if (!elaClip) return speak(t(HALLO));
   try { speechSynthesis.cancel(); } catch(err){}
-  Object.assign(elaVideo, { src: "bilder/ela-hexe-hallo.mp4", muted: false, loop: false });
-  const p = elaVideo.play(); if (p && p.catch) p.catch(() => speak(t(HALLO)));
+  Object.assign(elaClip, { src: "bilder/ela-hexe-hallo.mp4", muted: false, loop: false });
+  const p = elaClip.play(); if (p && p.catch) p.catch(() => speak(t(HALLO)));
 };
 document.getElementById("cat-friend").onclick = e => { hop(e.currentTarget); say(t(MIAU)); speak(t(MIAU)); };
 
@@ -149,8 +149,13 @@ function introZu(){
   intro.hidden = true;
   try { vid.pause(); sessionStorage.setItem("ela-intro", "1"); } catch(e){}
 }
-if (!introGesehen) {
+// Oktober: Hexen-Ela zaubert Glitzer ins Zimmer, sonst das Logo-Video
+const introDatei = halloween ? "bilder/intro-halloween" : "bilder/intro";
+vid.addEventListener("ended", introZu);
+vid.addEventListener("error", introZu);
+if (!introGesehen) {   // Video nur laden, wenn das Intro auch gezeigt wird
   intro.hidden = false;
+  vid.poster = introDatei + ".jpg"; vid.src = introDatei + ".mp4";
   const p = vid.play(); if (p && p.catch) p.catch(() => {});
 }
 document.getElementById("intro-skip").onclick = introZu;
@@ -159,8 +164,6 @@ document.getElementById("intro-go").onclick = e => {
   vid.loop = false; vid.muted = false; vid.currentTime = 0;
   const p = vid.play(); if (p && p.catch) p.catch(introZu);
 };
-vid.addEventListener("ended", introZu);
-vid.addEventListener("error", introZu);
 </script>
 </body>
 </html>

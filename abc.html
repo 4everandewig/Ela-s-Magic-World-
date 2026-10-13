@@ -116,6 +116,7 @@ function zeige(L, laut){
 function sprich(L, k){
   const en = k.wort.en, ersatz = `${L}. ${L} is for ${en}.`;
   const hauptwort = k.wort === ABC_WOERTER[L];   // Elas Aufnahmen gehören zum ABC-Hauptwort ("K is for Kite")
+  if (ELA_VIDEOS.abc[en]) return elaVideo(ELA_VIDEOS.abc[en], ersatz);   // Ela im Video: "P is for Pumpkin"
   // Elas echte Stimme, wenn möglich mit "Can you say it with me?" und dem Wort zum Nachsprechen
   if (hauptwort && STIMMEN.abc[L]) elaSagt(STIMMEN.wort[L] ? [STIMMEN.abc[L], STIMMEN.mitsprechen, STIMMEN.wort[L]] : [STIMMEN.abc[L]], ersatz);
   else if (STIMMEN.buchstabe[L]) elaSagt([STIMMEN.buchstabe[L]], ersatz, `${L} is for ${en}.`);

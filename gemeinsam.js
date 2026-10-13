@@ -18,7 +18,7 @@ const TEXTE = {
     home_title: "Hi! What do you want to do today?", home_hello: "Hi, I'm Ela! Let's draw and learn together!",
     home_stars: "Hi! You already have {n} stars!", home_soon: "{x} is coming soon! I can't wait!",
     intro_go: "Let's go!", intro_skip: "Skip", kitty: "Kitty", meow: "Meow! I'm Ela's kitty.",
-    hw_hello: "Happy Halloween! Let's draw something spooky-cute together!", hw_meow: "Meow! Look at my witch hat!",
+    hw_hello: "Happy Halloween! Let's draw something spooky-cute together!", hw_meow: "Meow! Look at my witch hat!", watch: "Watch Ela", close: "Close",
     t_malbuch: "Coloring Book", t_malbuch_s: "Color in the pictures", t_abc: "ABC", t_abc_s: "Learn and guess letters",
     t_farben: "Colors", t_farben_s: "Learn and find colors", t_zahlen: "Numbers", t_zahlen_s: "Learn to count",
     color: "Color", tool: "Tool", fill: "Fill", paint: "Paint", undo: "Undo", neu: "New", sure: "Sure?", save: "Save picture",
@@ -39,7 +39,7 @@ const TEXTE = {
     home_title: "Hallo! Was möchtest du heute machen?", home_hello: "Hallo, ich bin Ela! Komm, wir malen und lernen zusammen!",
     home_stars: "Hallo! Du hast schon {n} Sterne gesammelt!", home_soon: "{x} kommt bald! Ich freu mich schon!",
     intro_go: "Los geht's!", intro_skip: "Überspringen", kitty: "Kätzchen", meow: "Miau! Ich bin Elas Kätzchen.",
-    hw_hello: "Fröhliches Halloween! Komm, wir malen was Gruselig-Süßes!", hw_meow: "Miau! Schau mal, mein Hexenhut!",
+    hw_hello: "Fröhliches Halloween! Komm, wir malen was Gruselig-Süßes!", hw_meow: "Miau! Schau mal, mein Hexenhut!", watch: "Ela anschauen", close: "Schließen",
     t_malbuch: "Malbuch", t_malbuch_s: "Bilder bunt ausmalen", t_abc: "ABC", t_abc_s: "Buchstaben lernen und raten",
     t_farben: "Farben", t_farben_s: "Farben lernen und finden", t_zahlen: "Zahlen", t_zahlen_s: "Zählen lernen",
     color: "Farbe", tool: "Werkzeug", fill: "Füllen", paint: "Malen", undo: "Zurück", neu: "Neu", sure: "Sicher?", save: "Bild speichern",
@@ -60,7 +60,7 @@ const TEXTE = {
     home_title: "Merhaba! Bugün ne yapmak istersin?", home_hello: "Merhaba, ben Ela! Hadi birlikte boyayalım ve öğrenelim!",
     home_stars: "Merhaba! Şimdiden {n} yıldızın var!", home_soon: "{x} yakında geliyor! Çok heyecanlıyım!",
     intro_go: "Hadi başlayalım!", intro_skip: "Geç", kitty: "Kedicik", meow: "Miyav! Ben Ela'nın kedisiyim.",
-    hw_hello: "Mutlu Cadılar Bayramı! Hadi birlikte ürkütücü-tatlı bir şey çizelim!", hw_meow: "Miyav! Cadı şapkama bak!",
+    hw_hello: "Mutlu Cadılar Bayramı! Hadi birlikte ürkütücü-tatlı bir şey çizelim!", hw_meow: "Miyav! Cadı şapkama bak!", watch: "Ela'yı izle", close: "Kapat",
     t_malbuch: "Boyama Kitabı", t_malbuch_s: "Resimleri renklendir", t_abc: "ABC", t_abc_s: "Harfleri öğren ve tahmin et",
     t_farben: "Renkler", t_farben_s: "Renkleri öğren ve bul", t_zahlen: "Sayılar", t_zahlen_s: "Saymayı öğren",
     color: "Renk", tool: "Araç", fill: "Doldur", paint: "Boya", undo: "Geri al", neu: "Yeni", sure: "Emin misin?", save: "Resmi kaydet",
@@ -144,6 +144,25 @@ function elaSagt(dateien, ersatz, danach, lang = "en-US"){
     const p = a.play(); if (p && p.catch) p.catch(fehler);
   };
   weiter();
+}
+
+/* Ela-Video in einem Fenster mit Ton abspielen (Videos in videos/, siehe ELA_VIDEOS in daten.js).
+   Schließt sich am Ende von selbst. Klappt das Abspielen nicht, liest die Geräte-Stimme "ersatz" vor. */
+function elaVideo(src, ersatz){
+  try { if ("speechSynthesis" in window) speechSynthesis.cancel(); } catch(e){}
+  if (elaTon) elaTon.pause();
+  const alt = document.querySelector(".ela-video"); if (alt) alt.remove();
+  const box = document.createElement("div"); box.className = "ela-video";
+  box.innerHTML = `<div class="fenster"><video playsinline poster="${src.replace(/\.mp4$/, ".jpg")}"></video><button class="zu" type="button">✕</button></div>`;
+  const v = box.querySelector("video"), zu = () => { v.pause(); box.remove(); };
+  box.querySelector(".zu").setAttribute("aria-label", t("close"));
+  box.querySelector(".zu").onclick = zu;
+  box.onclick = e => { if (e.target === box) zu(); };
+  v.onended = zu;
+  const fehler = () => { zu(); if (ersatz) speak(ersatz, "en-US"); };
+  v.onerror = fehler;
+  v.src = src; document.body.appendChild(box);
+  const p = v.play(); if (p && p.catch) p.catch(fehler);
 }
 
 /* Sterne sammeln (gilt für alle Spiele) */

@@ -66,6 +66,8 @@ canvas{display:block;max-width:100%;max-height:62vh;width:auto;height:auto;touch
 .sizes{display:flex;gap:8px}
 .sizes .btn{flex:1}
 .dot{display:inline-block;border-radius:50%;background:currentColor}
+.word .watch{align-self:center;font-family:var(--body);font-size:15px;padding:8px 14px;background:var(--purple);color:#fff;border-radius:999px}
+.word .watch svg{width:18px;height:18px}
 #print{background:#fff3e3;color:var(--ink);font-size:17px;padding:6px 8px;box-shadow:inset 0 -4px 0 var(--orange)}
 #print img{width:64px;height:auto}
 
@@ -104,7 +106,8 @@ canvas{display:block;max-width:100%;max-height:62vh;width:auto;height:auto;touch
 
   <div class="main">
     <div class="frame"><section class="stage">
-      <div class="word"><span class="L" id="bigL">P</span><span id="word">Pumpkin</span><span class="de" id="de"></span></div>
+      <div class="word"><span class="L" id="bigL">P</span><span id="word">Pumpkin</span><span class="de" id="de"></span>
+        <button class="btn watch" id="watch" type="button" hidden><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span data-t="watch"></span></button></div>
       <canvas id="cv" aria-label="Canvas"></canvas>
     </section></div>
 
@@ -235,6 +238,11 @@ function open(i){
   document.getElementById("de").textContent = LANG === "en" ? "" : tx(current.wort);
   store.set("ela-letztes-" + thema.id, current.L);
   say(t("m_lets", { w: tx(current.wort) }));
+  // "Watch Ela": Elas Videos zu diesem Bild, bei mehreren der Reihe nach
+  const vids = ELA_VIDEOS.bild[thema.id + "-" + current.L] || [], watch = document.getElementById("watch");
+  let vNr = 0;
+  watch.hidden = !vids.length;
+  watch.onclick = () => elaVideo(vids[vNr++ % vids.length]);
   const img = new Image();
   img.onload = () => {
     // Weißer Rand rund ums Bild, damit man auch neben der Figur malen kann (die PNGs sind eng zugeschnitten)
