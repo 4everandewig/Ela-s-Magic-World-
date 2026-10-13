@@ -1,36 +1,49 @@
-# Ela's Magic World – Malbuch
+# Ela's Magic World – Kinder-App
 
-Kinder-Mal-App (6–10 Jahre) für den YouTube-Kanal "Ela's Magic World – Draw · Learn · Play".
-Das Malbuch hat **Themen** (Halloween, Weihnachten, Tiere, Süßes, Meer …). Kinder wählen ein Thema, ein Bild, eine Farbe und tippen in eine Fläche, die sich füllt. Zusätzlich gibt es einen Pinsel.
+Lern- und Mal-App für Kinder (6–10 Jahre) zum YouTube-Kanal "Ela's Magic World – Draw · Learn · Play".
+Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
 
-## Aufbau
-- `index.html` – die komplette App (HTML, CSS, JavaScript in einer Datei, keine Build-Tools).
-- `bilder/<thema-id>/` – Ausmalbilder pro Thema als PNG (z. B. `bilder/halloween/P-Pumpkin.png`).
-- `bilder/` – außerdem `logo.png`, `ela-hexe.png`, `ela-rund.png` (Ela = Maskottchen).
-- Läuft als statische Seite auf GitHub Pages.
+## Seiten
+- `index.html` – Startseite: Logo, Ela begrüßt, große Kacheln zu den Bereichen (Zahlen = „Soon!“).
+- `malbuch.html` – Malbuch mit **Themen** (Halloween aktiv; Christmas, Animals, Sweets, Ocean als „Soon!“).
+  Bild wählen, Farbe wählen, in eine Fläche tippen → füllt sich. Zusätzlich Pinsel, Undo, Neu, Speichern.
+- `abc.html` – ABC: „Explore“ (Buchstabe antippen → Ela liest „B is for Bat“ vor) und „Play“ (Bild → Buchstabe raten oder Buchstabe → Bild finden).
+- `farben.html` – Farben: „Explore“ (Farbe antippen → wird vorgelesen) und „Play“ („Tap on blue!“).
 
-## Neues Bild hinzufügen
+## Gemeinsame Dateien
+- `gemeinsam.css` – Farben, Kopfzeile, Ela + Sprechblase, Knöpfe, Tabs, Sterne-Regen.
+- `gemeinsam.js` – `store` (localStorage in try/catch), **Sprachen** (`TEXTE`, `t()`, `tx()`), `say()` (Ela-Sprechblase),
+  `speak()` (Vorlesen über die Browser-Stimme), Sterne (`sternDazu`, `sternRegen`), `lob()`, `nochmal()`.
+- `daten.js` – `THEMEN` mit Bildern, `ABC_WOERTER`, `LERNFARBEN`, `bildFuer(L)`.
+- Jede Seite bindet am Ende von `<body>` zuerst `gemeinsam.js`, dann `daten.js`, dann ihr eigenes Skript ein.
+
+## Sprachen
+- Standard: **Englisch**. Außerdem Deutsch und Türkisch. Umschalter „EN DE TR“ in der Kopfzeile (`<div class="lang" id="lang">`), gespeichert in `ela-sprache`.
+- Feste Texte im HTML: `data-t="schlüssel"` bzw. `data-t-label="schlüssel"`. Texte im Skript: `t("schlüssel", {var})`.
+- Neue Texte immer in **allen** Sprachblöcken von `TEXTE` ergänzen. Namen/Wörter in Daten als `{ en, de, tr }`.
+- Neue Sprache: in `SPRACHEN` (Name + Stimme, z. B. `fr-FR`) und `TEXTE` ergänzen, Daten um den Code erweitern.
+- Das ABC ist immer ein **englisches** ABC („B is for Bat“, englisch vorgelesen); die Übersetzung steht klein darunter.
+
+## Neues Malbuch-Bild
 1. PNG in `bilder/<thema-id>/` legen, Name `BUCHSTABE-Wort.png` (z. B. `bilder/halloween/Z-Zombie.png`).
-   Bild vorher zuschneiden (wenig weißer Rand), längste Seite ca. 1000 px, reines Schwarz auf Weiß,
-   ohne Herzen/Deko, alle Linien geschlossen (sonst läuft die Füllung aus).
-2. In `index.html` im Array `THEMEN` beim passenden Thema unter `bilder` eine Zeile ergänzen:
-   `{ L: "Z", wort: "Zombie", de: "Zombie", datei: "bilder/halloween/Z-Zombie.png" }`. Alphabetisch einsortieren.
+   Zugeschnitten, längste Seite ca. 1000 px, reines Schwarz auf Weiß, ohne Herzen/Deko, alle Linien geschlossen.
+2. In `daten.js` beim Thema unter `bilder` ergänzen:
+   `{ L: "Z", wort: { en: "Zombie", de: "Zombie", tr: "Zombi" }, datei: "bilder/halloween/Z-Zombie.png" }` (alphabetisch).
+   Das Bild erscheint dann automatisch auch im ABC und im ABC-Spiel.
 
-## Neues Thema hinzufügen
-- In `THEMEN` einen Block ergänzen: `{ id: "ostern", name: "Ostern", farbe: "#ffc928", bilder: [ ... ] }`
-  und den Ordner `bilder/ostern/` anlegen.
-- Ein Thema mit leerer `bilder`-Liste erscheint als „Bald!“ und kann noch nicht geöffnet werden.
-- Vorhandene Platzhalter: weihnachten, tiere, suesses, meer – einfach Bilder eintragen, dann ist das Thema aktiv.
+## Neues Thema
+- In `THEMEN` ergänzen: `{ id: "ostern", name: { en: "Easter", de: "Ostern", tr: "Paskalya" }, farbe: "#fbbd23", bilder: [ ... ] }`, Ordner `bilder/ostern/` anlegen.
+- Leere `bilder`-Liste = „Soon!“. Optional `ela: "bilder/…png"` für ein eigenes Ela-Bild in diesem Thema (Halloween: Hexen-Ela).
 
-## Technik (bitte beibehalten)
-- Farbebene (`colorCv`) liegt unten, die Linienzeichnung wird mit `multiply` darübergelegt → Linien bleiben immer schwarz.
-- Füllen = Flood Fill über die Linienmaske (`wall`, Pixel mit Helligkeit < 170 sind Wände), danach 3 px unter die Linien wachsen lassen.
-- Fortschritt pro Bild wird in `localStorage` gespeichert (`ela-bild-<thema-id>-<Buchstabe>`), zuletzt benutztes Thema in `ela-thema`, Zugriffe immer in try/catch.
-- Mobil zuerst denken: Bedienung mit Finger, große Knöpfe, kein horizontales Scrollen.
+## Malbuch-Technik (bitte beibehalten)
+- Farbebene (`colorCv`) unten, Linienzeichnung mit `multiply` darüber → Linien bleiben schwarz.
+- Füllen = Flood Fill über die Linienmaske (`wall`, Helligkeit < 170 = Wand), danach 3 px unter die Linien wachsen.
+- Fortschritt pro Bild in `ela-bild-<thema-id>-<Buchstabe>`, Sterne in `ela-sterne` (für alle Spiele gemeinsam).
 
 ## Stil
-- Hell und bunt: Regenbogen wie im Logo; jedes Thema hat eine eigene Farbe (`farbe`).
-- Schriften: "Baloo 2" (Überschriften), "Nunito" (Text).
-- Sprache der Oberfläche: Deutsch, einfache Wörter für Kinder. Wörter der Bilder auf Englisch (ABC), deutsch klein daneben.
+- Farben aus dem Logo: Pink (`--pink`) + Regenbogen (Rot, Orange, Gelb, Grün, Blau, Lila), heller rosa Hintergrund.
+  Halloween-Farben nur im Halloween-Thema, nicht für die ganze App.
+- Maskottchen: Ela mit Schürze (`bilder/ela-rund.png`); Hexen-Ela (`bilder/ela-hexe.png`) nur bei Halloween.
+- Schriften: "Baloo 2" (Überschriften), "Nunito" (Text). Große Knöpfe für Finger, kein horizontales Scrollen.
 - Ausmalbilder: Kawaii, dicke runde Linien, magische Augen (weißer Kreis + kleiner Glitzerstern), Wimpern, KEINE Bäckchen.
-- Ela lobt die Kinder in der Sprechblase (`LOB`-Liste) – freundlich, nie gruselig.
+- Ela lobt freundlich, nie gruselig. Falsche Antworten nur sanft („Almost! Try again.“), nie bestrafen.

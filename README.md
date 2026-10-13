@@ -1,9 +1,13 @@
-# Ela's Malbuch
+# Ela's Magic World
 
-Eine bunte Mal-App mit vielen Themen (Halloween, bald Weihnachten, Tiere …) für Kinder von **Ela's Magic World – Draw · Learn · Play**.
+A colorful learning and coloring app for kids from **Ela's Magic World – Draw · Learn · Play**.
 
-Bild aussuchen, Farbe antippen, ins Bild tippen – fertig! Mit Pinsel, Zurück-Knopf und Speichern.
+- **Coloring Book** – pick a picture, pick a color, tap to fill (themes: Halloween, more coming soon)
+- **ABC** – explore the alphabet and play guessing games
+- **Colors** – learn colors and find the right one
 
-**Online spielen:** https://4everandewig.github.io/Ela-s-Magic-World-/
+Languages: English, Deutsch, Türkçe.
 
-Neue Bilder hinzufügen: siehe `CLAUDE.md`.
+**Play online:** https://4everandewig.github.io/Ela-s-Magic-World-/
+
+How to add pictures, themes and languages: see `CLAUDE.md`.

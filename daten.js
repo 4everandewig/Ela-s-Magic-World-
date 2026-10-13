@@ -1,0 +1,51 @@
+/* Gemeinsame Daten für Malbuch, ABC und Farben.
+   Neues Thema: einen Block in THEMEN ergänzen und die PNGs in den Ordner bilder/<id>/ legen.
+   Ein Thema ohne Bilder wird im Malbuch als "Soon!" angezeigt.
+   Optional: ela = eigenes Ela-Bild für dieses Thema (z. B. Hexen-Ela bei Halloween), sonst die normale Ela.
+   Namen und Wörter immer in allen Sprachen angeben: en (Hauptsprache), de, tr. */
+const THEMEN = [
+  { id: "halloween", name: { en: "Halloween", de: "Halloween", tr: "Cadılar Bayramı" }, farbe: "#f7882f", ela: "bilder/ela-hexe.png", bilder: [
+    { L: "B", wort: { en: "Bat",          de: "Fledermaus",   tr: "Yarasa" },         datei: "bilder/halloween/B-Bat.png" },
+    { L: "F", wort: { en: "Frankenstein", de: "Frankenstein", tr: "Frankenstein" },   datei: "bilder/halloween/F-Frankenstein.png" },
+    { L: "G", wort: { en: "Ghost",        de: "Gespenst",     tr: "Hayalet" },        datei: "bilder/halloween/G-Ghost.png" },
+    { L: "H", wort: { en: "Hat",          de: "Hexenhut",     tr: "Cadı şapkası" },   datei: "bilder/halloween/H-Hat.png" },
+    { L: "P", wort: { en: "Pumpkin",      de: "Kürbis",       tr: "Balkabağı" },      datei: "bilder/halloween/P-Pumpkin.png" },
+    { L: "S", wort: { en: "Spider",       de: "Spinne",       tr: "Örümcek" },        datei: "bilder/halloween/S-Spider.png" },
+    { L: "V", wort: { en: "Vampire",      de: "Vampir",       tr: "Vampir" },         datei: "bilder/halloween/V-Vampire.png" },
+    { L: "W", wort: { en: "Witch",        de: "Hexe",         tr: "Cadı" },           datei: "bilder/halloween/W-Witch.png" },
+  ]},
+  { id: "weihnachten", name: { en: "Christmas", de: "Weihnachten", tr: "Yılbaşı" },   farbe: "#f05252", bilder: [] },
+  { id: "tiere",       name: { en: "Animals",   de: "Tiere",       tr: "Hayvanlar" }, farbe: "#4cbb5c", bilder: [] },
+  { id: "suesses",     name: { en: "Sweets",    de: "Süßes",       tr: "Tatlılar" },  farbe: "#e8459b", bilder: [] },
+  { id: "meer",        name: { en: "Ocean",     de: "Meer",        tr: "Deniz" },     farbe: "#3d8ef0", bilder: [] },
+];
+
+/* Englisches ABC: ein Wort pro Buchstabe (en) mit Übersetzung (de, tr).
+   Gibt es irgendwo in THEMEN ein Bild mit diesem Buchstaben, zeigt das ABC das Bild dazu. */
+const ABC_WOERTER = {
+  A:{en:"Apple",de:"Apfel",tr:"Elma"}, B:{en:"Bat",de:"Fledermaus",tr:"Yarasa"}, C:{en:"Cat",de:"Katze",tr:"Kedi"},
+  D:{en:"Devil",de:"Teufelchen",tr:"Küçük şeytan"}, E:{en:"Eyeball",de:"Augapfel",tr:"Göz"}, F:{en:"Frankenstein",de:"Frankenstein",tr:"Frankenstein"},
+  G:{en:"Ghost",de:"Gespenst",tr:"Hayalet"}, H:{en:"Hat",de:"Hexenhut",tr:"Cadı şapkası"}, I:{en:"Ice cream",de:"Eis",tr:"Dondurma"},
+  J:{en:"Jack-o'-lantern",de:"Kürbislaterne",tr:"Balkabağı feneri"}, K:{en:"Kitten",de:"Kätzchen",tr:"Yavru kedi"}, L:{en:"Lollipop",de:"Lutscher",tr:"Lolipop"},
+  M:{en:"Mummy",de:"Mumie",tr:"Mumya"}, N:{en:"Night",de:"Nacht",tr:"Gece"}, O:{en:"Owl",de:"Eule",tr:"Baykuş"},
+  P:{en:"Pumpkin",de:"Kürbis",tr:"Balkabağı"}, Q:{en:"Queen",de:"Königin",tr:"Kraliçe"}, R:{en:"Raven",de:"Rabe",tr:"Kuzgun"},
+  S:{en:"Spider",de:"Spinne",tr:"Örümcek"}, T:{en:"Treat",de:"Süßigkeit",tr:"Şeker"}, U:{en:"Unicorn",de:"Einhorn",tr:"Tek boynuzlu at"},
+  V:{en:"Vampire",de:"Vampir",tr:"Vampir"}, W:{en:"Witch",de:"Hexe",tr:"Cadı"}, X:{en:"X-ray",de:"Röntgenbild",tr:"Röntgen"},
+  Y:{en:"Yummy",de:"Lecker",tr:"Lezzetli"}, Z:{en:"Zombie",de:"Zombie",tr:"Zombi"}
+};
+function bildFuer(L){ for (const t of THEMEN) { const b = t.bilder.find(b => b.L === L); if (b) return b; } return null; }
+
+/* Farben zum Lernen (Farben-Spiel) */
+const LERNFARBEN = [
+  { hex: "#f05252", name: { en: "red",    de: "Rot",     tr: "kırmızı" } },
+  { hex: "#f7882f", name: { en: "orange", de: "Orange",  tr: "turuncu" } },
+  { hex: "#fbbd23", name: { en: "yellow", de: "Gelb",    tr: "sarı" } },
+  { hex: "#4cbb5c", name: { en: "green",  de: "Grün",    tr: "yeşil" } },
+  { hex: "#3d8ef0", name: { en: "blue",   de: "Blau",    tr: "mavi" } },
+  { hex: "#8b5cf6", name: { en: "purple", de: "Lila",    tr: "mor" } },
+  { hex: "#ff7fbf", name: { en: "pink",   de: "Rosa",    tr: "pembe" } },
+  { hex: "#9a5b33", name: { en: "brown",  de: "Braun",   tr: "kahverengi" } },
+  { hex: "#2f2638", name: { en: "black",  de: "Schwarz", tr: "siyah" } },
+  { hex: "#ffffff", name: { en: "white",  de: "Weiß",    tr: "beyaz" } },
+  { hex: "#9aa0a6", name: { en: "gray",   de: "Grau",    tr: "gri" } },
+];

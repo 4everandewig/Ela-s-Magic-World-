@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Colors – Ela's Magic World</title>
+<link rel="icon" href="bilder/ela-rund.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@600;800&display=swap">
+<link rel="stylesheet" href="gemeinsam.css">
+<style>
+/* Farben: Tabs Entdecken/Spielen; links großer Farbklecks bzw. die Frage, rechts Ela; darunter die Farbtöpfe */
+.top h1{color:var(--blue)}
+.main{display:grid;grid-template-columns:1fr 280px;gap:16px;align-items:start}
+@media (max-width:860px){.main{grid-template-columns:1fr}}
+.big{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;min-width:0}
+.splash{width:min(300px,70vw);height:auto;filter:drop-shadow(0 10px 14px rgba(58,36,64,.18))}
+.splash path{transition:fill .25s}
+.cname{font-family:var(--display);font-weight:800;font-size:clamp(40px,8vw,72px);line-height:1;color:var(--ink)}
+.cen{color:var(--muted);font-weight:800;font-size:20px}
+.speaker{background:var(--yellow);color:var(--ink)}
+.pots{display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:14px}
+.pot{border:0;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;font:inherit;font-weight:800;color:var(--ink);padding:4px;border-radius:18px}
+.pot .blob{width:72px;height:72px;border-radius:50%;background:var(--c);border:4px solid #fff;box-shadow:0 0 0 2px var(--line),inset 0 -8px 0 rgba(0,0,0,.12)}
+.pot[aria-pressed="true"] .blob{box-shadow:0 0 0 4px var(--ink),inset 0 -8px 0 rgba(0,0,0,.12)}
+.q{font-family:var(--display);font-weight:800;font-size:clamp(26px,5vw,40px);color:var(--ink);margin:0;display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center}
+.choices{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;width:min(460px,100%)}
+.choices .pot .blob{width:min(130px,32vw);height:min(130px,32vw)}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <a class="home" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg><span data-t="start"></span></a>
+    <img class="logo" src="bilder/logo.png" alt="Ela's Magic World">
+    <h1 data-t="t_farben"></h1>
+    <div class="lang" id="lang"></div>
+    <div class="stars" data-t-label="stars"><svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .8-5.2 4.8 1.5 7L12 17.6 5.7 21l1.5-7L2 9.3l7-.8z"/></svg><span id="stars-n">0</span></div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab" id="tab-lernen" type="button" style="--c:var(--pink)" aria-pressed="true" data-t="explore"></button>
+    <button class="tab" id="tab-spiel" type="button" style="--c:var(--blue)" aria-pressed="false" data-t="play"></button>
+  </div>
+
+  <div class="main">
+    <section class="card">
+      <div class="big" id="lernen">
+        <svg class="splash" viewBox="0 0 200 180" aria-hidden="true"><path id="klecks" stroke="#3a2440" stroke-width="5" stroke-linejoin="round" fill="#f05252"
+          d="M100 18c20 0 26 16 42 14s30-6 34 12-12 26-6 40 22 24 8 38-32 2-44 14-14 28-34 26-18-22-34-26-34 10-42-6 10-28 4-42-24-22-12-38 30-6 44-14 20-18 40-18z"/>
+          <ellipse cx="72" cy="66" rx="14" ry="9" fill="#fff" opacity=".55" transform="rotate(-25 72 66)"/></svg>
+        <div class="cname" id="cname">red</div>
+        <div class="cen" id="cen"></div>
+        <button class="btn speaker" id="say-color" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg><span data-t="hear"></span></button>
+      </div>
+      <div class="big" id="spiel" hidden>
+        <p class="q" id="frage"></p>
+        <div class="choices" id="choices"></div>
+        <button class="btn speaker" id="say-q" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg><span data-t="hear_q"></span></button>
+      </div>
+    </section>
+    <aside class="ela">
+      <img class="round" src="bilder/ela-rund.png" alt="Ela">
+      <div class="bubble" id="bubble" role="status" data-t="f_tap"></div>
+    </aside>
+  </div>
+
+  <section class="card" id="pots-box">
+    <div class="pots" id="pots" aria-label="Colors"></div>
+  </section>
+</div>
+
+<script src="gemeinsam.js"></script>
+<script src="daten.js"></script>
+<script>
+/* ---------- Entdecken ---------- */
+const pots = document.getElementById("pots");
+const fname = f => tx(f.name);
+LERNFARBEN.forEach((f, i) => {
+  const b = document.createElement("button"); b.type = "button"; b.className = "pot"; b.id = "pot-" + i;
+  b.style.setProperty("--c", f.hex);
+  b.innerHTML = `<span class="blob"></span><span>${fname(f)}</span>`;
+  b.onclick = () => zeige(i, true);
+  pots.appendChild(b);
+});
+let aktuell = 0;
+function zeige(i, laut){
+  aktuell = i; const f = LERNFARBEN[i];
+  document.getElementById("klecks").setAttribute("fill", f.hex);
+  document.getElementById("cname").textContent = fname(f);
+  document.getElementById("cname").style.color = f.hex === "#ffffff" ? "var(--ink)" : f.hex;
+  document.getElementById("cen").textContent = LANG === "en" ? "" : f.name.en;
+  [...pots.children].forEach((b, j) => b.setAttribute("aria-pressed", j === i));
+  if (laut) { speak(fname(f)); say(t("f_this", { c: fname(f) })); }
+}
+document.getElementById("say-color").onclick = () => speak(fname(LERNFARBEN[aktuell]));
+
+/* ---------- Spielen: "Tipp auf Blau!" ---------- */
+let richtig = -1, sperre = false;
+const mischen = a => a.map(v => [Math.random(), v]).sort((x, y) => x[0] - y[0]).map(v => v[1]);
+function neueFrage(){
+  sperre = false;
+  const idx = LERNFARBEN.map((_, i) => i);
+  richtig = zufall(idx.filter(i => i !== richtig));
+  const f = LERNFARBEN[richtig];
+  document.getElementById("frage").textContent = t("f_q", { c: fname(f) });
+  const choices = document.getElementById("choices"); choices.innerHTML = "";
+  mischen([richtig, ...mischen(idx.filter(i => i !== richtig)).slice(0, 3)]).forEach(i => {
+    const c = LERNFARBEN[i], b = document.createElement("button");
+    b.type = "button"; b.className = "pot"; b.style.setProperty("--c", c.hex);
+    b.innerHTML = `<span class="blob"></span>`; b.setAttribute("aria-label", fname(c));
+    b.onclick = () => antwort(b, i); choices.appendChild(b);
+  });
+  speak(t("f_q", { c: fname(f) }));
+}
+function antwort(btn, i){
+  if (sperre) return;
+  if (i === richtig) {
+    sperre = true; btn.classList.add("yay");
+    say(`${lob()} ${t("f_this", { c: fname(LERNFARBEN[i]) })}`); speak(lob());
+    sternDazu(); sternRegen(); setTimeout(neueFrage, 2000);
+  } else {
+    btn.classList.remove("wiggle"); void btn.offsetWidth; btn.classList.add("wiggle");
+    say(nochmal());
+  }
+}
+document.getElementById("say-q").onclick = () => speak(t("f_q", { c: fname(LERNFARBEN[richtig]) }));
+
+/* ---------- Tabs ---------- */
+function modus(m){
+  document.getElementById("tab-lernen").setAttribute("aria-pressed", m === "lernen");
+  document.getElementById("tab-spiel").setAttribute("aria-pressed", m === "spiel");
+  document.getElementById("lernen").hidden = m !== "lernen";
+  document.getElementById("spiel").hidden = m !== "spiel";
+  document.getElementById("pots-box").hidden = m !== "lernen";
+  if (m === "spiel") { say(t("f_play")); neueFrage(); } else say(t("f_tap"));
+}
+document.getElementById("tab-lernen").onclick = () => modus("lernen");
+document.getElementById("tab-spiel").onclick = () => modus("spiel");
+zeige(0, false);
+</script>
+</body>
+</html>
