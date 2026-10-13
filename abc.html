@@ -110,7 +110,13 @@ function zeige(L, laut){
   store.set("ela-abc", L);
   if (laut) { sprich(L); say(t(bild ? "a_is" : "a_nopic", { L, w: en })); }
 }
-function sprich(L){ const en = ABC_WOERTER[L].en; speak(`${L}. ${L} is for ${en}.`, "en-US"); }
+function sprich(L){
+  const en = ABC_WOERTER[L].en, ersatz = `${L}. ${L} is for ${en}.`;
+  // Elas echte Stimme, wenn möglich mit "Can you say it with me?" und dem Wort zum Nachsprechen
+  if (STIMMEN.abc[L]) elaSagt(STIMMEN.wort[L] ? [STIMMEN.abc[L], STIMMEN.mitsprechen, STIMMEN.wort[L]] : [STIMMEN.abc[L]], ersatz);
+  else if (STIMMEN.buchstabe[L]) elaSagt([STIMMEN.buchstabe[L]], ersatz, `${L} is for ${en}.`);
+  else speak(ersatz, "en-US");
+}
 document.getElementById("k-say").onclick = () => sprich(aktuell);
 
 /* ---------- Spielen ---------- */
@@ -148,14 +154,19 @@ function neueFrage(){
   frageVorlesen();
 }
 function frageVorlesen(){
-  speak(art === 0 ? t("a_q1") : t("a_q2", { L: richtig }));
+  const text = art === 0 ? t("a_q1") : t("a_q2", { L: richtig });
+  if (art === 1 && LANG === "en" && STIMMEN.frage[richtig]) elaSagt([STIMMEN.frage[richtig]], text);   // "What starts with G?"
+  else speak(text);
 }
 function antwort(btn, L){
   if (sperre) return;
   if (L === richtig) {
     sperre = true; btn.classList.add("ok", "yay");
     const en = ABC_WOERTER[L].en;
-    say(`${lob()} ${t("a_is", { L, w: en })}`); speak(`${L} is for ${en}!`, "en-US");
+    say(`${lob()} ${t("a_is", { L, w: en })}`);
+    // "Yes!" / "You did it!" mit Elas Stimme, dann "B is for Bat!"
+    if (STIMMEN.abc[L]) elaSagt([zufall(STIMMEN.lob), STIMMEN.abc[L]], `${L} is for ${en}!`);
+    else elaSagt([zufall(STIMMEN.lob)], `${L} is for ${en}!`, `${L} is for ${en}!`);
     sternDazu(); sternRegen();
     setTimeout(neueFrage, 2200);
   } else {

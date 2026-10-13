@@ -113,6 +113,7 @@ function say(text){
 function speak(text, lang){
   lang = lang || SPRACHEN[LANG].stimme;
   try {
+    if (elaTon) elaTon.pause();
     if (!("speechSynthesis" in window)) return;
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
@@ -121,6 +122,25 @@ function speak(text, lang){
     if (v) u.voice = v;
     speechSynthesis.speak(u);
   } catch(e){}
+}
+
+/* Elas echte Stimme (MP3s im Ordner stimme/, siehe STIMMEN in daten.js).
+   Spielt die Dateien nacheinander ab. Klappt die erste nicht, liest stattdessen die Geräte-Stimme "ersatz" vor.
+   "danach" (optional) liest die Geräte-Stimme vor, wenn alle Dateien fertig sind. */
+let elaTon = null;
+function elaSagt(dateien, ersatz, danach, lang = "en-US"){
+  try { if ("speechSynthesis" in window) speechSynthesis.cancel(); } catch(e){}
+  if (elaTon) elaTon.pause();
+  let i = 0;
+  const weiter = () => {
+    if (i >= dateien.length) { if (danach) speak(danach, lang); return; }
+    const erste = i === 0, a = new Audio(dateien[i++]); elaTon = a;
+    const fehler = () => { if (erste && ersatz) speak(ersatz, lang); };
+    a.onended = () => setTimeout(weiter, 300);
+    a.onerror = fehler;
+    const p = a.play(); if (p && p.catch) p.catch(fehler);
+  };
+  weiter();
 }
 
 /* Sterne sammeln (gilt für alle Spiele) */

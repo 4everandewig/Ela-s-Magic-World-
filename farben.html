@@ -117,7 +117,8 @@ function antwort(btn, i){
   if (sperre) return;
   if (i === richtig) {
     sperre = true; btn.classList.add("yay");
-    say(`${lob()} ${t("f_this", { c: fname(LERNFARBEN[i]) })}`); speak(lob());
+    say(`${lob()} ${t("f_this", { c: fname(LERNFARBEN[i]) })}`);
+    if (LANG === "en") elaSagt([zufall(STIMMEN.lob)], lob()); else speak(lob());   // "Yes!" / "You did it!" mit Elas Stimme
     sternDazu(); sternRegen(); setTimeout(neueFrage, 2000);
   } else {
     btn.classList.remove("wiggle"); void btn.offsetWidth; btn.classList.add("wiggle");

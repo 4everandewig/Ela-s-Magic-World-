@@ -26,12 +26,28 @@ const ABC_WOERTER = {
   A:{en:"Apple",de:"Apfel",tr:"Elma"}, B:{en:"Bat",de:"Fledermaus",tr:"Yarasa"}, C:{en:"Cat",de:"Katze",tr:"Kedi"},
   D:{en:"Devil",de:"Teufelchen",tr:"Küçük şeytan"}, E:{en:"Eyeball",de:"Augapfel",tr:"Göz"}, F:{en:"Frankenstein",de:"Frankenstein",tr:"Frankenstein"},
   G:{en:"Ghost",de:"Gespenst",tr:"Hayalet"}, H:{en:"Hat",de:"Hexenhut",tr:"Cadı şapkası"}, I:{en:"Ice cream",de:"Eis",tr:"Dondurma"},
-  J:{en:"Jack-o'-lantern",de:"Kürbislaterne",tr:"Balkabağı feneri"}, K:{en:"Kitten",de:"Kätzchen",tr:"Yavru kedi"}, L:{en:"Lollipop",de:"Lutscher",tr:"Lolipop"},
+  J:{en:"Jack-o'-lantern",de:"Kürbislaterne",tr:"Balkabağı feneri"}, K:{en:"Kite",de:"Drachen",tr:"Uçurtma"}, L:{en:"Lamb",de:"Lamm",tr:"Kuzu"},
   M:{en:"Mummy",de:"Mumie",tr:"Mumya"}, N:{en:"Night",de:"Nacht",tr:"Gece"}, O:{en:"Owl",de:"Eule",tr:"Baykuş"},
   P:{en:"Pumpkin",de:"Kürbis",tr:"Balkabağı"}, Q:{en:"Queen",de:"Königin",tr:"Kraliçe"}, R:{en:"Raven",de:"Rabe",tr:"Kuzgun"},
   S:{en:"Spider",de:"Spinne",tr:"Örümcek"}, T:{en:"Treat",de:"Süßigkeit",tr:"Şeker"}, U:{en:"Unicorn",de:"Einhorn",tr:"Tek boynuzlu at"},
   V:{en:"Vampire",de:"Vampir",tr:"Vampir"}, W:{en:"Witch",de:"Hexe",tr:"Cadı"}, X:{en:"X-ray",de:"Röntgenbild",tr:"Röntgen"},
   Y:{en:"Yummy",de:"Lecker",tr:"Lezzetli"}, Z:{en:"Zombie",de:"Zombie",tr:"Zombi"}
+};
+/* Elas echte Stimme (MP3s in stimme/). Wo nichts eingetragen ist, liest die Geräte-Stimme vor.
+   abc       = "K is for Kite"           (ABC entdecken + richtige Antwort)
+   wort      = nur das Wort, "Kite"      (mit abc: "K is for Kite!" – "Can you say it with me?" – "Kite!")
+   buchstabe = "Letter G"                (ABC entdecken, wenn es kein abc gibt; danach Geräte-Stimme "G is for Ghost")
+   frage     = "What starts with G?"     (ABC-Spiel: Buchstabe zeigen → Bild finden)
+   lob       = Lob bei richtigen Antworten (zufällig)
+   Neue Aufnahme: MP3 nach stimme/ legen (Name wie die vorhandenen) und hier eintragen. */
+const STIMMEN = {
+  abc:       { K: "stimme/K-is-for-Kite.mp3", L: "stimme/L-is-for-Lamb.mp3" },
+  wort:      { K: "stimme/Kite.mp3",          L: "stimme/Lamb.mp3" },
+  buchstabe: { G: "stimme/Letter-G.mp3",      H: "stimme/Letter-H.mp3" },
+  frage:     { G: "stimme/What-starts-with-G.mp3", H: "stimme/What-starts-with-H.mp3", I: "stimme/What-starts-with-I.mp3",
+               K: "stimme/What-starts-with-K.mp3", L: "stimme/What-starts-with-L.mp3" },
+  mitsprechen: "stimme/Can-you-say-it-with-me.mp3",
+  lob: ["stimme/Yes.mp3", "stimme/You-did-it.mp3"]
 };
 function bildFuer(L){ for (const t of THEMEN) { const b = t.bilder.find(b => b.L === L); if (b) return b; } return null; }
 
