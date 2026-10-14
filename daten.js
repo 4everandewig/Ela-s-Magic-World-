@@ -64,13 +64,15 @@ const STIMMEN = {
   tschuess:  ["stimme/Bye-bye-magic-world.mp3", "stimme/See-you-next-time.mp3"],
   yay: "stimme/Yay.mp3",
   raten: "stimme/Can-you-guess.mp3",
+  welches: "stimme/Which-picture-starts-with-this-letter.mp3",   // ABC-Spiel, wenn es kein "What starts with X?" gibt
   tschuess2: ["stimme/Bye-bye-see-you-soon.mp3"],
   mitsprechen: "stimme/Can-you-say-it-with-me.mp3",
   denken: "stimme/Think-think-think.mp3",
   weiter: "stimme/Lets-try-the-next-one.mp3",
   lob: ["stimme/Yes.mp3", "stimme/Yes-2.mp3", "stimme/You-did-it.mp3", "stimme/You-got-it.mp3", "stimme/Great-job-1.mp3",
         "stimme/Great-job-2.mp3", "stimme/Great-job-3.mp3", "stimme/Great-job-4.mp3", "stimme/Great-job-kids.mp3",
-        "stimme/Wow-superstar.mp3", "stimme/You-are-so-smart.mp3"]
+        "stimme/Great-job.mp3", "stimme/Yes-you-got-it.mp3", "stimme/Wow-superstar.mp3", "stimme/You-are-so-smart.mp3",
+        "stimme/Wow-you-are-so-smart.mp3"]
 };
 /* Alle Karten zu einem Buchstaben: erst das ABC-Wort (mit Foto), dann die Ausmalbilder. Jede Karte: { wort, bild } */
 function karten(L){
