@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="schriften/schriften.css">
 <link rel="stylesheet" href="gemeinsam.css">
 <style>
-/* Zahlen 1–5: Tiere antippen und mit Ela zählen ("One, two, three"), dann die richtige Zahl wählen. */
+/* Zahlen: 2–5 gleiche Dinge (Äpfel, Eis, Drachen, Sterne) antippen und mit Ela zählen ("One, two, three"), dann die richtige Zahl wählen. */
 .top h1{color:var(--green)}
 .main{display:grid;grid-template-columns:1fr 260px;gap:16px;align-items:start}
 @media (max-width:860px){.main{grid-template-columns:1fr}.main .ela{order:-1}}
@@ -17,6 +17,7 @@
 .ding{position:relative;width:clamp(86px,22vw,120px);aspect-ratio:1;border:0;padding:0;border-radius:20px;overflow:hidden;cursor:pointer;
   background:#fff;box-shadow:0 0 0 3px var(--line),0 8px 16px -10px rgba(90,30,110,.5);transition:transform .15s}
 .ding img{width:100%;height:100%;object-fit:cover}
+.ding svg{width:78%;height:78%;margin:11%}
 .ding.gezaehlt{box-shadow:0 0 0 4px var(--green)}
 .ding .nr{position:absolute;top:6px;left:6px;min-width:34px;height:34px;border-radius:50%;background:var(--green);color:#fff;
   font-family:var(--display);font-weight:800;font-size:22px;display:grid;place-items:center;box-shadow:0 0 0 3px #fff}
@@ -41,7 +42,7 @@
 
   <div class="main">
     <section class="card">
-      <p class="q" data-t="n_q"></p>
+      <p class="q" id="frage" data-t="n_q"></p>
       <div class="dinge" id="dinge"></div>
       <div class="zahlen" id="zahlen"></div>
       <div class="leiste"><button class="btn speaker" id="zaehlen" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg><span data-t="n_count"></span></button></div>
@@ -58,8 +59,15 @@
 <script>
 const FARBEN_Z = ["#f05252","#f7882f","#e5a50a","#4cbb5c","#3d8ef0"];
 const ZAHLWORT = ["", "one", "two", "three", "four", "five"];
-const TIERE = Object.keys(ABC_WOERTER).filter(L => ABC_WOERTER[L].foto);
-let anzahl = 0, gezaehlt = 0, sperre = false, letztes = 0;
+const STERN = `<svg viewBox="0 0 24 24"><path fill="#fbbd23" stroke="#e5a50a" stroke-width="1.2" stroke-linejoin="round" d="M12 2l3 6.5 7 .8-5.2 4.8 1.5 7L12 17.6 5.7 21l1.5-7L2 9.3l7-.8z"/></svg>`;
+/* Dinge, die man gut zählen kann (Mehrzahl in allen Sprachen; Türkisch nach Zahlen ohne Mehrzahl) */
+const DINGE = [
+  { id: "apples",    bild: ABC_WOERTER.A.foto, name: { en: "apples",     de: "Äpfel",   tr: "elma" } },
+  { id: "icecreams", bild: ABC_WOERTER.I.foto, name: { en: "ice creams", de: "Eis",     tr: "dondurma" } },
+  { id: "kites",     bild: ABC_WOERTER.K.foto, name: { en: "kites",      de: "Drachen", tr: "uçurtma" } },
+  { id: "stars",     bild: null,               name: { en: "stars",      de: "Sterne",  tr: "yıldız" } },
+];
+let anzahl = 0, gezaehlt = 0, sperre = false, letztes = 0, ding = DINGE[0];
 const dinge = document.getElementById("dinge"), zahlen = document.getElementById("zahlen");
 
 /* Zahl mit Elas Stimme ("One", "Two" …), in anderen Sprachen mit der Geräte-Stimme */
@@ -75,20 +83,30 @@ for (let n = 1; n <= 5; n++) {
   zahlen.appendChild(b);
 }
 
+/* "How many apples?" – Elas Aufnahme, sobald sie in STIMMEN.wieviele steht, sonst Geräte-Stimme */
+function frageSagen(){
+  const text = t("n_how", { x: tx(ding.name) });
+  document.getElementById("frage").textContent = text;
+  if (LANG === "en") elaKette([{ datei: STIMMEN.wieviele[ding.id], text }]); else speak(text);
+}
+document.getElementById("frage").onclick = frageSagen;
+
 function neueRunde(){
   sperre = false; gezaehlt = 0;
-  do { anzahl = 1 + Math.floor(Math.random() * 5); } while (anzahl === letztes);
+  do { anzahl = 2 + Math.floor(Math.random() * 4); } while (anzahl === letztes);   // immer 2–5
   letztes = anzahl;
-  const tier = ABC_WOERTER[zufall(TIERE)];
+  ding = zufall(DINGE.filter(d => d !== ding));
   dinge.innerHTML = "";
   [...zahlen.children].forEach(z => z.classList.remove("ok"));
   for (let i = 0; i < anzahl; i++) {
     const d = document.createElement("button"); d.type = "button"; d.className = "ding";
-    d.innerHTML = `<img src="${tier.foto}" alt="${tier.en}">`;
+    d.innerHTML = ding.bild ? `<img src="${ding.bild}" alt="">` : STERN;
+    d.setAttribute("aria-label", tx(ding.name));
     d.onclick = () => antippen(d);
     dinge.appendChild(d);
   }
   say(t("n_tap"));
+  frageSagen();
 }
 
 /* Antippen = mitzählen: jedes Bild bekommt seine Nummer, Ela sagt die Zahl */
@@ -101,23 +119,30 @@ function antippen(d){
   if (gezaehlt === anzahl) say(t("n_which"));
 }
 
-/* "Count with me": Ela zählt alle Bilder der Reihe nach */
-document.getElementById("zaehlen").onclick = () => {
-  [...dinge.children].forEach((d, i) => setTimeout(() => antippen(d), i * 900));
-};
+/* "Count with me": Ela zählt alle Bilder der Reihe nach (von vorn) */
+function zusammenZaehlen(){
+  gezaehlt = 0;
+  [...dinge.children].forEach(d => { d.classList.remove("gezaehlt"); const nr = d.querySelector(".nr"); if (nr) nr.remove(); });
+  [...dinge.children].forEach((d, i) => setTimeout(() => antippen(d), 300 + i * 900));
+}
+document.getElementById("zaehlen").onclick = zusammenZaehlen;
 
 function antwort(b, n){
   if (sperre) return;
   if (n === anzahl) {
     sperre = true; b.classList.add("ok", "yay");
-    say(`${lob()} ${t("n_right", { n })}`);
-    if (LANG === "en") elaSagt([zufall(STIMMEN.lob), STIMMEN.zahl[n]], `${ZAHLWORT[n]}!`); else speak(String(n));
+    say(`${lob()} ${t("n_right", { n, x: tx(ding.name) })}`);
+    if (LANG === "en") elaKette([{ datei: zufall(STIMMEN.lob), text: lob() }, { datei: STIMMEN.zahl[n], text: ZAHLWORT[n] }, { text: ding.name.en }]);
+    else speak(t("n_right", { n, x: tx(ding.name) }));
     sternDazu(); sternRegen();
-    setTimeout(neueRunde, 3000);
+    setTimeout(neueRunde, 3600);
   } else {
+    // sanft: Ela zählt einfach mit dem Kind zusammen
     b.classList.remove("wiggle"); void b.offsetWidth; b.classList.add("wiggle");
     say(t("n_again"));
+    sperre = true;
     if (LANG === "en") elaSagt([STIMMEN.denken]);
+    setTimeout(() => { sperre = false; zusammenZaehlen(); }, 1600);
   }
 }
 

@@ -5,6 +5,7 @@ const store = {
   del(k){ try { localStorage.removeItem(k); } catch(e){} }
 };
 const zufall = arr => arr[Math.floor(Math.random() * arr.length)];
+let kettenNr = 0;   // laufende Sprech-Kette (elaKette), wird von speak/elaSagt beendet
 
 /* ===== Sprachen =====
    Neue Sprache: in SPRACHEN eintragen und in TEXTE einen Block mit allen Schlüsseln ergänzen. */
@@ -24,8 +25,8 @@ const TEXTE = {
     t_farben: "Colors", t_farben_s: "Learn and find colors", t_zahlen: "Numbers", t_zahlen_s: "Learn to count",
     t_memory: "Memory", t_memory_s: "Find the pairs",
     n_q: "How many can you count?", n_tap: "Tap each picture and count with me!", n_which: "Now tap the right number!", n_count: "Count with me",
-    n_right: "It's {n}! Great counting!", n_again: "Let's count again together!",
-    t_tueren: "Magic Doors", t_tueren_s: "Find the star", d_find: "Find the star! Which door is it behind?", d_bunny: "Oh! It's a bunny! Try another door.", d_star: "A star! You found it!", d_again: "Let's play again!",
+    n_right: "{n} {x}! Great counting!", n_again: "Almost! Let's count together!", n_how: "How many {x}?",
+    t_tueren: "Magic Doors", t_tueren_s: "Who is hiding?", d_find: "Who is hiding? Find the {w}!", d_wrong: "{L} is for {w}! Try another door.", d_right: "You found the {w}!", d_again: "Let's play again!",
     bye: "Bye-bye", bye_text: "Bye-bye, Magic World! See you next time!", mem_abc: "ABC", mem_pics: "Pictures", mem_new: "New game", mem_moves: "Moves: {n}",
     mem_hint_abc: "Find the letter and its picture! B goes with Bear.", mem_hint_pics: "Find two pictures that are the same!", mem_done: "You found all the pairs in {n} moves! 3 stars for you!",
     color: "Color", tool: "Tool", fill: "Fill", paint: "Paint", undo: "Undo", neu: "New", sure: "Sure?", save: "Save picture",
@@ -52,8 +53,8 @@ const TEXTE = {
     t_farben: "Farben", t_farben_s: "Farben lernen und finden", t_zahlen: "Zahlen", t_zahlen_s: "Zählen lernen",
     t_memory: "Memory", t_memory_s: "Finde die Paare",
     n_q: "Wie viele kannst du zählen?", n_tap: "Tipp jedes Bild an und zähl mit mir!", n_which: "Jetzt tipp auf die richtige Zahl!", n_count: "Zähl mit mir",
-    n_right: "Es sind {n}! Toll gezählt!", n_again: "Komm, wir zählen nochmal zusammen!",
-    t_tueren: "Zaubertüren", t_tueren_s: "Finde den Stern", d_find: "Finde den Stern! Hinter welcher Tür ist er?", d_bunny: "Oh! Ein Hase! Probier eine andere Tür.", d_star: "Ein Stern! Du hast ihn gefunden!", d_again: "Komm, wir spielen nochmal!",
+    n_right: "{n} {x}! Toll gezählt!", n_again: "Fast! Komm, wir zählen zusammen!", n_how: "Wie viele {x}?",
+    t_tueren: "Zaubertüren", t_tueren_s: "Wer versteckt sich?", d_find: "Wer versteckt sich? Finde: {w}!", d_wrong: "{L} wie {w}! Probier eine andere Tür.", d_right: "Gefunden: {w}!", d_again: "Komm, wir spielen nochmal!",
     bye: "Tschüss", bye_text: "Tschüss, Zauberwelt! Bis zum nächsten Mal!", mem_abc: "ABC", mem_pics: "Bilder", mem_new: "Neues Spiel", mem_moves: "Züge: {n}",
     mem_hint_abc: "Finde den Buchstaben und sein Bild! B gehört zu Bear.", mem_hint_pics: "Finde zwei gleiche Bilder!", mem_done: "Du hast alle Paare in {n} Zügen gefunden! 3 Sterne für dich!",
     color: "Farbe", tool: "Werkzeug", fill: "Füllen", paint: "Malen", undo: "Zurück", neu: "Neu", sure: "Sicher?", save: "Bild speichern",
@@ -80,8 +81,8 @@ const TEXTE = {
     t_farben: "Renkler", t_farben_s: "Renkleri öğren ve bul", t_zahlen: "Sayılar", t_zahlen_s: "Saymayı öğren",
     t_memory: "Hafıza", t_memory_s: "Eşleri bul",
     n_q: "Kaç tane sayabilirsin?", n_tap: "Her resme dokun ve benimle say!", n_which: "Şimdi doğru sayıya dokun!", n_count: "Benimle say",
-    n_right: "{n} tane! Harika saydın!", n_again: "Hadi birlikte tekrar sayalım!",
-    t_tueren: "Sihirli Kapılar", t_tueren_s: "Yıldızı bul", d_find: "Yıldızı bul! Hangi kapının arkasında?", d_bunny: "Aa! Bir tavşan! Başka bir kapı dene.", d_star: "Bir yıldız! Buldun!", d_again: "Hadi tekrar oynayalım!",
+    n_right: "{n} {x}! Harika saydın!", n_again: "Neredeyse! Hadi birlikte sayalım!", n_how: "Kaç {x} var?",
+    t_tueren: "Sihirli Kapılar", t_tueren_s: "Kim saklanıyor?", d_find: "Kim saklanıyor? Bul: {w}!", d_wrong: "{L}: {w}! Başka bir kapı dene.", d_right: "Buldun: {w}!", d_again: "Hadi tekrar oynayalım!",
     bye: "Hoşça kal", bye_text: "Hoşça kal, Sihirli Dünya! Bir dahaki sefere görüşürüz!", mem_abc: "ABC", mem_pics: "Resimler", mem_new: "Yeni oyun", mem_moves: "Hamle: {n}",
     mem_hint_abc: "Harfi ve resmini bul! B, Bear ile gider.", mem_hint_pics: "Aynı iki resmi bul!", mem_done: "Tüm eşleri {n} hamlede buldun! Sana 3 yıldız!",
     color: "Renk", tool: "Araç", fill: "Doldur", paint: "Boya", undo: "Geri al", neu: "Yeni", sure: "Emin misin?", save: "Resmi kaydet",
@@ -151,6 +152,7 @@ try { speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = () => speec
 
 /* Vorlesen mit der Stimme des Geräts. Ohne lang = aktuelle Sprache. */
 function speak(text, lang){
+  kettenNr++;
   lang = lang || SPRACHEN[LANG].stimme;
   try {
     if (elaTon) elaTon.pause();
@@ -168,7 +170,36 @@ function speak(text, lang){
    Spielt die Dateien nacheinander ab. Klappt die erste nicht, liest stattdessen die Geräte-Stimme "ersatz" vor.
    "danach" (optional) liest die Geräte-Stimme vor, wenn alle Dateien fertig sind. */
 let elaTon = null;
+/* Mehrere Sätze nacheinander: jeder Teil { datei, text } – mit Elas Aufnahme, fehlt sie, liest die Geräte-Stimme "text" vor.
+   So passt es schon jetzt und wird automatisch Elas Stimme, sobald die Aufnahme in STIMMEN eingetragen ist. */
+function elaKette(teile, lang = "en-US"){
+  const nr = ++kettenNr;
+  try { if ("speechSynthesis" in window) speechSynthesis.cancel(); } catch(e){}
+  if (elaTon) elaTon.pause();
+  let i = 0;
+  const weiter = () => {
+    if (nr !== kettenNr || i >= teile.length) return;
+    const { datei, text } = teile[i++];
+    const vorlesen = () => {
+      try {
+        if (!text || !("speechSynthesis" in window)) return setTimeout(weiter, 300);
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = lang; u.rate = 0.85; u.pitch = 1.15;
+        const v = frauenStimme(lang); if (v) u.voice = v;
+        u.onend = () => setTimeout(weiter, 250);
+        speechSynthesis.speak(u);
+      } catch(e){}
+    };
+    if (!datei) return vorlesen();
+    const a = new Audio(datei); elaTon = a;
+    a.onended = () => setTimeout(weiter, 300);
+    a.onerror = vorlesen;
+    const p = a.play(); if (p && p.catch) p.catch(vorlesen);
+  };
+  weiter();
+}
 function elaSagt(dateien, ersatz, danach, lang = "en-US"){
+  kettenNr++;
   try { if ("speechSynthesis" in window) speechSynthesis.cancel(); } catch(e){}
   if (elaTon) elaTon.pause();
   let i = 0;

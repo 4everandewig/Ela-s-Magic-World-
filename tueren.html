@@ -8,12 +8,14 @@
 <link rel="stylesheet" href="schriften/schriften.css">
 <link rel="stylesheet" href="gemeinsam.css">
 <style>
-/* Zaubertüren (aus "Ela & Papa", Episode 1): drei Türen in Rot, Gelb, Blau. Hinter einer ist der Stern,
-   hinter einer der Hase, hinter einer ein Tier aus dem ABC. "Find the star!" – "A star!" */
+/* Zaubertüren (aus "Ela & Papa", Episode 1): drei Türen in Rot, Gelb, Blau, hinter jeder ein Tier aus dem ABC (3D-Bilder).
+   Ela: "Who is hiding? Find the Bear!" – oben sieht man klein, wer gesucht wird (auch für Kinder, die noch nicht lesen). */
 .top h1{color:var(--purple)}
 .main{display:grid;grid-template-columns:1fr 260px;gap:16px;align-items:start}
 @media (max-width:860px){.main{grid-template-columns:1fr}.main .ela{order:-1}}
-.q{font-family:var(--display);font-weight:800;font-size:clamp(24px,5vw,36px);color:var(--ink);margin:0 0 14px;text-align:center}
+.q{font-family:var(--display);font-weight:800;font-size:clamp(24px,5vw,36px);color:var(--ink);margin:0 0 14px;text-align:center;
+  display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+.q img{width:clamp(56px,12vw,76px);aspect-ratio:1;object-fit:cover;border-radius:16px;box-shadow:0 0 0 4px var(--yellow)}
 .tueren{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(10px,3vw,24px);align-items:end}
 .tuer{position:relative;border:0;padding:0;background:none;cursor:pointer;aspect-ratio:3/5;perspective:900px}
 /* Dahinter: warmes Licht + Überraschung */
@@ -31,6 +33,7 @@
 .tuer.offen .blatt{transform:rotateY(-105deg)}
 .tuer:focus-visible{outline:3px solid var(--orange);outline-offset:4px;border-radius:20px}
 .tuer.wackel{animation:wiggle .4s ease}
+.tuer.richtig .dahinter{box-shadow:inset 0 0 0 5px var(--green)}
 .leiste{display:flex;justify-content:center;margin-top:16px}
 .nochmal{background:var(--purple);color:#fff}
 @media (prefers-reduced-motion:reduce){.tuer .blatt{transition:none}}
@@ -48,13 +51,13 @@
 
   <div class="main">
     <section class="card">
-      <p class="q" data-t="d_find"></p>
+      <p class="q" id="frage"><img id="ziel" alt=""><span id="frage-text"></span></p>
       <div class="tueren" id="tueren"></div>
       <div class="leiste"><button class="btn nochmal" id="nochmal" type="button" hidden data-t="d_again"></button></div>
     </section>
     <aside class="ela">
       <img class="round" src="bilder/ela-rund.png" alt="Ela">
-      <div class="bubble" id="bubble" role="status" data-t="d_find"></div>
+      <div class="bubble" id="bubble" role="status"></div>
     </aside>
   </div>
 </div>
@@ -66,48 +69,60 @@ const TUERFARBEN = ["#f05252", "#fbbd23", "#3d8ef0"];   // Red, yellow and blue!
 const mischen = a => a.map(v => [Math.random(), v]).sort((x, y) => x[0] - y[0]).map(v => v[1]);
 const TIERE = Object.keys(ABC_WOERTER).filter(L => ABC_WOERTER[L].foto);
 const S = STIMMEN.tueren, EN = () => LANG === "en";
-let fertig = false;
+let ziel = null, letztes = null, fertig = false;
 const tueren = document.getElementById("tueren");
+const wortVon = L => EN() ? ABC_WOERTER[L].en : tx(ABC_WOERTER[L]);
 
 function neueRunde(){
   fertig = false;
   document.getElementById("nochmal").hidden = true;
-  const L = zufall(TIERE), tier = ABC_WOERTER[L];
-  const inhalte = mischen([{ art: "stern" }, { art: "hase" }, { art: "tier", L, tier }]);
+  const drei = mischen(TIERE.filter(L => L !== letztes)).slice(0, 3);
+  ziel = zufall(drei); letztes = ziel;
+  const w = ABC_WOERTER[ziel];
+  document.getElementById("ziel").src = w.foto;
+  document.getElementById("frage-text").textContent = t("d_find", { w: wortVon(ziel) });
   tueren.innerHTML = "";
-  inhalte.forEach((inh, i) => {
+  drei.forEach((L, i) => {
     const b = document.createElement("button"); b.type = "button"; b.className = "tuer";
     b.style.setProperty("--c", TUERFARBEN[i]);
     b.setAttribute("aria-label", "Door " + (i + 1));
-    const innen = inh.art === "stern" ? "<span>⭐</span>" : inh.art === "hase" ? "<span>🐰</span>" : `<img src="${inh.tier.foto}" alt="${inh.tier.en}">`;
-    b.innerHTML = `<span class="dahinter">${innen}</span><span class="blatt"><i></i></span><span class="rahmen"></span>`;
-    b.onclick = () => oeffnen(b, inh);
+    b.innerHTML = `<span class="dahinter"><img src="${ABC_WOERTER[L].foto}" alt="${ABC_WOERTER[L].en}"></span><span class="blatt"><i></i></span><span class="rahmen"></span>`;
+    b.onclick = () => oeffnen(b, L);
     tueren.appendChild(b);
   });
-  say(t("d_find"));
-  if (EN()) elaSagt([S.finde], "Find the star!");   // "Find the star!"
-  else speak(t("d_find"));
+  frageSagen();
 }
 
-function oeffnen(b, inh){
+/* "Who is hiding? Find the Bear!" – mit Elas Stimme, sobald die Aufnahme da ist ("Find the Bear!"),
+   sonst "Who is hiding?" + Elas Wort ("Bear") bzw. die Geräte-Stimme */
+function frageSagen(){
+  say(t("d_find", { w: wortVon(ziel) }));
+  if (!EN()) return speak(t("d_find", { w: wortVon(ziel) }));
+  const en = ABC_WOERTER[ziel].en;
+  if (S.tier[ziel]) elaKette([{ datei: S.wer, text: "Who is hiding?" }, { datei: S.tier[ziel], text: `Find the ${en}!` }]);
+  else if (STIMMEN.wort[ziel]) elaKette([{ datei: S.wer, text: "Who is hiding?" }, { datei: STIMMEN.wort[ziel], text: en }]);
+  else elaKette([{ datei: S.wer, text: "Who is hiding?" }, { text: `Find the ${en}!` }]);
+}
+document.getElementById("frage").onclick = frageSagen;
+
+function oeffnen(b, L){
   if (fertig || b.classList.contains("offen")) return;
   b.classList.add("offen");
-  if (inh.art === "stern") {
-    fertig = true;
-    say(t("d_star"));
-    if (EN()) elaSagt([S.stern, STIMMEN.yay], "A star!"); else speak(t("d_star"));
+  const en = ABC_WOERTER[L].en;
+  if (L === ziel) {
+    fertig = true; b.classList.add("richtig");
+    say(`${lob()} ${t("d_right", { w: wortVon(L) })}`);
+    if (EN()) elaKette([{ datei: zufall(STIMMEN.lob), text: lob() }, { datei: STIMMEN.abc[L], text: `${L} is for ${en}!` }]);
+    else speak(`${lob()} ${t("d_right", { w: wortVon(L) })}`);
     sternDazu(); sternRegen();
-    // alle Türen aufmachen, damit man sieht, was dahinter war
-    setTimeout(() => [...tueren.children].forEach(x => x.classList.add("offen")), 900);
-    setTimeout(() => { document.getElementById("nochmal").hidden = false; }, 1400);
-  } else if (inh.art === "hase") {
-    say(t("d_bunny"));
-    if (EN()) elaSagt([S.hase], "Oh! It's a bunny!"); else speak(t("d_bunny"));
+    // alle Türen aufmachen, damit man sieht, wer sich noch versteckt hat
+    setTimeout(() => [...tueren.children].forEach(x => x.classList.add("offen")), 1400);
+    setTimeout(() => { document.getElementById("nochmal").hidden = false; }, 1900);
   } else {
-    // ein Tier aus dem ABC: Ela sagt "G is for Giraffe", sonst das Wort
-    const L = inh.L, en = inh.tier.en;
-    say(t("a_is", { L, w: en }));
-    if (STIMMEN.abc[L]) elaSagt([STIMMEN.abc[L]], `${L} is for ${en}!`); else speak(`${L} is for ${en}!`, "en-US");
+    // ein anderes Tier: "G is for Giraffe! Try another door." – sanft, nie bestrafen
+    say(t("d_wrong", { L, w: wortVon(L) }));
+    if (EN()) elaKette([{ datei: STIMMEN.abc[L], text: `${L} is for ${en}!` }, { datei: S.andere, text: "Try another door!" }]);
+    else speak(t("d_wrong", { L, w: wortVon(L) }));
   }
 }
 
