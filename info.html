@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Impressum & Datenschutz – Ela's Magic World</title>
+<title>For parents – Ela's Magic World</title>
 <link rel="icon" href="bilder/ela-rund.png">
 <link rel="stylesheet" href="schriften/schriften.css">
 <link rel="stylesheet" href="gemeinsam.css">
 <style>
-/* Rechtliches für Eltern: Impressum + Datenschutz, Deutsch und Englisch. Bewusst schlicht und gut lesbar. */
+/* Seite für Eltern: wer macht die Seite, Kontakt, Datenschutz (EN/DE/TR), YouTube hinter Elternsperre. Schlicht und gut lesbar. */
 .text{background:var(--paper);border-radius:24px;padding:18px 20px;box-shadow:0 12px 30px -22px rgba(90,30,110,.55);line-height:1.55;max-width:820px}
 .text h2{font-family:var(--display);font-weight:800;color:var(--pink);font-size:26px;margin:4px 0 8px}
 .text h3{font-family:var(--display);font-weight:800;font-size:19px;margin:18px 0 4px}
@@ -17,6 +17,10 @@
 .text a{color:var(--purple)}
 .text .en{color:var(--muted)}
 .gut{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.sperre{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:8px}
+.sperre input{font:inherit;font-weight:800;font-size:18px;width:90px;padding:8px 10px;border:3px solid var(--line);border-radius:14px}
+.sperre .btn{background:var(--pink);color:#fff}
+.yt{display:inline-flex;align-items:center;gap:8px;background:#ff0033;color:#fff!important;text-decoration:none;font-weight:800;border-radius:999px;padding:10px 18px}
 .gut span{background:#eaf8ec;color:#257a33;border-radius:999px;padding:5px 12px;font-weight:800;font-size:14px}
 </style>
 </head>
@@ -25,21 +29,36 @@
   <header class="top">
     <a class="home" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg><span>Home</span></a>
     <img class="logo" src="bilder/logo.png" alt="Ela's Magic World">
-    <h1 style="font-size:clamp(20px,3.4vw,28px)">Impressum &amp; Datenschutz</h1>
+    <h1 style="font-size:clamp(20px,3.4vw,28px)">For parents · Für Eltern</h1>
   </header>
 
-  <section class="text" id="impressum">
-    <h2>Impressum</h2>
-    <p class="en">Imprint (legal notice) – information according to § 5 DDG (Germany)</p>
-    <p>
-      [[NAME]]<br>
-      [[STRASSE UND HAUSNUMMER]]<br>
-      [[PLZ ORT]]<br>
-      [[LAND]]
-    </p>
+  <section class="text" id="eltern">
+    <h2>For parents</h2>
+    <div class="gut"><span>✓ No personal data</span><span>✓ No cookies</span><span>✓ No ads</span><span>✓ No sign-up</span></div>
+    <p><b>This site collects no personal data, uses no cookies and shows no ads.</b> Drawings and stars are saved only in the browser
+      on your own device.</p>
+    <p>Ela's Magic World is made by [[NAME]] – the creator of the YouTube channel <i>Ela's Magic World – Draw · Learn · Play</i>.
+      Kids color the pictures from the videos, learn the ABC and colors, and Ela cheers them on.</p>
+    <p>Contact: [[E-MAIL]]</p>
+    <p class="en">Diese Seite sammelt keine persönlichen Daten, setzt keine Cookies und zeigt keine Werbung. Gemalte Bilder und Sterne
+      bleiben nur im Browser auf eurem Gerät.</p>
+
+    <h3>YouTube channel</h3>
+    <p>The link to YouTube is behind a small parent check, so kids don't leave the site by accident.</p>
+    <div id="sperre" class="sperre">
+      <label for="antwort"><b id="aufgabe"></b></label>
+      <input id="antwort" inputmode="numeric" autocomplete="off" aria-label="Answer">
+      <button class="btn" type="button" id="pruefen">OK</button>
+      <span id="falsch" hidden>Not quite – please try again.</span>
+    </div>
+    <p id="yt-link" hidden><a class="yt" href="https://www.youtube.com/@ElasMagicPhonics" rel="noopener" target="_blank">▶ youtube.com/@ElasMagicPhonics</a></p>
+  </section>
+
+  <section class="text" id="kontakt">
+    <h2>Contact · Kontakt · İletişim</h2>
+    <p>Ela's Magic World – [[NAME]]<br>Türkiye</p>
     <p>E-Mail: [[E-MAIL]]</p>
-    <p>Verantwortlich für den Inhalt / <span class="en">responsible for content</span>: [[NAME]], Anschrift wie oben.</p>
-    <p>YouTube: <a href="https://www.youtube.com/@ElasMagicPhonics" rel="noopener">youtube.com/@ElasMagicPhonics</a></p>
+    <p class="en">Non-commercial project: no ads, no sales, no sign-up. · Nicht-kommerzielles Projekt. · Ticari olmayan proje.</p>
   </section>
 
   <section class="text" id="datenschutz">
@@ -71,8 +90,13 @@
       (z. B. Google Fonts oder YouTube) nachgeladen.</p>
 
     <h3>Kontakt und eure Rechte</h3>
-    <p>Verantwortlich ist [[NAME]] (Kontakt siehe <a href="#impressum">Impressum</a>). Ihr habt das Recht auf Auskunft, Berichtigung,
-      Löschung und Beschwerde bei einer Datenschutz-Aufsichtsbehörde.</p>
+    <p>Verantwortlich ist [[NAME]] (siehe <a href="#kontakt">Kontakt</a>). Weil die Seite keine persönlichen Daten erhebt, gibt es bei uns
+      nichts zu speichern oder herauszugeben. Bei Fragen schreibt uns gern eine E-Mail.</p>
+
+    <h3 class="en">Türkçe</h3>
+    <p class="en">Bu site kişisel veri toplamaz, çerez kullanmaz ve reklam göstermez; üyelik yoktur. Çizimler ve yıldızlar yalnızca kendi
+      cihazınızdaki tarayıcıda saklanır ve bize gönderilmez. Site GitHub Pages'te barındırılır; GitHub, siteyi sunmak için IP adresi gibi
+      teknik olarak gerekli verileri işler. Sorularınız için bize e-posta gönderebilirsiniz.</p>
 
     <h3 class="en">In English</h3>
     <p class="en">No ads, no tracking, no cookies, no analytics, no sign-up. Drawings, stars, language and the last picture are saved
@@ -82,5 +106,17 @@
     <p class="en">Stand / last updated: Oktober 2026</p>
   </section>
 </div>
+<script>
+/* Elternsperre vor dem YouTube-Link: eine Rechenaufgabe, die kleine Kinder noch nicht lösen (zweistellig mal einstellig) */
+const a = 11 + Math.floor(Math.random() * 8), b = 3 + Math.floor(Math.random() * 6);
+document.getElementById("aufgabe").textContent = `Parents: what is ${a} × ${b}?`;
+function pruefen(){
+  const ok = parseInt(document.getElementById("antwort").value, 10) === a * b;
+  document.getElementById("falsch").hidden = ok;
+  if (ok) { document.getElementById("sperre").hidden = true; document.getElementById("yt-link").hidden = false; }
+}
+document.getElementById("pruefen").onclick = pruefen;
+document.getElementById("antwort").addEventListener("keydown", e => { if (e.key === "Enter") pruefen(); });
+</script>
 </body>
 </html>
