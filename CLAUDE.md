@@ -56,7 +56,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
 - Nach „Save picture“: `ELA_VIDEOS.gespeichert[<thema-id>]` (Halloween: „It's alive! It's blinking!“).
 - Malbuch: nach der 4. Fläche erscheint Ela klein oben rechts an der Malfläche (`ELA_VIDEOS.zuschauen`, Halloween: „Look how spooky!“,
   sie blickt im Video nach unten rechts aufs Bild), einmal pro Bild, Antippen schließt.
-- Oktober-Intro = zwei Videos nacheinander: `intro-halloween-1.mp4` (Ela am Maltisch, Zauber) → `intro-halloween.mp4` (Logo).
+- Oktober-Intro = nur das Logo im Halloween-Zimmer (`intro-halloween.mp4`). `introListe` kann mehrere Videos nacheinander spielen.
 
 ## Neues Malbuch-Bild
 1. PNG in `bilder/<thema-id>/` legen, Name `BUCHSTABE-Wort.png` (z. B. `bilder/halloween/Z-Zombie.png`).
