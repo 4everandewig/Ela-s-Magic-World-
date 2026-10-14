@@ -7,6 +7,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
 - `index.html` – Startseite: zuerst Intro-Video (`bilder/intro.mp4` + Standbild `intro.jpg`, stumm; „Let's go!“ = mit Ton;
   einmal pro Besuch über `sessionStorage` `ela-intro`). Dann Elas Zimmer (`bilder/zimmer.jpg`) mit Logo, Ela (begrüßt) und
   Elas Kätzchen (`bilder/katze.jpg`, sagt „Meow!“), darunter große Kacheln zu den Bereichen (Zahlen vorerst ausgeblendet).
+  Unten Fußzeile mit Versionsnummer (`v6`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
 - `malbuch.html` – Malbuch mit **Themen** (Halloween aktiv; Christmas, Animals, Sweets, Ocean als „Soon!“).
   Bild wählen, Farbe wählen, in eine Fläche tippen → füllt sich. Zusätzlich Pinsel, Undo, Neu, Speichern.
   „Print“ (Knopf mit dem Halloween-Drucker `bilder/drucker.png` aus den Videos) druckt das leere Bild als A4-Blatt
@@ -14,6 +15,9 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   Das Blatt (`#druckblatt`) entsteht automatisch für jedes Bild – für neue Bilder kein eigenes PDF nötig.
 - `abc.html` – ABC: „Explore“ (Buchstabe antippen → Ela liest „B is for Bat“ vor) und „Play“ (Bild → Buchstabe raten oder Buchstabe → Bild finden).
 - `farben.html` – Farben: „Explore“ (Farbe antippen → wird vorgelesen) und „Play“ („Tap on blue!“).
+- `memory.html` – Memory mit 12 Karten (6 Paare) aus den 3D-ABC-Bildern (`ABC_WOERTER[L].foto`). Modus „ABC“: Buchstabe ↔ Bild
+  („Bb“ ↔ Bear), Modus „Pictures“: zwei gleiche Bilder. Umdrehen liest Wort/Buchstabe englisch vor, Paar = Elas Lob + „B is for Bear“,
+  alle Paare = 3 Sterne. Neue Tierbilder mit `foto` erscheinen automatisch im Memory.
 - `info.html` – „For parents“: wer macht die Seite + Kontakt-E-Mail, Datenschutz (EN/DE/TR), YouTube-Link hinter Elternsperre
   (Rechenaufgabe). Verlinkt in der Fußzeile der Startseite. Betreiberin lebt in der Türkei, Projekt nicht kommerziell.
   Datenschutz-Versprechen: keine Werbung, kein Tracking, keine Cookies, keine Anmeldung, nichts von Dritten nachladen.

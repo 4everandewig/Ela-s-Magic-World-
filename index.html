@@ -51,6 +51,10 @@
 .mini-abc span:nth-child(2){color:var(--yellow)} .mini-abc span:nth-child(3){color:var(--blue)}
 .dots{display:grid;grid-template-columns:repeat(3,28px);gap:8px}
 .dots i{width:28px;height:28px;border-radius:50%}
+.mem-ico{display:flex;gap:8px;align-items:center}
+.mem-ico img,.mem-ico b{width:62px;height:62px;border-radius:12px;box-shadow:0 0 0 3px var(--orange)}
+.mem-ico b{display:grid;place-items:center;font-family:var(--display);font-size:40px;color:var(--orange);background:#fff}
+.fuss .version{font-size:11px;opacity:.6}
 </style>
 </head>
 <body>
@@ -95,6 +99,10 @@
       <div class="pic"><div class="dots"><i style="background:#f05252"></i><i style="background:#f7882f"></i><i style="background:#fbbd23"></i><i style="background:#4cbb5c"></i><i style="background:#3d8ef0"></i><i style="background:#8b5cf6"></i></div></div>
       <b data-t="t_farben"></b><small data-t="t_farben_s"></small>
     </a>
+    <a class="tile" href="memory.html" style="--c:var(--orange)">
+      <div class="pic"><div class="mem-ico"><img src="bilder/abc/B-Bear.jpg" alt=""><b>B</b></div></div>
+      <b data-t="t_memory"></b><small data-t="t_memory_s"></small>
+    </a>
     <!-- Zahlen (123): kommt später wieder rein, sobald der Bereich fertig ist. Vorlage:
     <a class="tile" href="zahlen.html" style="--c:var(--green)">
       <div class="pic"><div class="mini-abc" style="color:var(--green)"><span>1</span><span>2</span><span>3</span></div></div>
@@ -105,6 +113,7 @@
   <footer class="fuss">
     <p data-t="f_safe"></p>
     <p><a href="info.html" data-t="f_parents"></a></p>
+    <p class="version">v6</p>
   </footer>
 </div>
 <script src="gemeinsam.js"></script>

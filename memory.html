@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Memory – Ela's Magic World</title>
+<link rel="icon" href="bilder/ela-rund.png">
+<link rel="stylesheet" href="schriften/schriften.css">
+<link rel="stylesheet" href="gemeinsam.css">
+<style>
+/* ABC-Memory: Karten umdrehen, Buchstabe + passendes Bild finden ("B" ↔ Bear). Modus "Pictures": zwei gleiche Bilder. */
+.top h1{color:var(--orange)}
+.main{display:grid;grid-template-columns:1fr 260px;gap:16px;align-items:start}
+@media (max-width:860px){.main{grid-template-columns:1fr}.main .ela{order:-1}}
+.feld{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media (max-width:560px){.feld{grid-template-columns:repeat(3,1fr);gap:8px}}
+.karte{position:relative;aspect-ratio:1;border:0;padding:0;background:none;cursor:pointer;perspective:700px}
+.karte .innen{position:absolute;inset:0;transition:transform .45s;transform-style:preserve-3d}
+.karte.offen .innen,.karte.weg .innen{transform:rotateY(180deg)}
+.karte .seite{position:absolute;inset:0;border-radius:18px;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:grid;place-items:center;overflow:hidden}
+.karte .rueck{background:var(--rainbow);box-shadow:inset 0 0 0 5px #fff,0 8px 16px -10px rgba(90,30,110,.6)}
+.karte .rueck img{width:44%;height:auto;filter:drop-shadow(0 4px 6px rgba(0,0,0,.2))}
+.karte .vorn{transform:rotateY(180deg);background:#fff;box-shadow:inset 0 0 0 4px var(--c,var(--line))}
+.karte .vorn img{width:100%;height:100%;object-fit:cover}
+.karte .vorn b{font-family:var(--display);font-weight:800;font-size:clamp(40px,10vw,72px);line-height:1;color:var(--c)}
+.karte.weg .vorn{box-shadow:inset 0 0 0 5px var(--green)}
+.karte.weg{animation:yay .5s ease}
+.karte:focus-visible{outline:3px solid var(--orange);outline-offset:3px;border-radius:18px}
+.leiste{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:12px}
+.zuege{font-weight:800;color:var(--muted)}
+.nochmal{background:var(--orange);color:#fff}
+@media (prefers-reduced-motion:reduce){.karte .innen{transition:none}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <a class="home" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg><span data-t="start"></span></a>
+    <img class="logo" src="bilder/logo.png" alt="Ela's Magic World">
+    <h1 data-t="t_memory"></h1>
+    <div class="lang" id="lang"></div>
+    <div class="stars" data-t-label="stars"><svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .8-5.2 4.8 1.5 7L12 17.6 5.7 21l1.5-7L2 9.3l7-.8z"/></svg><span id="stars-n">0</span></div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab" id="tab-abc" type="button" style="--c:var(--purple)" aria-pressed="true" data-t="mem_abc"></button>
+    <button class="tab" id="tab-bild" type="button" style="--c:var(--orange)" aria-pressed="false" data-t="mem_pics"></button>
+  </div>
+
+  <div class="main">
+    <section class="card">
+      <div class="leiste">
+        <span class="zuege" id="zuege"></span>
+        <button class="btn nochmal" id="neu" type="button" data-t="mem_new"></button>
+      </div>
+      <div class="feld" id="feld"></div>
+    </section>
+    <aside class="ela">
+      <img class="round tippbar" id="ela-tipp" src="bilder/ela-rund.png" alt="Ela">
+      <div class="bubble" id="bubble" role="status"></div>
+    </aside>
+  </div>
+</div>
+
+<script src="gemeinsam.js"></script>
+<script src="daten.js"></script>
+<script>
+elaTippen(document.getElementById("ela-tipp"), ELA_VIDEOS.seite.abc);
+
+const PAARE = 6;   // 12 Karten – gut für Kinder von 6–10
+const BUNT = ["#f05252","#f7882f","#e5a50a","#4cbb5c","#3d8ef0","#8b5cf6","#e8459b"];
+const farbe = L => BUNT[(L.charCodeAt(0) - 65) % BUNT.length];
+const mischen = a => a.map(v => [Math.random(), v]).sort((x, y) => x[0] - y[0]).map(v => v[1]);
+// Alle Buchstaben mit 3D-Bild aus den Videos (bilder/abc/…)
+const MIT_FOTO = Object.keys(ABC_WOERTER).filter(L => ABC_WOERTER[L].foto);
+
+let modus = "abc", offen = [], sperre = false, gefunden = 0, zuege = 0;
+const feld = document.getElementById("feld");
+
+function zeigeZuege(){ document.getElementById("zuege").textContent = t("mem_moves", { n: zuege }); }
+
+function neuesSpiel(){
+  offen = []; sperre = false; gefunden = 0; zuege = 0; zeigeZuege();
+  const auswahl = mischen(MIT_FOTO).slice(0, PAARE);
+  const karten = [];
+  auswahl.forEach(L => {
+    karten.push({ L, art: "bild" });
+    karten.push({ L, art: modus === "abc" ? "buchstabe" : "bild" });
+  });
+  feld.innerHTML = "";
+  mischen(karten).forEach(k => {
+    const w = ABC_WOERTER[k.L];
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "karte"; b.dataset.L = k.L;
+    b.style.setProperty("--c", farbe(k.L));
+    b.setAttribute("aria-label", "?");
+    b.innerHTML = `<span class="innen"><span class="seite rueck"><img src="bilder/pinsel.png" alt=""></span>` +
+      `<span class="seite vorn">${k.art === "bild" ? `<img src="${w.foto}" alt="">` : `<b>${k.L}${k.L.toLowerCase()}</b>`}</span></span>`;
+    b.onclick = () => umdrehen(b, k);
+    feld.appendChild(b);
+  });
+  say(t(modus === "abc" ? "mem_hint_abc" : "mem_hint_pics"));
+}
+
+function umdrehen(b, k){
+  if (sperre || b.classList.contains("offen") || b.classList.contains("weg")) return;
+  b.classList.add("offen");
+  b.setAttribute("aria-label", k.art === "bild" ? ABC_WOERTER[k.L].en : k.L);
+  offen.push(b);
+  // Beim Umdrehen das englische Wort bzw. den Buchstaben vorlesen
+  speak(k.art === "bild" ? ABC_WOERTER[k.L].en : k.L, "en-US");
+  if (offen.length < 2) return;
+  zuege++; zeigeZuege();
+  const [a, c] = offen; offen = [];
+  if (a.dataset.L === c.dataset.L) {
+    setTimeout(() => {
+      a.classList.add("weg"); c.classList.add("weg");
+      const L = a.dataset.L, en = ABC_WOERTER[L].en;
+      say(`${lob()} ${t("a_is", { L, w: en })}`);
+      if (STIMMEN.abc[L]) elaSagt([zufall(STIMMEN.lob), STIMMEN.abc[L]], `${L} is for ${en}!`);
+      else elaSagt([zufall(STIMMEN.lob)], `${L} is for ${en}!`, `${L} is for ${en}!`);
+      if (++gefunden === PAARE) fertig();
+    }, 500);
+  } else {
+    sperre = true;
+    setTimeout(() => {
+      a.classList.remove("offen"); c.classList.remove("offen");
+      a.setAttribute("aria-label", "?"); c.setAttribute("aria-label", "?");
+      sperre = false; say(nochmal());
+    }, 1200);
+  }
+}
+
+function fertig(){
+  sternDazu(3); sternRegen();
+  setTimeout(() => say(t("mem_done", { n: zuege })), 1800);
+}
+
+function setzeModus(m){
+  modus = m;
+  document.getElementById("tab-abc").setAttribute("aria-pressed", m === "abc");
+  document.getElementById("tab-bild").setAttribute("aria-pressed", m === "bild");
+  neuesSpiel();
+}
+document.getElementById("tab-abc").onclick = () => setzeModus("abc");
+document.getElementById("tab-bild").onclick = () => setzeModus("bild");
+document.getElementById("neu").onclick = neuesSpiel;
+neuesSpiel();
+</script>
+</body>
+</html>
