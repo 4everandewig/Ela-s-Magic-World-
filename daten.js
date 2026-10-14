@@ -14,10 +14,10 @@ const THEMEN = [
     { L: "V", wort: { en: "Vampire",      de: "Vampir",       tr: "Vampir" },         datei: "bilder/halloween/V-Vampire.png" },
     { L: "W", wort: { en: "Witch",        de: "Hexe",         tr: "Cadı" },           datei: "bilder/halloween/W-Witch.png" },
   ]},
-  { id: "weihnachten", name: { en: "Christmas", de: "Weihnachten", tr: "Yılbaşı" },   farbe: "#f05252", bilder: [] },
-  { id: "tiere",       name: { en: "Animals",   de: "Tiere",       tr: "Hayvanlar" }, farbe: "#4cbb5c", bilder: [] },
-  { id: "suesses",     name: { en: "Sweets",    de: "Süßes",       tr: "Tatlılar" },  farbe: "#e8459b", bilder: [] },
-  { id: "meer",        name: { en: "Ocean",     de: "Meer",        tr: "Deniz" },     farbe: "#3d8ef0", bilder: [] },
+  { id: "weihnachten", name: { en: "Christmas", de: "Weihnachten", tr: "Yılbaşı" },   farbe: "#f05252", icon: "🎄", bilder: [] },
+  { id: "tiere",       name: { en: "Animals",   de: "Tiere",       tr: "Hayvanlar" }, farbe: "#4cbb5c", icon: "🐾", bilder: [] },
+  { id: "suesses",     name: { en: "Sweets",    de: "Süßes",       tr: "Tatlılar" },  farbe: "#e8459b", icon: "🍭", bilder: [] },
+  { id: "meer",        name: { en: "Ocean",     de: "Meer",        tr: "Deniz" },     farbe: "#3d8ef0", icon: "🐠", bilder: [] },
 ];
 
 /* Englisches ABC wie in Elas ABC-Videos: ein Hauptwort pro Buchstabe (en) mit Übersetzung (de, tr),
@@ -39,18 +39,40 @@ const ABC_WOERTER = {
 /* Elas echte Stimme (MP3s in stimme/). Wo nichts eingetragen ist, liest die Geräte-Stimme vor.
    abc       = "K is for Kite"           (ABC entdecken + richtige Antwort)
    wort      = nur das Wort, "Kite"      (mit abc: "K is for Kite!" – "Can you say it with me?" – "Kite!")
-   buchstabe = "Letter G"                (ABC entdecken, wenn es kein abc gibt; danach Geräte-Stimme "G is for Ghost")
+   buchstabe = nur der Buchstabe, "G"     (Buchstaben-Karten im Memory; im ABC, wenn es kein abc gibt)
+   finde     = "Find the letter G"       (ABC-Spiel: Buchstaben finden)
+   denken / weiter = "Think, think, think" (falsche Antwort) / "Let's try the next one!" (vor der nächsten Frage)
    frage     = "What starts with G?"     (ABC-Spiel: Buchstabe zeigen → Bild finden)
    lob       = Lob bei richtigen Antworten (zufällig)
    Neue Aufnahme: MP3 nach stimme/ legen (Name wie die vorhandenen) und hier eintragen. */
 const STIMMEN = {
-  abc:       { K: "stimme/K-is-for-Kite.mp3", L: "stimme/L-is-for-Lamb.mp3" },
-  wort:      { K: "stimme/Kite.mp3",          L: "stimme/Lamb.mp3" },
-  buchstabe: { G: "stimme/Letter-G.mp3",      H: "stimme/Letter-H.mp3" },
+  abc:       { G: "stimme/G-is-for-Giraffe.mp3", H: "stimme/H-is-for-Horse.mp3", I: "stimme/I-is-for-Ice-cream.mp3",
+               J: "stimme/J-is-for-Jellyfish.mp3", K: "stimme/K-is-for-Kite.mp3", L: "stimme/L-is-for-Lamb.mp3" },
+  wort:      { G: "stimme/Giraffe.mp3", H: "stimme/Horse.mp3", I: "stimme/Ice-cream.mp3",
+               J: "stimme/Jellyfish.mp3", K: "stimme/Kite.mp3", L: "stimme/Lamb.mp3" },
+  buchstabe: { G: "stimme/G.mp3", H: "stimme/H.mp3", I: "stimme/I.mp3", J: "stimme/J.mp3", K: "stimme/K.mp3", L: "stimme/L.mp3" },
   frage:     { G: "stimme/What-starts-with-G.mp3", H: "stimme/What-starts-with-H.mp3", I: "stimme/What-starts-with-I.mp3",
-               K: "stimme/What-starts-with-K.mp3", L: "stimme/What-starts-with-L.mp3" },
+               J: "stimme/What-starts-with-J.mp3", K: "stimme/What-starts-with-K.mp3", L: "stimme/What-starts-with-L.mp3" },
+  finde:     { G: "stimme/Find-the-letter-G.mp3", H: "stimme/Find-the-letter-H.mp3", I: "stimme/Find-the-letter-I.mp3",
+               J: "stimme/Find-the-letter-J.mp3", K: "stimme/Find-the-letter-K.mp3", L: "stimme/Find-the-letter-L.mp3" },
+  farbe:     { red: "stimme/Red.mp3", orange: "stimme/Orange.mp3", yellow: "stimme/Yellow.mp3", green: "stimme/Green.mp3",
+               blue: "stimme/Blue.mp3", purple: "stimme/Purple.mp3" },
+  zahl:      ["", "stimme/One.mp3", "stimme/Two.mp3", "stimme/Three.mp3", "stimme/Four.mp3", "stimme/Five.mp3"],
+  tueren:    { finde: "stimme/Find-the-star.mp3", stern: "stimme/A-star.mp3", wer: "stimme/Who-is-hiding.mp3",
+               hase: "stimme/Oh-its-a-bunny.mp3", hase2: "stimme/A-bunny.mp3", hopp: "stimme/Hop-like-a-bunny.mp3",
+               psst: "stimme/Shhh-what-is-it.mp3", mal: "stimme/Lets-find-out.mp3", blau: "stimme/The-blue-one.mp3", schau: "stimme/Wait-look.mp3" },
+  tschuess:  ["stimme/Bye-bye-magic-world.mp3", "stimme/See-you-next-time.mp3"],
+  yay: "stimme/Yay.mp3",
+  raten: "stimme/Can-you-guess.mp3",
+  welches: "stimme/Which-picture-starts-with-this-letter.mp3",   // ABC-Spiel, wenn es kein "What starts with X?" gibt
+  tschuess2: ["stimme/Bye-bye-see-you-soon.mp3"],
   mitsprechen: "stimme/Can-you-say-it-with-me.mp3",
-  lob: ["stimme/Yes.mp3", "stimme/You-did-it.mp3"]
+  denken: "stimme/Think-think-think.mp3",
+  weiter: "stimme/Lets-try-the-next-one.mp3",
+  lob: ["stimme/Yes.mp3", "stimme/Yes-2.mp3", "stimme/You-did-it.mp3", "stimme/You-got-it.mp3", "stimme/Great-job-1.mp3",
+        "stimme/Great-job-2.mp3", "stimme/Great-job-3.mp3", "stimme/Great-job-4.mp3", "stimme/Great-job-kids.mp3",
+        "stimme/Great-job.mp3", "stimme/Yes-you-got-it.mp3", "stimme/Wow-superstar.mp3", "stimme/You-are-so-smart.mp3",
+        "stimme/Wow-you-are-so-smart.mp3"]
 };
 /* Alle Karten zu einem Buchstaben: erst das ABC-Wort (mit Foto), dann die Ausmalbilder. Jede Karte: { wort, bild } */
 function karten(L){

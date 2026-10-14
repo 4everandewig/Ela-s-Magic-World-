@@ -92,9 +92,14 @@ function zeige(i, laut){
   document.getElementById("cname").style.color = f.hex === "#ffffff" ? "var(--ink)" : f.hex;
   document.getElementById("cen").textContent = LANG === "en" ? "" : f.name.en;
   [...pots.children].forEach((b, j) => b.setAttribute("aria-pressed", j === i));
-  if (laut) { speak(fname(f)); say(t("f_this", { c: fname(f) })); }
+  if (laut) { farbeSagen(f); say(t("f_this", { c: fname(f) })); }
 }
-document.getElementById("say-color").onclick = () => speak(fname(LERNFARBEN[aktuell]));
+/* Farbname mit Elas Stimme (red, orange, yellow, green, blue, purple), sonst Geräte-Stimme in der gewählten Sprache */
+function farbeSagen(f){
+  const datei = STIMMEN.farbe[f.name.en];
+  if (datei && LANG === "en") elaSagt([datei], fname(f)); else speak(fname(f));
+}
+document.getElementById("say-color").onclick = () => farbeSagen(LERNFARBEN[aktuell]);
 
 /* ---------- Spielen: "Tipp auf Blau!" ---------- */
 let richtig = -1, sperre = false;
@@ -119,7 +124,9 @@ function antwort(btn, i){
   if (i === richtig) {
     sperre = true; btn.classList.add("yay");
     say(`${lob()} ${t("f_this", { c: fname(LERNFARBEN[i]) })}`);
-    if (LANG === "en") elaSagt([zufall(STIMMEN.lob)], lob()); else speak(lob());   // "Yes!" / "You did it!" mit Elas Stimme
+    // Elas Lob, dann die Farbe: "Yes!" – "Blue!"
+    const fd = STIMMEN.farbe[LERNFARBEN[i].name.en];
+    if (LANG === "en") elaSagt(fd ? [zufall(STIMMEN.lob), fd] : [zufall(STIMMEN.lob)], lob()); else speak(lob());
     sternDazu(); sternRegen(); setTimeout(neueFrage, 2000);
   } else {
     btn.classList.remove("wiggle"); void btn.offsetWidth; btn.classList.add("wiggle");

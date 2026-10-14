@@ -22,7 +22,11 @@ const TEXTE = {
     hw_hello: "Happy Halloween! Let's draw something spooky-cute together!", hw_meow: "Meow! Look at my witch hat!", watch: "Watch Ela", close: "Close", m_tapela: "Tap me! I have something to tell you!",
     t_malbuch: "Coloring Book", t_malbuch_s: "Color in the pictures", t_abc: "ABC", t_abc_s: "Learn and guess letters",
     t_farben: "Colors", t_farben_s: "Learn and find colors", t_zahlen: "Numbers", t_zahlen_s: "Learn to count",
-    t_memory: "Memory", t_memory_s: "Find the pairs", mem_abc: "ABC", mem_pics: "Pictures", mem_new: "New game", mem_moves: "Moves: {n}",
+    t_memory: "Memory", t_memory_s: "Find the pairs",
+    n_q: "How many can you count?", n_tap: "Tap each picture and count with me!", n_which: "Now tap the right number!", n_count: "Count with me",
+    n_right: "It's {n}! Great counting!", n_again: "Let's count again together!",
+    t_tueren: "Magic Doors", t_tueren_s: "Find the star", d_find: "Find the star! Which door is it behind?", d_bunny: "Oh! It's a bunny! Try another door.", d_star: "A star! You found it!", d_again: "Let's play again!",
+    bye: "Bye-bye", bye_text: "Bye-bye, Magic World! See you next time!", mem_abc: "ABC", mem_pics: "Pictures", mem_new: "New game", mem_moves: "Moves: {n}",
     mem_hint_abc: "Find the letter and its picture! B goes with Bear.", mem_hint_pics: "Find two pictures that are the same!", mem_done: "You found all the pairs in {n} moves! 3 stars for you!",
     color: "Color", tool: "Tool", fill: "Fill", paint: "Paint", undo: "Undo", neu: "New", sure: "Sure?", save: "Save picture",
     eraser: "White (eraser)", thin: "Thin brush", medium: "Medium brush", thick: "Thick brush",
@@ -32,7 +36,7 @@ const TEXTE = {
     print: "Print", m_print: "Print it out and color it with your crayons!",
     explore: "Explore", play: "Play", hear: "Hear again", hear_q: "Hear question",
     a_tap: "Tap a letter!", a_is: "{L} is for {w}!", a_nopic: "{L} is for {w}! I'm still drawing the picture.",
-    a_q1: "Which letter does this start with?", a_q2: "Which picture starts with {L}?", a_play: "Let's guess! You get a star for every right answer.",
+    a_q1: "Which letter does this start with?", a_q2: "Which picture starts with {L}?", a_q3: "Find the letter {L}!", a_play: "Let's guess! You get a star for every right answer.",
     f_tap: "Tap a color!", f_this: "This is {c}!", f_q: "Tap on {c}!", f_play: "Find the right color! You get a star for every right answer.",
     lob: ["Super!", "Wow, great job!", "That's magical!", "Keep going!", "So pretty!", "You're a pro!", "Amazing!", "Yes! Well done!"],
     nochmal: ["Almost! Try again.", "Hmm, look again carefully.", "Not quite – you can do it!"]
@@ -46,7 +50,11 @@ const TEXTE = {
     hw_hello: "Fröhliches Halloween! Komm, wir malen was Gruselig-Süßes!", hw_meow: "Miau! Schau mal, mein Hexenhut!", watch: "Ela anschauen", close: "Schließen", m_tapela: "Tipp auf mich! Ich will dir was sagen!",
     t_malbuch: "Malbuch", t_malbuch_s: "Bilder bunt ausmalen", t_abc: "ABC", t_abc_s: "Buchstaben lernen und raten",
     t_farben: "Farben", t_farben_s: "Farben lernen und finden", t_zahlen: "Zahlen", t_zahlen_s: "Zählen lernen",
-    t_memory: "Memory", t_memory_s: "Finde die Paare", mem_abc: "ABC", mem_pics: "Bilder", mem_new: "Neues Spiel", mem_moves: "Züge: {n}",
+    t_memory: "Memory", t_memory_s: "Finde die Paare",
+    n_q: "Wie viele kannst du zählen?", n_tap: "Tipp jedes Bild an und zähl mit mir!", n_which: "Jetzt tipp auf die richtige Zahl!", n_count: "Zähl mit mir",
+    n_right: "Es sind {n}! Toll gezählt!", n_again: "Komm, wir zählen nochmal zusammen!",
+    t_tueren: "Zaubertüren", t_tueren_s: "Finde den Stern", d_find: "Finde den Stern! Hinter welcher Tür ist er?", d_bunny: "Oh! Ein Hase! Probier eine andere Tür.", d_star: "Ein Stern! Du hast ihn gefunden!", d_again: "Komm, wir spielen nochmal!",
+    bye: "Tschüss", bye_text: "Tschüss, Zauberwelt! Bis zum nächsten Mal!", mem_abc: "ABC", mem_pics: "Bilder", mem_new: "Neues Spiel", mem_moves: "Züge: {n}",
     mem_hint_abc: "Finde den Buchstaben und sein Bild! B gehört zu Bear.", mem_hint_pics: "Finde zwei gleiche Bilder!", mem_done: "Du hast alle Paare in {n} Zügen gefunden! 3 Sterne für dich!",
     color: "Farbe", tool: "Werkzeug", fill: "Füllen", paint: "Malen", undo: "Zurück", neu: "Neu", sure: "Sicher?", save: "Bild speichern",
     eraser: "Weiß (Radiergummi)", thin: "Dünner Pinsel", medium: "Mittlerer Pinsel", thick: "Dicker Pinsel",
@@ -56,7 +64,7 @@ const TEXTE = {
     print: "Ausdrucken", m_print: "Druck es aus und mal es mit deinen Stiften an!",
     explore: "Entdecken", play: "Spielen", hear: "Nochmal hören", hear_q: "Frage hören",
     a_tap: "Tipp auf einen Buchstaben!", a_is: "{L} wie {w}!", a_nopic: "{L} wie {w}! Das Bild male ich noch.",
-    a_q1: "Mit welchem Buchstaben beginnt das?", a_q2: "Welches Bild beginnt mit {L}?", a_play: "Rate mal! Für jede richtige Antwort bekommst du einen Stern.",
+    a_q1: "Mit welchem Buchstaben beginnt das?", a_q2: "Welches Bild beginnt mit {L}?", a_q3: "Finde den Buchstaben {L}!", a_play: "Rate mal! Für jede richtige Antwort bekommst du einen Stern.",
     f_tap: "Tipp auf eine Farbe!", f_this: "Das ist {c}!", f_q: "Tipp auf {c}!", f_play: "Finde die richtige Farbe! Für jede richtige Antwort gibt es einen Stern.",
     lob: ["Super!", "Wow, toll gemacht!", "Das ist magisch!", "Weiter so!", "Hui, wie schön!", "Du bist ein Profi!", "Zauberhaft!", "Richtig! Bravo!"],
     nochmal: ["Fast! Versuch's nochmal.", "Hmm, schau nochmal genau hin.", "Nicht ganz – du schaffst das!"]
@@ -70,7 +78,11 @@ const TEXTE = {
     hw_hello: "Mutlu Cadılar Bayramı! Hadi birlikte ürkütücü-tatlı bir şey çizelim!", hw_meow: "Miyav! Cadı şapkama bak!", watch: "Ela'yı izle", close: "Kapat", m_tapela: "Bana dokun! Sana bir şey söyleyeceğim!",
     t_malbuch: "Boyama Kitabı", t_malbuch_s: "Resimleri renklendir", t_abc: "ABC", t_abc_s: "Harfleri öğren ve tahmin et",
     t_farben: "Renkler", t_farben_s: "Renkleri öğren ve bul", t_zahlen: "Sayılar", t_zahlen_s: "Saymayı öğren",
-    t_memory: "Hafıza", t_memory_s: "Eşleri bul", mem_abc: "ABC", mem_pics: "Resimler", mem_new: "Yeni oyun", mem_moves: "Hamle: {n}",
+    t_memory: "Hafıza", t_memory_s: "Eşleri bul",
+    n_q: "Kaç tane sayabilirsin?", n_tap: "Her resme dokun ve benimle say!", n_which: "Şimdi doğru sayıya dokun!", n_count: "Benimle say",
+    n_right: "{n} tane! Harika saydın!", n_again: "Hadi birlikte tekrar sayalım!",
+    t_tueren: "Sihirli Kapılar", t_tueren_s: "Yıldızı bul", d_find: "Yıldızı bul! Hangi kapının arkasında?", d_bunny: "Aa! Bir tavşan! Başka bir kapı dene.", d_star: "Bir yıldız! Buldun!", d_again: "Hadi tekrar oynayalım!",
+    bye: "Hoşça kal", bye_text: "Hoşça kal, Sihirli Dünya! Bir dahaki sefere görüşürüz!", mem_abc: "ABC", mem_pics: "Resimler", mem_new: "Yeni oyun", mem_moves: "Hamle: {n}",
     mem_hint_abc: "Harfi ve resmini bul! B, Bear ile gider.", mem_hint_pics: "Aynı iki resmi bul!", mem_done: "Tüm eşleri {n} hamlede buldun! Sana 3 yıldız!",
     color: "Renk", tool: "Araç", fill: "Doldur", paint: "Boya", undo: "Geri al", neu: "Yeni", sure: "Emin misin?", save: "Resmi kaydet",
     eraser: "Beyaz (silgi)", thin: "İnce fırça", medium: "Orta fırça", thick: "Kalın fırça",
@@ -80,7 +92,7 @@ const TEXTE = {
     print: "Yazdır", m_print: "Yazdır ve boya kalemlerinle boya!",
     explore: "Keşfet", play: "Oyna", hear: "Tekrar dinle", hear_q: "Soruyu dinle",
     a_tap: "Bir harfe dokun!", a_is: "{L}: {w}!", a_nopic: "{L}: {w}! Resmi hâlâ çiziyorum.",
-    a_q1: "Bu hangi harfle başlıyor?", a_q2: "Hangi resim {L} ile başlıyor?", a_play: "Hadi tahmin et! Her doğru cevaba bir yıldız.",
+    a_q1: "Bu hangi harfle başlıyor?", a_q2: "Hangi resim {L} ile başlıyor?", a_q3: "{L} harfini bul!", a_play: "Hadi tahmin et! Her doğru cevaba bir yıldız.",
     f_tap: "Bir renge dokun!", f_this: "Bu {c}!", f_q: "{c} renge dokun!", f_play: "Doğru rengi bul! Her doğru cevaba bir yıldız.",
     lob: ["Süper!", "Vay, harika!", "Sihirli gibi!", "Devam et!", "Çok güzel!", "Sen bir ustasın!", "Muhteşem!", "Evet! Aferin!"],
     nochmal: ["Az kaldı! Tekrar dene.", "Hmm, bir daha dikkatli bak.", "Tam değil – yapabilirsin!"]
@@ -121,6 +133,22 @@ function say(text){
   b.textContent = text; b.classList.remove("pop"); void b.offsetWidth; b.classList.add("pop");
 }
 
+/* Ela ist ein Mädchen: möglichst eine Frauen-/Mädchenstimme des Geräts nehmen (Namen der üblichen Stimmen auf
+   iPhone, Android, Windows, Mac). Gibt es keine, nimmt sie irgendeine Stimme der Sprache. */
+const FRAUEN = /female|frau|woman|girl|samantha|karen|victoria|moira|tessa|fiona|serena|allison|ava|susan|zira|aria|jenny|michelle|sonia|libby|natasha|hazel|anna|petra|helena|katja|hedda|marlene|vicki|amala|yelda|emel|filiz|seda|google us english|google uk english female/i;
+const MAENNER = /male|mann|man\b|daniel|alex|fred|david|mark|guy|ryan|thomas|tom|aaron|arthur|stefan|markus|conrad|yannick|tolga|ahmet/i;
+function frauenStimme(lang){
+  const kurz = lang.slice(0, 2).toLowerCase();
+  const alle = speechSynthesis.getVoices().filter(v => v.lang && v.lang.replace("_", "-").toLowerCase().startsWith(kurz));
+  const genau = alle.filter(v => v.lang.replace("_", "-").toLowerCase() === lang.toLowerCase());
+  for (const liste of [genau, alle]) {
+    const f = liste.find(v => FRAUEN.test(v.name) && !/\bmale\b/i.test(v.name.replace(/female/i, "")));
+    if (f) return f;
+  }
+  return alle.find(v => !MAENNER.test(v.name)) || alle[0] || null;
+}
+try { speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices(); } catch(e){}
+
 /* Vorlesen mit der Stimme des Geräts. Ohne lang = aktuelle Sprache. */
 function speak(text, lang){
   lang = lang || SPRACHEN[LANG].stimme;
@@ -130,7 +158,7 @@ function speak(text, lang){
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
     u.lang = lang; u.rate = 0.85; u.pitch = 1.15;
-    const v = speechSynthesis.getVoices().find(v => v.lang && v.lang.toLowerCase().startsWith(lang.slice(0,2)));
+    const v = frauenStimme(lang);
     if (v) u.voice = v;
     speechSynthesis.speak(u);
   } catch(e){}
@@ -200,6 +228,13 @@ function sternRegen(){
   document.body.appendChild(box); setTimeout(() => box.remove(), 2200);
 }
 
+/* Im Oktober ist Ela überall die Hexe: runde Ela-Bilder austauschen */
+const HALLOWEEN = new Date().getMonth() === 9;
+function elaImOktober(){
+  if (!HALLOWEEN) return;
+  document.querySelectorAll('img[src$="ela-rund.png"]').forEach(img => img.src = "bilder/ela-hexe-rund.jpg");
+}
+
 /* Schon beim Laden: Texte übersetzen, Sprachauswahl und Sterne anzeigen.
    (Die Seiten binden dieses Skript am Ende von <body> ein, das DOM ist also schon da.) */
-uebersetzen(); sprachAuswahl(); zeigeSterne();
+uebersetzen(); sprachAuswahl(); zeigeSterne(); elaImOktober();
