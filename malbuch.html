@@ -182,7 +182,8 @@ let undoStack = [];
 
 /* ---------- Oberfläche aufbauen ---------- */
 const pics = document.getElementById("pics"), themesNav = document.getElementById("themes");
-THEMEN.forEach(th => {
+// Nur fertige Themen zeigen; Themen ohne Bilder (Christmas, Animals …) bleiben ausgeblendet, bis Bilder da sind
+THEMEN.filter(th => th.bilder.length).forEach(th => {
   const el = document.createElement("button");
   el.className = "theme"; el.type = "button"; el.id = "thema-" + th.id;
   el.style.setProperty("--c", th.farbe);
