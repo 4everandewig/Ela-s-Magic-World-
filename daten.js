@@ -63,6 +63,8 @@ const STIMMEN = {
                psst: "stimme/Shhh-what-is-it.mp3", mal: "stimme/Lets-find-out.mp3", blau: "stimme/The-blue-one.mp3", schau: "stimme/Wait-look.mp3" },
   tschuess:  ["stimme/Bye-bye-magic-world.mp3", "stimme/See-you-next-time.mp3"],
   yay: "stimme/Yay.mp3",
+  raten: "stimme/Can-you-guess.mp3",
+  tschuess2: ["stimme/Bye-bye-see-you-soon.mp3"],
   mitsprechen: "stimme/Can-you-say-it-with-me.mp3",
   denken: "stimme/Think-think-think.mp3",
   weiter: "stimme/Lets-try-the-next-one.mp3",

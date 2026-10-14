@@ -177,7 +177,8 @@ function neueFrage(){
 }
 function frageVorlesen(){
   const text = art === 0 ? t("a_q1") : art === 1 ? t("a_q2", { L: richtig }) : t("a_q3", { L: richtig });
-  if (art === 1 && LANG === "en" && STIMMEN.frage[richtig]) elaSagt([STIMMEN.frage[richtig]], text);   // "What starts with G?"
+  if (art === 0 && LANG === "en") elaSagt([STIMMEN.raten], text);                                     // "Can you guess?"
+  else if (art === 1 && LANG === "en" && STIMMEN.frage[richtig]) elaSagt([STIMMEN.frage[richtig]], text);   // "What starts with G?"
   else if (art === 2 && STIMMEN.finde[richtig]) elaSagt([STIMMEN.finde[richtig]], text);              // "Find the letter G!"
   else speak(text);
 }

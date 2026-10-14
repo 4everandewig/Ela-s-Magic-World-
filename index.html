@@ -164,11 +164,14 @@ document.getElementById("ela-friend").onclick = e => {
   const p = elaClip.play(); if (p && p.catch) p.catch(() => speak(t(HALLO)));
 };
 document.getElementById("cat-friend").onclick = e => { hop(e.currentTarget); say(t(MIAU)); speak(t(MIAU)); };
+let byeNr = 0;
 /* Abschied: "Bye-bye, Magic World! See you next time!" mit Elas Stimme, Ela winkt */
 document.getElementById("bye").onclick = () => {
   hop(document.getElementById("ela-friend"));
   say(t("bye_text"));
-  if (LANG === "en") elaSagt(STIMMEN.tschuess, t("bye_text")); else speak(t("bye_text"));
+  // abwechselnd "Bye-bye, Magic World! See you next time!" und "Bye-bye, see you soon!"
+  byeNr = (byeNr || 0) + 1;
+  if (LANG === "en") elaSagt(byeNr % 2 ? STIMMEN.tschuess : STIMMEN.tschuess2, t("bye_text")); else speak(t("bye_text"));
 };
 
 /* Intro-Video: einmal pro Besuch, nicht bei jeder Rückkehr zur Startseite */
