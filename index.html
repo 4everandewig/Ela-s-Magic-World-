@@ -155,8 +155,8 @@ function introZu(){
   try { vid.pause(); sessionStorage.setItem("ela-intro", "1"); } catch(e){}
 }
 // Oktober: Hexen-Ela zaubert Glitzer ins Zimmer, sonst das Logo-Video
-// Oktober: erst Ela am Maltisch mit Zauber-Glitzer, dann das Logo im Halloween-Zimmer
-const introListe = halloween ? ["bilder/intro-halloween-1", "bilder/intro-halloween"] : ["bilder/intro"];
+// Oktober: Logo im Halloween-Zimmer, sonst Logo in Elas Zimmer
+const introListe = halloween ? ["bilder/intro-halloween"] : ["bilder/intro"];
 let introNr = 0, introDatei = introListe[0];
 vid.addEventListener("ended", () => {
   if (++introNr >= introListe.length) return introZu();
