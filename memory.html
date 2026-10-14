@@ -107,8 +107,10 @@ function umdrehen(b, k){
   b.classList.add("offen");
   b.setAttribute("aria-label", k.art === "bild" ? ABC_WOERTER[k.L].en : k.L);
   offen.push(b);
-  // Beim Umdrehen das englische Wort bzw. den Buchstaben vorlesen
-  speak(k.art === "bild" ? ABC_WOERTER[k.L].en : k.L, "en-US");
+  // Beim Umdrehen Wort bzw. Buchstabe mit Elas Stimme ("Bear" / "Letter B"), sonst Geräte-Stimme
+  const datei = k.art === "bild" ? STIMMEN.wort[k.L] : STIMMEN.buchstabe[k.L];
+  const text = k.art === "bild" ? ABC_WOERTER[k.L].en : k.L;
+  if (datei) elaSagt([datei], text); else speak(text, "en-US");
   if (offen.length < 2) return;
   zuege++; zeigeZuege();
   const [a, c] = offen; offen = [];

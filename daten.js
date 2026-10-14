@@ -14,10 +14,10 @@ const THEMEN = [
     { L: "V", wort: { en: "Vampire",      de: "Vampir",       tr: "Vampir" },         datei: "bilder/halloween/V-Vampire.png" },
     { L: "W", wort: { en: "Witch",        de: "Hexe",         tr: "Cadı" },           datei: "bilder/halloween/W-Witch.png" },
   ]},
-  { id: "weihnachten", name: { en: "Christmas", de: "Weihnachten", tr: "Yılbaşı" },   farbe: "#f05252", bilder: [] },
-  { id: "tiere",       name: { en: "Animals",   de: "Tiere",       tr: "Hayvanlar" }, farbe: "#4cbb5c", bilder: [] },
-  { id: "suesses",     name: { en: "Sweets",    de: "Süßes",       tr: "Tatlılar" },  farbe: "#e8459b", bilder: [] },
-  { id: "meer",        name: { en: "Ocean",     de: "Meer",        tr: "Deniz" },     farbe: "#3d8ef0", bilder: [] },
+  { id: "weihnachten", name: { en: "Christmas", de: "Weihnachten", tr: "Yılbaşı" },   farbe: "#f05252", icon: "🎄", bilder: [] },
+  { id: "tiere",       name: { en: "Animals",   de: "Tiere",       tr: "Hayvanlar" }, farbe: "#4cbb5c", icon: "🐾", bilder: [] },
+  { id: "suesses",     name: { en: "Sweets",    de: "Süßes",       tr: "Tatlılar" },  farbe: "#e8459b", icon: "🍭", bilder: [] },
+  { id: "meer",        name: { en: "Ocean",     de: "Meer",        tr: "Deniz" },     farbe: "#3d8ef0", icon: "🐠", bilder: [] },
 ];
 
 /* Englisches ABC wie in Elas ABC-Videos: ein Hauptwort pro Buchstabe (en) mit Übersetzung (de, tr),

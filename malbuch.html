@@ -17,6 +17,7 @@
 .theme em{font-style:normal;font-size:12px;background:var(--yellow);color:var(--ink);border-radius:999px;padding:2px 8px}
 .theme[aria-pressed="true"]{background:var(--c);color:#fff}
 .theme.soon{opacity:.75}
+.theme .icon{width:38px;height:38px;border-radius:50%;background:#fff;border:2px solid var(--c);display:grid;place-items:center;font-style:normal;font-size:22px}
 .theme:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
 .pics{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 10px;scroll-snap-type:x mandatory}
 .pic{flex:none;scroll-snap-align:start;width:98px;border:0;border-radius:20px;background:var(--paper);
@@ -187,7 +188,9 @@ THEMEN.forEach(th => {
   el.className = "theme"; el.type = "button"; el.id = "thema-" + th.id;
   el.style.setProperty("--c", th.farbe);
   const leer = th.bilder.length === 0;
-  el.innerHTML = `<img alt="" src="${leer ? "bilder/ela-rund.png" : th.bilder[0].datei}"><span>${tx(th.name)}</span>${leer ? `<em>${t("soon")}</em>` : ""}`;
+  // Thema ohne Bilder: eigenes Symbol (🎄 🐾 …) statt Bild
+  const symbol = leer ? `<i class="icon">${th.icon || "✨"}</i>` : `<img alt="" src="${th.bilder[0].datei}">`;
+  el.innerHTML = `${symbol}<span>${tx(th.name)}</span>${leer ? `<em>${t("soon")}</em>` : ""}`;
   if (leer) { el.classList.add("soon"); el.onclick = () => say(t("m_soon", { x: tx(th.name) })); }
   else el.onclick = () => openTheme(th.id);
   themesNav.appendChild(el);
@@ -196,7 +199,7 @@ function openTheme(id, letter){
   thema = THEMEN.find(t => t.id === id) || THEMEN[0]; BILDER = thema.bilder;
   [...themesNav.children].forEach(b => b.setAttribute("aria-pressed", b.id === "thema-" + thema.id));
   store.set("ela-thema", thema.id);
-  const ei = document.getElementById("ela-img"); ei.src = thema.ela || "bilder/ela-rund.png"; ei.classList.toggle("round", !thema.ela);
+  const ei = document.getElementById("ela-img"); ei.src = thema.ela || (HALLOWEEN ? "bilder/ela-hexe-rund.jpg" : "bilder/ela-rund.png"); ei.classList.toggle("round", !thema.ela);
   // Auf Ela tippen: ihr Video zum Thema ("Do you want to color with me?")
   const tv = ELA_VIDEOS.thema[thema.id];
   ei.classList.toggle("tippbar", !!tv);

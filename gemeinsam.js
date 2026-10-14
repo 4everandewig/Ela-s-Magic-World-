@@ -121,6 +121,22 @@ function say(text){
   b.textContent = text; b.classList.remove("pop"); void b.offsetWidth; b.classList.add("pop");
 }
 
+/* Ela ist ein Mädchen: möglichst eine Frauen-/Mädchenstimme des Geräts nehmen (Namen der üblichen Stimmen auf
+   iPhone, Android, Windows, Mac). Gibt es keine, nimmt sie irgendeine Stimme der Sprache. */
+const FRAUEN = /female|frau|woman|girl|samantha|karen|victoria|moira|tessa|fiona|serena|allison|ava|susan|zira|aria|jenny|michelle|sonia|libby|natasha|hazel|anna|petra|helena|katja|hedda|marlene|vicki|amala|yelda|emel|filiz|seda|google us english|google uk english female/i;
+const MAENNER = /male|mann|man\b|daniel|alex|fred|david|mark|guy|ryan|thomas|tom|aaron|arthur|stefan|markus|conrad|yannick|tolga|ahmet/i;
+function frauenStimme(lang){
+  const kurz = lang.slice(0, 2).toLowerCase();
+  const alle = speechSynthesis.getVoices().filter(v => v.lang && v.lang.replace("_", "-").toLowerCase().startsWith(kurz));
+  const genau = alle.filter(v => v.lang.replace("_", "-").toLowerCase() === lang.toLowerCase());
+  for (const liste of [genau, alle]) {
+    const f = liste.find(v => FRAUEN.test(v.name) && !/\bmale\b/i.test(v.name.replace(/female/i, "")));
+    if (f) return f;
+  }
+  return alle.find(v => !MAENNER.test(v.name)) || alle[0] || null;
+}
+try { speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices(); } catch(e){}
+
 /* Vorlesen mit der Stimme des Geräts. Ohne lang = aktuelle Sprache. */
 function speak(text, lang){
   lang = lang || SPRACHEN[LANG].stimme;
@@ -130,7 +146,7 @@ function speak(text, lang){
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
     u.lang = lang; u.rate = 0.85; u.pitch = 1.15;
-    const v = speechSynthesis.getVoices().find(v => v.lang && v.lang.toLowerCase().startsWith(lang.slice(0,2)));
+    const v = frauenStimme(lang);
     if (v) u.voice = v;
     speechSynthesis.speak(u);
   } catch(e){}
@@ -200,6 +216,13 @@ function sternRegen(){
   document.body.appendChild(box); setTimeout(() => box.remove(), 2200);
 }
 
+/* Im Oktober ist Ela überall die Hexe: runde Ela-Bilder austauschen */
+const HALLOWEEN = new Date().getMonth() === 9;
+function elaImOktober(){
+  if (!HALLOWEEN) return;
+  document.querySelectorAll('img[src$="ela-rund.png"]').forEach(img => img.src = "bilder/ela-hexe-rund.jpg");
+}
+
 /* Schon beim Laden: Texte übersetzen, Sprachauswahl und Sterne anzeigen.
    (Die Seiten binden dieses Skript am Ende von <body> ein, das DOM ist also schon da.) */
-uebersetzen(); sprachAuswahl(); zeigeSterne();
+uebersetzen(); sprachAuswahl(); zeigeSterne(); elaImOktober();
