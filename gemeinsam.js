@@ -230,6 +230,7 @@ function sternRegen(){
 
 /* Im Oktober ist Ela überall die Hexe: runde Ela-Bilder austauschen */
 const HALLOWEEN = new Date().getMonth() === 9;
+if (HALLOWEEN) document.documentElement.classList.add("halloween");
 function elaImOktober(){
   if (!HALLOWEEN) return;
   document.querySelectorAll('img[src$="ela-rund.png"]').forEach(img => img.src = "bilder/ela-hexe-rund.jpg");

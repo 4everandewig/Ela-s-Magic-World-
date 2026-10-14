@@ -109,22 +109,26 @@ function umdrehen(b, k){
   b.classList.add("offen");
   b.setAttribute("aria-label", k.art === "bild" ? ABC_WOERTER[k.L].en : k.L);
   offen.push(b);
-  // Beim Umdrehen Wort bzw. Buchstabe mit Elas Stimme ("Bear" / "Letter B"), sonst Geräte-Stimme
-  const datei = k.art === "bild" ? STIMMEN.wort[k.L] : STIMMEN.buchstabe[k.L];
-  const text = k.art === "bild" ? ABC_WOERTER[k.L].en : k.L;
-  if (datei) elaSagt([datei], text); else speak(text, "en-US");
+  const paar = offen.length === 2 && offen[0].dataset.L === offen[1].dataset.L;
+  // Beim Umdrehen Wort bzw. Buchstabe mit Elas Stimme ("Bear" / "Letter B"), sonst Geräte-Stimme.
+  // Bei einem Paar gleich das Lob + "B is for Bear", damit nichts abgeschnitten wird.
+  if (!paar) {
+    const datei = k.art === "bild" ? STIMMEN.wort[k.L] : STIMMEN.buchstabe[k.L];
+    const text = k.art === "bild" ? ABC_WOERTER[k.L].en : k.L;
+    if (datei) elaSagt([datei], text); else speak(text, "en-US");
+  }
   if (offen.length < 2) return;
   zuege++; zeigeZuege();
   const [a, c] = offen; offen = [];
-  if (a.dataset.L === c.dataset.L) {
+  if (paar) {
+    const L = a.dataset.L, en = ABC_WOERTER[L].en;
+    say(`${lob()} ${t("a_is", { L, w: en })}`);
+    if (STIMMEN.abc[L]) elaSagt([zufall(STIMMEN.lob), STIMMEN.abc[L]], `${L} is for ${en}!`);
+    else elaSagt([zufall(STIMMEN.lob)], `${L} is for ${en}!`, `${L} is for ${en}!`);
     setTimeout(() => {
       a.classList.add("weg"); c.classList.add("weg");
-      const L = a.dataset.L, en = ABC_WOERTER[L].en;
-      say(`${lob()} ${t("a_is", { L, w: en })}`);
-      if (STIMMEN.abc[L]) elaSagt([zufall(STIMMEN.lob), STIMMEN.abc[L]], `${L} is for ${en}!`);
-      else elaSagt([zufall(STIMMEN.lob)], `${L} is for ${en}!`, `${L} is for ${en}!`);
       if (++gefunden === PAARE) fertig();
-    }, 500);
+    }, 900);
   } else {
     sperre = true;
     setTimeout(() => {

@@ -12,14 +12,11 @@
 html,body{margin:0}
 body{color:var(--ink);font-family:var(--body);-webkit-tap-highlight-color:transparent;min-height:100vh;
   padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
-  background-color:var(--bg);
-  background-image:
-    radial-gradient(circle at 12% 18%, rgba(232,69,155,.16) 0 14px, transparent 15px),
-    radial-gradient(circle at 78% 9%, rgba(139,92,246,.14) 0 22px, transparent 23px),
-    radial-gradient(circle at 88% 62%, rgba(76,187,92,.14) 0 16px, transparent 17px),
-    radial-gradient(circle at 6% 74%, rgba(61,142,240,.14) 0 20px, transparent 21px),
-    radial-gradient(circle at 46% 96%, rgba(251,189,35,.22) 0 18px, transparent 19px);
-  background-size:520px 520px;}
+  background-color:var(--bg);}
+/* Hintergrund = Elas Zimmer aus den Videos (Maltisch in der Mitte), leicht aufgehellt. Im Oktober das Halloween-Zimmer. */
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(rgba(255,242,248,.42),rgba(255,242,248,.42)),#f6dccb url("bilder/zimmer.jpg") center 75%/cover no-repeat}
+html.halloween body::before{background-image:linear-gradient(rgba(255,242,248,.42),rgba(255,242,248,.42)),url("bilder/zimmer-halloween.jpg")}
 .app{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:14px 28px;display:flex;flex-direction:column;gap:16px}
 
 /* Kopfzeile */

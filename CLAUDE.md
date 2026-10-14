@@ -7,8 +7,8 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
 - `index.html` – Startseite: zuerst Intro-Video (`bilder/intro.mp4` + Standbild `intro.jpg`, stumm; „Let's go!“ = mit Ton;
   einmal pro Besuch über `sessionStorage` `ela-intro`). Dann Elas Zimmer (`bilder/zimmer.jpg`) mit Logo, Ela (begrüßt) und
   Elas Kätzchen (`bilder/katze.jpg`, sagt „Meow!“), darunter große Kacheln zu den Bereichen (Zahlen vorerst ausgeblendet).
-  Unten Fußzeile mit Versionsnummer (`v11`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
-- `malbuch.html` – Malbuch mit **Themen** (Halloween aktiv; Christmas, Animals, Sweets, Ocean als „Soon!“).
+  Unten Fußzeile mit Versionsnummer (`v14`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
+- `malbuch.html` – Malbuch mit **Themen** (Halloween aktiv; Christmas, Animals, Sweets, Ocean sind vorbereitet, aber ausgeblendet, bis sie Bilder haben).
   Bild wählen, Farbe wählen, in eine Fläche tippen → füllt sich. Zusätzlich Pinsel, Undo, Neu, Speichern.
   „Print“ (Knopf mit dem Halloween-Drucker `bilder/drucker.png` aus den Videos) druckt das leere Bild als A4-Blatt
   im Stil der „Free Coloring Page“-PDFs: hohler Buchstabe, Bild, „P is for Pumpkin“, „My name: ___“, Logo + youtube.com/@ElasMagicPhonics.
@@ -75,7 +75,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
 
 ## Neues Thema
 - In `THEMEN` ergänzen: `{ id: "ostern", name: { en: "Easter", de: "Ostern", tr: "Paskalya" }, farbe: "#fbbd23", bilder: [ ... ] }`, Ordner `bilder/ostern/` anlegen.
-- Leere `bilder`-Liste = „Soon!“. Optional `ela: "bilder/…png"` für ein eigenes Ela-Bild in diesem Thema (Halloween: Hexen-Ela).
+- Leere `bilder`-Liste = Thema wird nicht angezeigt. Optional `ela: "bilder/…png"` für ein eigenes Ela-Bild in diesem Thema (Halloween: Hexen-Ela).
 
 ## Malbuch-Technik (bitte beibehalten)
 - Farbebene (`colorCv`) unten, Linienzeichnung mit `multiply` darüber → Linien bleiben schwarz.
@@ -83,10 +83,12 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
 - Fortschritt pro Bild in `ela-bild-<thema-id>-<Buchstabe>`, Sterne in `ela-sterne` (für alle Spiele gemeinsam).
 
 ## Stil
+- Look wie in den Videos: Hintergrund aller Seiten = Elas Zimmer (`body::before` in gemeinsam.css, Oktober: `html.halloween` → Halloween-Zimmer),
+  im Malbuch liegt das Bild als Blatt Papier auf Elas cremeweißem Maltisch (`.frame`).
 - Farben aus dem Logo: Pink (`--pink`) + Regenbogen (Rot, Orange, Gelb, Grün, Blau, Lila), heller rosa Hintergrund.
   Halloween-Farben nur im Halloween-Thema, nicht für die ganze App.
 - Maskottchen: Ela mit Schürze (`bilder/ela-rund.png`); Hexen-Ela (`bilder/ela-hexe.png`) nur bei Halloween.
-  Elas Kätzchen (`bilder/katze.jpg`), der Regenbogen-Pinsel mit Gesicht (`bilder/pinsel.png`, neben dem Logo und als „Paint“-Knopf),
+  Elas Kätzchen (`bilder/katze.jpg`). Den Regenbogen-Pinsel mit Gesicht NICHT mehr verwenden (auf Wunsch entfernt).
   der Halloween-Drucker (`bilder/drucker.png`, „Print“-Knopf). ABC-Bilder im 3D-Stil der Videos: `bilder/abc/<L>-<Word>.jpg` (600×600).
 - Keine Fotos von echten Kindern auf der Webseite (nur die gezeichnete Ela).
 - Schriften: "Baloo 2" (Überschriften), "Nunito" (Text). Große Knöpfe für Finger, kein horizontales Scrollen.
