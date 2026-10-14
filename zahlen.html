@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Numbers – Ela's Magic World</title>
+<link rel="icon" href="bilder/ela-rund.png">
+<link rel="stylesheet" href="schriften/schriften.css">
+<link rel="stylesheet" href="gemeinsam.css">
+<style>
+/* Zahlen 1–5: Tiere antippen und mit Ela zählen ("One, two, three"), dann die richtige Zahl wählen. */
+.top h1{color:var(--green)}
+.main{display:grid;grid-template-columns:1fr 260px;gap:16px;align-items:start}
+@media (max-width:860px){.main{grid-template-columns:1fr}.main .ela{order:-1}}
+.q{font-family:var(--display);font-weight:800;font-size:clamp(24px,5vw,36px);color:var(--ink);margin:0 0 10px;text-align:center}
+.dinge{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;min-height:130px;margin-bottom:16px}
+.ding{position:relative;width:clamp(86px,22vw,120px);aspect-ratio:1;border:0;padding:0;border-radius:20px;overflow:hidden;cursor:pointer;
+  background:#fff;box-shadow:0 0 0 3px var(--line),0 8px 16px -10px rgba(90,30,110,.5);transition:transform .15s}
+.ding img{width:100%;height:100%;object-fit:cover}
+.ding.gezaehlt{box-shadow:0 0 0 4px var(--green)}
+.ding .nr{position:absolute;top:6px;left:6px;min-width:34px;height:34px;border-radius:50%;background:var(--green);color:#fff;
+  font-family:var(--display);font-weight:800;font-size:22px;display:grid;place-items:center;box-shadow:0 0 0 3px #fff}
+.ding:active{transform:scale(.95)}
+.zahlen{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.zahl{border:0;cursor:pointer;border-radius:18px;aspect-ratio:1;font-family:var(--display);font-weight:800;font-size:clamp(34px,8vw,56px);
+  color:#fff;background:var(--c);box-shadow:inset 0 -6px 0 rgba(0,0,0,.15)}
+.zahl.ok{box-shadow:0 0 0 5px var(--green)}
+.leiste{display:flex;justify-content:center;margin-top:14px}
+.speaker{background:var(--yellow);color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <a class="home" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg><span data-t="start"></span></a>
+    <img class="logo" src="bilder/logo.png" alt="Ela's Magic World">
+    <h1 data-t="t_zahlen"></h1>
+    <div class="lang" id="lang"></div>
+    <div class="stars" data-t-label="stars"><svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .8-5.2 4.8 1.5 7L12 17.6 5.7 21l1.5-7L2 9.3l7-.8z"/></svg><span id="stars-n">0</span></div>
+  </header>
+
+  <div class="main">
+    <section class="card">
+      <p class="q" data-t="n_q"></p>
+      <div class="dinge" id="dinge"></div>
+      <div class="zahlen" id="zahlen"></div>
+      <div class="leiste"><button class="btn speaker" id="zaehlen" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg><span data-t="n_count"></span></button></div>
+    </section>
+    <aside class="ela">
+      <img class="round" src="bilder/ela-rund.png" alt="Ela">
+      <div class="bubble" id="bubble" role="status" data-t="n_tap"></div>
+    </aside>
+  </div>
+</div>
+
+<script src="gemeinsam.js"></script>
+<script src="daten.js"></script>
+<script>
+const FARBEN_Z = ["#f05252","#f7882f","#e5a50a","#4cbb5c","#3d8ef0"];
+const ZAHLWORT = ["", "one", "two", "three", "four", "five"];
+const TIERE = Object.keys(ABC_WOERTER).filter(L => ABC_WOERTER[L].foto);
+let anzahl = 0, gezaehlt = 0, sperre = false, letztes = 0;
+const dinge = document.getElementById("dinge"), zahlen = document.getElementById("zahlen");
+
+/* Zahl mit Elas Stimme ("One", "Two" …), in anderen Sprachen mit der Geräte-Stimme */
+function zahlSagen(n){
+  if (LANG === "en" && STIMMEN.zahl[n]) elaSagt([STIMMEN.zahl[n]], ZAHLWORT[n]);
+  else speak(String(n));
+}
+
+for (let n = 1; n <= 5; n++) {
+  const b = document.createElement("button"); b.type = "button"; b.className = "zahl"; b.textContent = n;
+  b.style.setProperty("--c", FARBEN_Z[n - 1]); b.setAttribute("aria-label", String(n));
+  b.onclick = () => antwort(b, n);
+  zahlen.appendChild(b);
+}
+
+function neueRunde(){
+  sperre = false; gezaehlt = 0;
+  do { anzahl = 1 + Math.floor(Math.random() * 5); } while (anzahl === letztes);
+  letztes = anzahl;
+  const tier = ABC_WOERTER[zufall(TIERE)];
+  dinge.innerHTML = "";
+  [...zahlen.children].forEach(z => z.classList.remove("ok"));
+  for (let i = 0; i < anzahl; i++) {
+    const d = document.createElement("button"); d.type = "button"; d.className = "ding";
+    d.innerHTML = `<img src="${tier.foto}" alt="${tier.en}">`;
+    d.onclick = () => antippen(d);
+    dinge.appendChild(d);
+  }
+  say(t("n_tap"));
+}
+
+/* Antippen = mitzählen: jedes Bild bekommt seine Nummer, Ela sagt die Zahl */
+function antippen(d){
+  if (d.classList.contains("gezaehlt")) return;
+  gezaehlt++;
+  d.classList.add("gezaehlt");
+  d.insertAdjacentHTML("beforeend", `<span class="nr">${gezaehlt}</span>`);
+  zahlSagen(gezaehlt);
+  if (gezaehlt === anzahl) say(t("n_which"));
+}
+
+/* "Count with me": Ela zählt alle Bilder der Reihe nach */
+document.getElementById("zaehlen").onclick = () => {
+  [...dinge.children].forEach((d, i) => setTimeout(() => antippen(d), i * 900));
+};
+
+function antwort(b, n){
+  if (sperre) return;
+  if (n === anzahl) {
+    sperre = true; b.classList.add("ok", "yay");
+    say(`${lob()} ${t("n_right", { n })}`);
+    if (LANG === "en") elaSagt([zufall(STIMMEN.lob), STIMMEN.zahl[n]], `${ZAHLWORT[n]}!`); else speak(String(n));
+    sternDazu(); sternRegen();
+    setTimeout(neueRunde, 3000);
+  } else {
+    b.classList.remove("wiggle"); void b.offsetWidth; b.classList.add("wiggle");
+    say(t("n_again"));
+    if (LANG === "en") elaSagt([STIMMEN.denken]);
+  }
+}
+
+neueRunde();
+</script>
+</body>
+</html>

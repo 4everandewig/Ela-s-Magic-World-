@@ -52,6 +52,11 @@
 .dots{display:grid;grid-template-columns:repeat(3,28px);gap:8px}
 .dots i{width:28px;height:28px;border-radius:50%}
 .mem-ico{display:flex;gap:8px;align-items:center}
+.mini-tueren{position:relative;display:flex;gap:8px;align-items:flex-end}
+.mini-tueren i{width:30px;height:52px;border-radius:999px 999px 4px 4px;background:var(--c);box-shadow:inset 0 0 0 3px #8a5a35}
+.mini-tueren b{position:absolute;right:-8px;top:-12px;font-size:22px}
+.bye-box{display:flex;justify-content:center}
+.bye{background:#fff;color:var(--pink);font-family:var(--display);font-size:20px;box-shadow:inset 0 0 0 3px var(--pink)}
 .mem-ico img,.mem-ico b{width:62px;height:62px;border-radius:12px;box-shadow:0 0 0 3px var(--orange)}
 .mem-ico b{display:grid;place-items:center;font-family:var(--display);font-size:40px;color:var(--orange);background:#fff}
 .fuss .version{font-size:11px;opacity:.6}
@@ -103,20 +108,26 @@
       <div class="pic"><div class="mem-ico"><img src="bilder/abc/B-Bear.jpg" alt=""><b>B</b></div></div>
       <b data-t="t_memory"></b><small data-t="t_memory_s"></small>
     </a>
-    <!-- Zahlen (123): kommt später wieder rein, sobald der Bereich fertig ist. Vorlage:
     <a class="tile" href="zahlen.html" style="--c:var(--green)">
       <div class="pic"><div class="mini-abc" style="color:var(--green)"><span>1</span><span>2</span><span>3</span></div></div>
       <b data-t="t_zahlen"></b><small data-t="t_zahlen_s"></small>
-    </a> -->
+    </a>
+    <a class="tile" href="tueren.html" style="--c:var(--purple)">
+      <div class="pic"><div class="mini-tueren"><i style="--c:#f05252"></i><i style="--c:#fbbd23"></i><i style="--c:#3d8ef0"></i><b>⭐</b></div></div>
+      <b data-t="t_tueren"></b><small data-t="t_tueren_s"></small>
+    </a>
   </nav>
+
+  <div class="bye-box"><button class="btn bye" id="bye" type="button">👋 <span data-t="bye"></span></button></div>
 
   <footer class="fuss">
     <p data-t="f_safe"></p>
     <p><a href="info.html" data-t="f_parents"></a></p>
-    <p class="version">v9</p>
+    <p class="version">v10</p>
   </footer>
 </div>
 <script src="gemeinsam.js"></script>
+<script src="daten.js"></script>
 <script>
 document.querySelectorAll(".tile.soon").forEach(tile => tile.addEventListener("click", e => {
   e.preventDefault(); say(t("home_soon", { x: t(tile.dataset.soon) }));
@@ -153,6 +164,12 @@ document.getElementById("ela-friend").onclick = e => {
   const p = elaClip.play(); if (p && p.catch) p.catch(() => speak(t(HALLO)));
 };
 document.getElementById("cat-friend").onclick = e => { hop(e.currentTarget); say(t(MIAU)); speak(t(MIAU)); };
+/* Abschied: "Bye-bye, Magic World! See you next time!" mit Elas Stimme, Ela winkt */
+document.getElementById("bye").onclick = () => {
+  hop(document.getElementById("ela-friend"));
+  say(t("bye_text"));
+  if (LANG === "en") elaSagt(STIMMEN.tschuess, t("bye_text")); else speak(t("bye_text"));
+};
 
 /* Intro-Video: einmal pro Besuch, nicht bei jeder Rückkehr zur Startseite */
 const intro = document.getElementById("intro"), vid = document.getElementById("intro-vid");
