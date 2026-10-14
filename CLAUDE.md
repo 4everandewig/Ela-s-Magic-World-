@@ -44,7 +44,14 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   `bild` (Schlüssel `<thema-id>-<Buchstabe>`, Knopf „Watch Ela“ im Malbuch, mehrere der Reihe nach).
 - Abspielen über `elaVideo(src, ersatz)` in `gemeinsam.js` (Fenster mit ✕, schließt am Ende selbst).
 - **Oktober (Halloween):** Startseite mit Hexen-Ela als Video im Kreis (`bilder/ela-hexe-schaut.mp4` stumm, beim Antippen `ela-hexe-hallo.mp4`),
-  Kätzchen mit Hexenhut, Intro = `bilder/intro-halloween.mp4` (sonst `bilder/intro.mp4`).
+  Kätzchen mit Hexenhut (`bilder/katze-hexe.jpg`), Halloween-Zimmer als Hintergrund (`bilder/zimmer-halloween.jpg`),
+  Intro siehe unten (sonst `bilder/intro.mp4`).
+- Malbuch: Tippen auf Ela spielt `ELA_VIDEOS.thema[<thema-id>]` (Halloween: „Do you want to color with me?“).
+- ABC / Farben: Tippen auf Ela spielt `ELA_VIDEOS.seite.abc` / `.farben` der Reihe nach (`elaTippen()` in `gemeinsam.js`).
+- Nach „Save picture“: `ELA_VIDEOS.gespeichert[<thema-id>]` (Halloween: „It's alive! It's blinking!“).
+- Malbuch: nach der 4. Fläche erscheint Ela klein oben rechts an der Malfläche (`ELA_VIDEOS.zuschauen`, Halloween: „Look how spooky!“,
+  sie blickt im Video nach unten rechts aufs Bild), einmal pro Bild, Antippen schließt.
+- Oktober-Intro = zwei Videos nacheinander: `intro-halloween-1.mp4` (Ela am Maltisch, Zauber) → `intro-halloween.mp4` (Logo).
 
 ## Neues Malbuch-Bild
 1. PNG in `bilder/<thema-id>/` legen, Name `BUCHSTABE-Wort.png` (z. B. `bilder/halloween/Z-Zombie.png`).

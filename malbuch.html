@@ -68,8 +68,15 @@ canvas{display:block;max-width:100%;max-height:62vh;width:auto;height:auto;touch
 .dot{display:inline-block;border-radius:50%;background:currentColor}
 .word .watch{align-self:center;font-family:var(--body);font-size:15px;padding:8px 14px;background:var(--purple);color:#fff;border-radius:999px}
 .word .watch svg{width:18px;height:18px}
+/* Ela schaut oben rechts zu (sie blickt im Video nach unten rechts aufs Bild) */
+.stage{position:relative}
+.ela-ecke{position:absolute;top:clamp(46px,9vw,64px);right:-14px;z-index:5;width:clamp(96px,22%,150px);aspect-ratio:1;object-fit:cover;border-radius:50%;
+  border:4px solid #fff;box-shadow:0 0 0 3px var(--pink),0 10px 20px -8px rgba(90,30,110,.6);cursor:pointer;animation:ecke .4s ease}
+@keyframes ecke{from{transform:scale(.3);opacity:0}to{transform:scale(1);opacity:1}}
+@media (prefers-reduced-motion:reduce){.ela-ecke{animation:none}}
 #print{background:#fff3e3;color:var(--ink);font-size:17px;padding:6px 8px;box-shadow:inset 0 -4px 0 var(--orange)}
 #print img{width:64px;height:auto}
+#ela-img.tippbar{cursor:pointer}
 
 /* Druckblatt im Stil der "Free Coloring Page"-PDFs: Buchstabe zum Ausmalen, Bild, "P is for Pumpkin", Name, Kanal.
    Immer Englisch (wie das ABC). Nur beim Drucken sichtbar. */
@@ -106,6 +113,7 @@ canvas{display:block;max-width:100%;max-height:62vh;width:auto;height:auto;touch
 
   <div class="main">
     <div class="frame"><section class="stage">
+      <video class="ela-ecke" id="ela-ecke" playsinline hidden></video>
       <div class="word"><span class="L" id="bigL">P</span><span id="word">Pumpkin</span><span class="de" id="de"></span>
         <button class="btn watch" id="watch" type="button" hidden><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span data-t="watch"></span></button></div>
       <canvas id="cv" aria-label="Canvas"></canvas>
@@ -190,6 +198,10 @@ function openTheme(id, letter){
   [...themesNav.children].forEach(b => b.setAttribute("aria-pressed", b.id === "thema-" + thema.id));
   store.set("ela-thema", thema.id);
   const ei = document.getElementById("ela-img"); ei.src = thema.ela || "bilder/ela-rund.png"; ei.classList.toggle("round", !thema.ela);
+  // Auf Ela tippen: ihr Video zum Thema ("Do you want to color with me?")
+  const tv = ELA_VIDEOS.thema[thema.id];
+  ei.classList.toggle("tippbar", !!tv);
+  ei.onclick = tv ? () => elaVideo(tv) : null;
   pics.innerHTML = "";
   BILDER.forEach((b, i) => {
     const el = document.createElement("button");
@@ -201,7 +213,9 @@ function openTheme(id, letter){
   });
   const i = BILDER.findIndex(b => b.L === letter);
   open(i >= 0 ? i : 0);
+  if (tv && !elaHinweis) { elaHinweis = true; say(t("m_tapela")); }   // einmal pro Besuch: "Tap me!"
 }
+let elaHinweis = false;
 const pal = document.getElementById("palette");
 FARBEN.forEach(f => {
   const s = document.createElement("button");
@@ -230,8 +244,21 @@ let lobCount = 0;
 function praise(){ lobCount++; if (lobCount % 3 === 1) say(lob()); if (lobCount % 5 === 0) { sternDazu(); sternRegen(); say(t("m_star")); } }
 
 /* ---------- Bild laden ---------- */
+/* Nach der 4. Fläche schaut Ela oben rechts zu ("Look how spooky!"), einmal pro Bild */
+let flaechen = 0;
+const ecke = document.getElementById("ela-ecke");
+function eckeZu(){ ecke.pause(); ecke.hidden = true; }
+ecke.onended = eckeZu; ecke.onerror = eckeZu; ecke.onclick = eckeZu;
+function zuschauen(){
+  const src = ELA_VIDEOS.zuschauen[thema.id];
+  if (++flaechen !== 4 || !src) return;
+  try { if ("speechSynthesis" in window) speechSynthesis.cancel(); } catch(e){}
+  ecke.src = src; ecke.hidden = false;
+  const p = ecke.play(); if (p && p.catch) p.catch(eckeZu);
+}
+
 function open(i){
-  current = BILDER[i];
+  current = BILDER[i]; flaechen = 0; eckeZu();
   [...pics.children].forEach((p,j)=>p.setAttribute("aria-pressed", j===i));
   document.getElementById("bigL").textContent = current.L + current.L.toLowerCase();
   document.getElementById("word").textContent = current.wort.en;
@@ -310,7 +337,7 @@ function fill(x, y){
   const img = cctx.getImageData(0, 0, W, H), d = img.data, [r,g,b] = hex(color);
   for (let p = 0; p < W*H; p++) if (region[p]) { d[p*4]=r; d[p*4+1]=g; d[p*4+2]=b; d[p*4+3]=255; }
   cctx.putImageData(img, 0, 0);
-  render(); remember(); praise();
+  render(); remember(); praise(); zuschauen();
 }
 
 /* ---------- Malen mit Pinsel ---------- */
@@ -345,6 +372,7 @@ document.getElementById("save").onclick = () => {
   const a = document.createElement("a");
   a.download = `Ela-Coloring-${current.L}-${current.wort.en}.png`; a.href = cv.toDataURL("image/png"); a.click();
   say(t("m_saved"));
+  const gv = ELA_VIDEOS.gespeichert[thema.id]; if (gv) setTimeout(() => elaVideo(gv), 600);   // "It's alive! It's blinking!"
 };
 /* Ausdrucken: leeres Ausmalbild als Druckblatt (siehe #druckblatt) */
 document.getElementById("print").onclick = () => {

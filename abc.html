@@ -72,7 +72,7 @@
       </div>
     </section>
     <aside class="ela">
-      <img class="round" src="bilder/ela-rund.png" alt="Ela">
+      <img class="round tippbar" id="ela-tipp" src="bilder/ela-rund.png" alt="Ela">
       <div class="bubble" id="bubble" role="status" data-t="a_tap"></div>
     </aside>
   </div>
@@ -85,6 +85,8 @@
 <script src="gemeinsam.js"></script>
 <script src="daten.js"></script>
 <script>
+/* Auf Ela tippen: ihre Videos der Reihe nach */
+elaTippen(document.getElementById("ela-tipp"), ELA_VIDEOS.seite.abc);
 const BUNT = ["#f05252","#f7882f","#e5a50a","#4cbb5c","#3d8ef0","#8b5cf6","#e8459b"];
 const farbe = L => BUNT[(L.charCodeAt(0) - 65) % BUNT.length];
 const LETTERS = Object.keys(ABC_WOERTER);
