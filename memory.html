@@ -18,8 +18,10 @@
 .karte .innen{position:absolute;inset:0;transition:transform .45s;transform-style:preserve-3d}
 .karte.offen .innen,.karte.weg .innen{transform:rotateY(180deg)}
 .karte .seite{position:absolute;inset:0;border-radius:18px;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:grid;place-items:center;overflow:hidden}
-.karte .rueck{background:var(--rainbow);box-shadow:inset 0 0 0 5px #fff,0 8px 16px -10px rgba(90,30,110,.6)}
-.karte .rueck img{width:44%;height:auto;filter:drop-shadow(0 4px 6px rgba(0,0,0,.2))}
+/* Rückseite bewusst ruhig: zartes Rosa, weißes Fragezeichen, kleiner Glitzerstern */
+.karte .rueck{background:linear-gradient(145deg,#ffd3e8,#f7a8d0);box-shadow:inset 0 0 0 5px #fff,0 8px 16px -10px rgba(90,30,110,.5)}
+.karte .rueck b{font-family:var(--display);font-weight:800;font-size:clamp(46px,12vw,66px);color:#fff;text-shadow:0 3px 0 rgba(232,69,155,.35)}
+.karte .rueck i{position:absolute;top:14%;right:16%;font-style:normal;font-size:clamp(12px,3vw,18px);color:#fff}
 .karte .vorn{transform:rotateY(180deg);background:#fff;box-shadow:inset 0 0 0 4px var(--c,var(--line))}
 .karte .vorn img{width:100%;height:100%;object-fit:cover}
 .karte .vorn b{font-family:var(--display);font-weight:800;font-size:clamp(40px,10vw,72px);line-height:1;color:var(--c)}
@@ -94,7 +96,7 @@ function neuesSpiel(){
     b.type = "button"; b.className = "karte"; b.dataset.L = k.L;
     b.style.setProperty("--c", farbe(k.L));
     b.setAttribute("aria-label", "?");
-    b.innerHTML = `<span class="innen"><span class="seite rueck"><img src="bilder/pinsel.png" alt=""></span>` +
+    b.innerHTML = `<span class="innen"><span class="seite rueck"><b>?</b><i>✦</i></span>` +
       `<span class="seite vorn">${k.art === "bild" ? `<img src="${w.foto}" alt="">` : `<b>${k.L}${k.L.toLowerCase()}</b>`}</span></span>`;
     b.onclick = () => umdrehen(b, k);
     feld.appendChild(b);
