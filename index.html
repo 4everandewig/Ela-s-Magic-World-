@@ -23,8 +23,6 @@
   padding:22px 14px 14px;background:#f6dccb url("bilder/zimmer.jpg") center 30%/cover;box-shadow:0 16px 34px -20px rgba(90,30,110,.55)}
 .hero::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.5))}
 .hero .logo-row{position:relative;display:flex;align-items:center;justify-content:center;gap:2px;width:100%}
-.hero .pinsel{height:clamp(72px,15vw,140px);width:auto;transform-origin:50% 90%;filter:drop-shadow(0 6px 10px rgba(90,30,110,.3));animation:pinsel 2.4s ease-in-out infinite}
-@keyframes pinsel{0%,100%{transform:rotate(-12deg)}50%{transform:rotate(8deg)}}
 .hero .logo-big{position:relative;width:min(380px,72%);height:auto;filter:drop-shadow(0 8px 14px rgba(90,30,110,.3));animation:float 3.5s ease-in-out infinite}
 @keyframes float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-6px) scale(1.03)}}
 .hero .friends{position:relative;width:100%;display:flex;align-items:flex-end;justify-content:space-between;gap:10px}
@@ -35,7 +33,7 @@
 .friend.hop{animation:hop .6s ease}
 @keyframes hop{0%,100%{transform:rotate(0)}25%{transform:rotate(-10deg)}75%{transform:rotate(10deg)}}
 @media (max-width:600px){.hero{min-height:300px}.hero .friend img,.hero .friend video{width:62px;height:62px}.hero .bubble{font-size:15px;margin-bottom:8px}}
-@media (prefers-reduced-motion:reduce){#intro .go,.hero .logo-big,.hero .pinsel,.friend.hop{animation:none}}
+@media (prefers-reduced-motion:reduce){#intro .go,.hero .logo-big,.friend.hop{animation:none}}
 .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
 .tile{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;color:#fff;border-radius:28px;padding:20px 16px 18px;
   background:var(--c);box-shadow:inset 0 -8px 0 rgba(0,0,0,.12),0 14px 28px -18px rgba(90,30,110,.6);transition:transform .15s}
@@ -79,7 +77,6 @@
 
   <section class="hero">
     <div class="logo-row">
-      <img class="pinsel" src="bilder/pinsel.png" alt="">
       <img class="logo-big" src="bilder/logo.png" alt="Ela's Magic World – Draw, Learn, Play">
     </div>
     <div class="friends">
@@ -123,7 +120,7 @@
   <footer class="fuss">
     <p data-t="f_safe"></p>
     <p><a href="info.html" data-t="f_parents"></a></p>
-    <p class="version">v12</p>
+    <p class="version">v13</p>
   </footer>
 </div>
 <script src="gemeinsam.js"></script>
