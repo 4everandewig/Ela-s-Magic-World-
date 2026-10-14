@@ -32,7 +32,7 @@ const TEXTE = {
     print: "Print", m_print: "Print it out and color it with your crayons!",
     explore: "Explore", play: "Play", hear: "Hear again", hear_q: "Hear question",
     a_tap: "Tap a letter!", a_is: "{L} is for {w}!", a_nopic: "{L} is for {w}! I'm still drawing the picture.",
-    a_q1: "Which letter does this start with?", a_q2: "Which picture starts with {L}?", a_play: "Let's guess! You get a star for every right answer.",
+    a_q1: "Which letter does this start with?", a_q2: "Which picture starts with {L}?", a_q3: "Find the letter {L}!", a_play: "Let's guess! You get a star for every right answer.",
     f_tap: "Tap a color!", f_this: "This is {c}!", f_q: "Tap on {c}!", f_play: "Find the right color! You get a star for every right answer.",
     lob: ["Super!", "Wow, great job!", "That's magical!", "Keep going!", "So pretty!", "You're a pro!", "Amazing!", "Yes! Well done!"],
     nochmal: ["Almost! Try again.", "Hmm, look again carefully.", "Not quite – you can do it!"]
@@ -56,7 +56,7 @@ const TEXTE = {
     print: "Ausdrucken", m_print: "Druck es aus und mal es mit deinen Stiften an!",
     explore: "Entdecken", play: "Spielen", hear: "Nochmal hören", hear_q: "Frage hören",
     a_tap: "Tipp auf einen Buchstaben!", a_is: "{L} wie {w}!", a_nopic: "{L} wie {w}! Das Bild male ich noch.",
-    a_q1: "Mit welchem Buchstaben beginnt das?", a_q2: "Welches Bild beginnt mit {L}?", a_play: "Rate mal! Für jede richtige Antwort bekommst du einen Stern.",
+    a_q1: "Mit welchem Buchstaben beginnt das?", a_q2: "Welches Bild beginnt mit {L}?", a_q3: "Finde den Buchstaben {L}!", a_play: "Rate mal! Für jede richtige Antwort bekommst du einen Stern.",
     f_tap: "Tipp auf eine Farbe!", f_this: "Das ist {c}!", f_q: "Tipp auf {c}!", f_play: "Finde die richtige Farbe! Für jede richtige Antwort gibt es einen Stern.",
     lob: ["Super!", "Wow, toll gemacht!", "Das ist magisch!", "Weiter so!", "Hui, wie schön!", "Du bist ein Profi!", "Zauberhaft!", "Richtig! Bravo!"],
     nochmal: ["Fast! Versuch's nochmal.", "Hmm, schau nochmal genau hin.", "Nicht ganz – du schaffst das!"]
@@ -80,7 +80,7 @@ const TEXTE = {
     print: "Yazdır", m_print: "Yazdır ve boya kalemlerinle boya!",
     explore: "Keşfet", play: "Oyna", hear: "Tekrar dinle", hear_q: "Soruyu dinle",
     a_tap: "Bir harfe dokun!", a_is: "{L}: {w}!", a_nopic: "{L}: {w}! Resmi hâlâ çiziyorum.",
-    a_q1: "Bu hangi harfle başlıyor?", a_q2: "Hangi resim {L} ile başlıyor?", a_play: "Hadi tahmin et! Her doğru cevaba bir yıldız.",
+    a_q1: "Bu hangi harfle başlıyor?", a_q2: "Hangi resim {L} ile başlıyor?", a_q3: "{L} harfini bul!", a_play: "Hadi tahmin et! Her doğru cevaba bir yıldız.",
     f_tap: "Bir renge dokun!", f_this: "Bu {c}!", f_q: "{c} renge dokun!", f_play: "Doğru rengi bul! Her doğru cevaba bir yıldız.",
     lob: ["Süper!", "Vay, harika!", "Sihirli gibi!", "Devam et!", "Çok güzel!", "Sen bir ustasın!", "Muhteşem!", "Evet! Aferin!"],
     nochmal: ["Az kaldı! Tekrar dene.", "Hmm, bir daha dikkatli bak.", "Tam değil – yapabilirsin!"]

@@ -136,10 +136,22 @@ function neueFrage(){
   sperre = false; gewaehlt = {};
   richtig = zufall(MIT_BILD.filter(L => L !== richtig));
   gewaehlt[richtig] = bildKarte(richtig);
-  art = MIT_BILD.length >= 3 ? (Math.random() < .5 ? 0 : 1) : 0;
+  // Drei Rätselarten: 0 = Bild → Buchstabe, 1 = Buchstabe → Bild, 2 = "Find the letter G!" (nur wo Elas Aufnahme da ist)
+  const arten = MIT_BILD.length >= 3 ? [0, 1] : [0];
+  if (STIMMEN.finde[richtig] && LANG === "en") arten.push(2);
+  art = zufall(arten);
   const choices = document.getElementById("choices"); choices.innerHTML = "";
   const sBild = document.getElementById("s-bild"), sLetter = document.getElementById("s-letter");
-  if (art === 0) {
+  if (art === 2) {
+    document.getElementById("frage").textContent = t("a_q3", { L: richtig });
+    sBild.hidden = true; sLetter.hidden = true;
+    const opts = mischen([richtig, ...mischen(LETTERS.filter(L => L !== richtig)).slice(0, 2)]);
+    opts.forEach(L => {
+      const b = document.createElement("button"); b.type = "button"; b.className = "choice l";
+      b.style.setProperty("--c", farbe(L)); b.textContent = L + L.toLowerCase(); b.setAttribute("aria-label", L);
+      b.onclick = () => antwort(b, L); choices.appendChild(b);
+    });
+  } else if (art === 0) {
     document.getElementById("frage").textContent = t("a_q1");
     sBild.hidden = false; sLetter.hidden = true;
     sBild.innerHTML = `<img src="${gewaehlt[richtig].bild}" alt="?">`;
@@ -164,8 +176,9 @@ function neueFrage(){
   frageVorlesen();
 }
 function frageVorlesen(){
-  const text = art === 0 ? t("a_q1") : t("a_q2", { L: richtig });
+  const text = art === 0 ? t("a_q1") : art === 1 ? t("a_q2", { L: richtig }) : t("a_q3", { L: richtig });
   if (art === 1 && LANG === "en" && STIMMEN.frage[richtig]) elaSagt([STIMMEN.frage[richtig]], text);   // "What starts with G?"
+  else if (art === 2 && STIMMEN.finde[richtig]) elaSagt([STIMMEN.finde[richtig]], text);              // "Find the letter G!"
   else speak(text);
 }
 function antwort(btn, L){
@@ -178,10 +191,11 @@ function antwort(btn, L){
     if (STIMMEN.abc[L] && k.wort === ABC_WOERTER[L]) elaSagt([zufall(STIMMEN.lob), STIMMEN.abc[L]], `${L} is for ${en}!`);
     else elaSagt([zufall(STIMMEN.lob)], `${L} is for ${en}!`, `${L} is for ${en}!`);
     sternDazu(); sternRegen();
-    setTimeout(neueFrage, 2200);
+    setTimeout(neueFrage, 3000);
   } else {
     btn.classList.remove("wiggle"); void btn.offsetWidth; btn.classList.add("wiggle");
     say(nochmal());
+    if (LANG === "en") elaSagt([STIMMEN.denken]);   // "Think, think, think!"
   }
 }
 document.getElementById("s-say").onclick = frageVorlesen;
