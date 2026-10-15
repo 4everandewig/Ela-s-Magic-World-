@@ -63,7 +63,8 @@ const STIMMEN = {
                J: "stimme/Find-the-letter-J.mp3", K: "stimme/Find-the-letter-K.mp3", L: "stimme/Find-the-letter-L.mp3" },
   farbe:     { red: "stimme/Red.mp3", orange: "stimme/Orange.mp3", yellow: "stimme/Yellow.mp3", green: "stimme/Green.mp3",
                blue: "stimme/Blue.mp3", purple: "stimme/Purple.mp3" },
-  zahl:      ["", "stimme/One.mp3", "stimme/Two.mp3", "stimme/Three.mp3", "stimme/Four.mp3", "stimme/Five.mp3"],
+  zahl:      ["", "stimme/One.mp3", "stimme/Two.mp3", "stimme/Three.mp3", "stimme/Four.mp3", "stimme/Five.mp3",
+              "stimme/Six.mp3", "stimme/Seven.mp3", "stimme/Eight.mp3", "stimme/Nine.mp3", "stimme/Ten.mp3"],
   tueren:    { finde: "stimme/Find-the-star.mp3", stern: "stimme/A-star.mp3", wer: "stimme/Who-is-hiding.mp3",
                hase: "stimme/Oh-its-a-bunny.mp3", hase2: "stimme/A-bunny.mp3", hopp: "stimme/Hop-like-a-bunny.mp3",
                psst: "stimme/Shhh-what-is-it.mp3", mal: "stimme/Lets-find-out.mp3", blau: "stimme/The-blue-one.mp3", schau: "stimme/Wait-look.mp3",
@@ -72,8 +73,10 @@ const STIMMEN = {
                tier: { A: "stimme/Find-the-Apple.mp3", B: "stimme/Find-the-Bear.mp3", C: "stimme/Find-the-Cat.mp3",
                        D: "stimme/Find-the-Dog.mp3", E: "stimme/Find-the-Elephant.mp3", F: "stimme/Find-the-Frog.mp3",
                        J: "stimme/Find-the-Jellyfish.mp3", K: "stimme/Find-the-Kite.mp3", L: "stimme/Find-the-Lamb.mp3" } },
-  // "How many apples?" – Schlüssel wie DINGE in zahlen.html (noch aufzunehmen: stars, ducks)
-  wieviele: { apples: "stimme/How-many-apples.mp3", icecreams: "stimme/How-many-ice-creams.mp3", kites: "stimme/How-many-kites.mp3" },
+  // "How many apples?" – Schlüssel wie DINGE in zahlen.html
+  wieviele: { apples: "stimme/How-many-apples.mp3", icecreams: "stimme/How-many-ice-creams.mp3", kites: "stimme/How-many-kites.mp3",
+              stars: "stimme/How-many-stars.mp3", ducks: "stimme/How-many-ducks.mp3" },
+  zusammen: "stimme/Lets-count-together.mp3",   // Zahlen: falsche Zahl → "Let's count together!", dann zählt Ela mit
   tschuess:  ["stimme/Bye-bye-magic-world.mp3", "stimme/See-you-next-time.mp3"],
   yay: "stimme/Yay.mp3",
   raten: "stimme/Can-you-guess.mp3",
