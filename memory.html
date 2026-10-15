@@ -6,7 +6,7 @@
 <title>Memory – Ela's Magic World</title>
 <link rel="icon" href="bilder/ela-rund.png">
 <link rel="stylesheet" href="schriften/schriften.css">
-<link rel="stylesheet" href="gemeinsam.css?v=36">
+<link rel="stylesheet" href="gemeinsam.css?v=37">
 <style>
 /* ABC-Memory: Karten umdrehen, Buchstabe + passendes Bild finden ("B" ↔ Bear). Modus "Pictures": zwei gleiche Bilder. */
 .top h1{color:var(--orange)}
@@ -23,7 +23,8 @@
 .karte .rueck b{font-family:var(--display);font-weight:800;font-size:clamp(46px,12vw,66px);color:#fff;text-shadow:0 3px 0 rgba(232,69,155,.35)}
 .karte .rueck i{position:absolute;top:14%;right:16%;font-style:normal;font-size:clamp(12px,3vw,18px);color:#fff}
 .karte .vorn{transform:rotateY(180deg);background:#fff;box-shadow:inset 0 0 0 4px var(--c,var(--line))}
-.karte .vorn img{width:100%;height:100%;object-fit:cover}
+.karte .vorn img{width:100%;height:100%;object-fit:contain;background:#fff}   /* Motiv immer ganz zeigen, nie abschneiden */
+.feld.hw .karte .vorn img{padding:6%}   /* bunte Halloween-Bilder sind nicht quadratisch: etwas Rand */
 .karte .vorn b{font-family:var(--display);font-weight:800;font-size:clamp(40px,10vw,72px);line-height:1;color:var(--c)}
 .karte.weg .vorn{box-shadow:inset 0 0 0 5px var(--green)}
 .karte.weg{animation:yay .5s ease}
@@ -65,8 +66,8 @@
   </div>
 </div>
 
-<script src="gemeinsam.js?v=36"></script>
-<script src="daten.js?v=36"></script>
+<script src="gemeinsam.js?v=37"></script>
+<script src="daten.js?v=37"></script>
 <script>
 elaTippen(document.getElementById("ela-tipp"), ELA_VIDEOS.seite.abc);
 
@@ -102,6 +103,7 @@ function neuesSpiel(){
     karten.push({ id, L: MOTIV[id].L, art: modus === "abc" ? "buchstabe" : "bild" });
   });
   feld.innerHTML = "";
+  feld.classList.toggle("hw", modus === "hw");
   mischen(karten).forEach(k => {
     const w = MOTIV[k.id];
     const b = document.createElement("button");

@@ -7,7 +7,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
 - `index.html` – Startseite: zuerst Intro-Video (`bilder/intro.mp4` + Standbild `intro.jpg`, stumm; „Let's go!“ = mit Ton;
   einmal pro Besuch über `sessionStorage` `ela-intro`). Dann Elas Zimmer (`bilder/zimmer.jpg`) mit Logo und Ela (begrüßt),
   KEIN sprechendes Kätzchen im Kreis mehr (auf Wunsch entfernt), darunter große Kacheln zu den Bereichen (Zahlen vorerst ausgeblendet).
-  Unten Fußzeile mit Versionsnummer (`v36`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
+  Unten Fußzeile mit Versionsnummer (`v37`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
 - `malbuch.html` – Malbuch mit **Themen** (Halloween aktiv; Christmas, Animals, Sweets, Ocean sind vorbereitet, aber ausgeblendet, bis sie Bilder haben).
   Bild wählen, Farbe wählen, in eine Fläche tippen → füllt sich. Zusätzlich Pinsel, Undo, Neu, Speichern.
   „Print“ (Knopf mit dem Halloween-Drucker `bilder/drucker.png` aus den Videos) druckt das leere Bild als A4-Blatt
@@ -112,4 +112,5 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
 - Ausmalbilder: Kawaii, dicke runde Linien, magische Augen (weißer Kreis + kleiner Glitzerstern), Wimpern, KEINE Bäckchen.
 - Die Kinder können (noch) nicht lesen: Wichtiges immer mit Elas Stimme oder Bildern zeigen, keine reinen Text-Meldungen
   (z. B. keine „You have 55 stars“-Blase; Sterne zeigt das Sternchen-Feld oben rechts).
+- Motive auf Karten/Kacheln immer ganz zeigen (`object-fit:contain`), nie abschneiden.
 - Ela lobt freundlich, nie gruselig. Falsche Antworten nur sanft („Almost! Try again.“), nie bestrafen.
