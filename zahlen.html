@@ -8,22 +8,23 @@
 <link rel="stylesheet" href="schriften/schriften.css">
 <link rel="stylesheet" href="gemeinsam.css">
 <style>
-/* Zahlen: 2–5 gleiche Dinge (Äpfel, Eis, Drachen, Enten, Sterne) antippen und mit Ela zählen ("One, two, three"), dann die richtige Zahl wählen. */
+/* Zahlen: 2–10 gleiche Dinge (Äpfel, Eis, Drachen, Enten, Sterne) antippen und mit Ela zählen ("One, two, three"), dann die richtige Zahl wählen. */
 .top h1{color:var(--green)}
-.main{display:grid;grid-template-columns:1fr 260px;gap:16px;align-items:start}
-@media (max-width:860px){.main{grid-template-columns:1fr}.main .ela{order:-1}}
+.main{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:16px;align-items:start}
+@media (max-width:860px){.main{grid-template-columns:minmax(0,1fr)}.main .ela{order:-1}}
 .q{font-family:var(--display);font-weight:800;font-size:clamp(24px,5vw,36px);color:var(--ink);margin:0 0 10px;text-align:center}
 .dinge{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;min-height:130px;margin-bottom:16px}
 .ding{position:relative;width:clamp(86px,22vw,120px);aspect-ratio:1;border:0;padding:0;border-radius:20px;overflow:hidden;cursor:pointer;
   background:#fff;box-shadow:0 0 0 3px var(--line),0 8px 16px -10px rgba(90,30,110,.5);transition:transform .15s}
+.dinge.viele .ding{width:clamp(58px,15vw,92px);border-radius:16px}
 .ding img{width:100%;height:100%;object-fit:cover}
 .ding svg{width:78%;height:78%;margin:11%}
 .ding.gezaehlt{box-shadow:0 0 0 4px var(--green)}
 .ding .nr{position:absolute;top:6px;left:6px;min-width:34px;height:34px;border-radius:50%;background:var(--green);color:#fff;
   font-family:var(--display);font-weight:800;font-size:22px;display:grid;place-items:center;box-shadow:0 0 0 3px #fff}
 .ding:active{transform:scale(.95)}
-.zahlen{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
-.zahl{border:0;cursor:pointer;border-radius:18px;aspect-ratio:1;font-family:var(--display);font-weight:800;font-size:clamp(34px,8vw,56px);
+.zahlen{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(6px,2vw,10px)}
+.zahl{border:0;cursor:pointer;border-radius:18px;aspect-ratio:4/3;font-family:var(--display);font-weight:800;font-size:clamp(30px,7vw,48px);
   color:#fff;background:var(--c);box-shadow:inset 0 -6px 0 rgba(0,0,0,.15)}
 .zahl.ok{box-shadow:0 0 0 5px var(--green)}
 .leiste{display:flex;justify-content:center;margin-top:14px}
@@ -57,8 +58,8 @@
 <script src="gemeinsam.js"></script>
 <script src="daten.js"></script>
 <script>
-const FARBEN_Z = ["#f05252","#f7882f","#e5a50a","#4cbb5c","#3d8ef0"];
-const ZAHLWORT = ["", "one", "two", "three", "four", "five"];
+const FARBEN_Z = ["#f05252","#f7882f","#e5a50a","#4cbb5c","#3d8ef0","#8b5cf6","#e8459b","#14b8a6","#f97316","#6366f1"];
+const ZAHLWORT = ["", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
 const STERN = `<svg viewBox="0 0 24 24"><path fill="#fbbd23" stroke="#e5a50a" stroke-width="1.2" stroke-linejoin="round" d="M12 2l3 6.5 7 .8-5.2 4.8 1.5 7L12 17.6 5.7 21l1.5-7L2 9.3l7-.8z"/></svg>`;
 /* Dinge, die man gut zählen kann (Mehrzahl in allen Sprachen; Türkisch nach Zahlen ohne Mehrzahl) */
 const DINGE = [
@@ -77,7 +78,7 @@ function zahlSagen(n){
   else speak(String(n));
 }
 
-for (let n = 1; n <= 5; n++) {
+for (let n = 1; n <= 10; n++) {
   const b = document.createElement("button"); b.type = "button"; b.className = "zahl"; b.textContent = n;
   b.style.setProperty("--c", FARBEN_Z[n - 1]); b.setAttribute("aria-label", String(n));
   b.onclick = () => antwort(b, n);
@@ -94,10 +95,11 @@ document.getElementById("frage").onclick = frageSagen;
 
 function neueRunde(){
   sperre = false; gezaehlt = 0;
-  do { anzahl = 2 + Math.floor(Math.random() * 4); } while (anzahl === letztes);   // immer 2–5
+  do { anzahl = 2 + Math.floor(Math.random() * 9); } while (anzahl === letztes);   // immer 2–10
   letztes = anzahl;
   ding = zufall(DINGE.filter(d => d !== ding));
   dinge.innerHTML = "";
+  dinge.classList.toggle("viele", anzahl > 5);   // ab 6 Dingen kleinere Bilder
   [...zahlen.children].forEach(z => z.classList.remove("ok"));
   for (let i = 0; i < anzahl; i++) {
     const d = document.createElement("button"); d.type = "button"; d.className = "ding";
@@ -142,8 +144,8 @@ function antwort(b, n){
     b.classList.remove("wiggle"); void b.offsetWidth; b.classList.add("wiggle");
     say(t("n_again"));
     sperre = true;
-    if (LANG === "en") elaSagt([STIMMEN.denken]);
-    setTimeout(() => { sperre = false; zusammenZaehlen(); }, 1600);
+    if (LANG === "en") elaKette([{ datei: STIMMEN.zusammen, text: "Let's count together!" }]);   // "Let's count together!"
+    setTimeout(() => { sperre = false; zusammenZaehlen(); }, 1900);
   }
 }
 

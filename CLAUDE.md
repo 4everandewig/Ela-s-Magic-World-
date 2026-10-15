@@ -7,7 +7,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
 - `index.html` – Startseite: zuerst Intro-Video (`bilder/intro.mp4` + Standbild `intro.jpg`, stumm; „Let's go!“ = mit Ton;
   einmal pro Besuch über `sessionStorage` `ela-intro`). Dann Elas Zimmer (`bilder/zimmer.jpg`) mit Logo und Ela (begrüßt),
   KEIN sprechendes Kätzchen im Kreis mehr (auf Wunsch entfernt), darunter große Kacheln zu den Bereichen (Zahlen vorerst ausgeblendet).
-  Unten Fußzeile mit Versionsnummer (`v25`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
+  Unten Fußzeile mit Versionsnummer (`v26`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
 - `malbuch.html` – Malbuch mit **Themen** (Halloween aktiv; Christmas, Animals, Sweets, Ocean sind vorbereitet, aber ausgeblendet, bis sie Bilder haben).
   Bild wählen, Farbe wählen, in eine Fläche tippen → füllt sich. Zusätzlich Pinsel, Undo, Neu, Speichern.
   „Print“ (Knopf mit dem Halloween-Drucker `bilder/drucker.png` aus den Videos) druckt das leere Bild als A4-Blatt
@@ -22,8 +22,8 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   (Rechenaufgabe). Verlinkt in der Fußzeile der Startseite. Betreiberin lebt in der Türkei, Projekt nicht kommerziell.
   Datenschutz-Versprechen: keine Werbung, kein Tracking, keine Cookies, keine Anmeldung, nichts von Dritten nachladen.
   → Keine externen Dienste einbauen (kein Google Fonts, kein YouTube-Embed, keine Analytics). Schriften liegen lokal in `schriften/`.
-- `zahlen.html` – Numbers: 2–5 gleiche Dinge (`DINGE`: Äpfel, Eis, Drachen, Enten `bilder/zahlen/ente.jpg`, Sterne) antippen und mit Ela zählen („One, two …“, `STIMMEN.zahl`),
-  „How many apples?“ (`STIMMEN.wieviele[id]`), dann die Zahl wählen. Falsche Zahl → Ela zählt sanft mit.
+- `zahlen.html` – Numbers: 2–10 gleiche Dinge (Knöpfe 1–10, ab 6 Dingen kleinere Bilder) (`DINGE`: Äpfel, Eis, Drachen, Enten `bilder/zahlen/ente.jpg`, Sterne) antippen und mit Ela zählen („One, two …“, `STIMMEN.zahl`),
+  „How many apples?“ (`STIMMEN.wieviele[id]`), dann die Zahl wählen. Falsche Zahl → „Let's count together!“ (`STIMMEN.zusammen`), Ela zählt sanft mit.
 - `tueren.html` – Magic Doors (aus „Ela & Papa“ Ep. 1): rote, gelbe, blaue Tür als freigestellte 3D-Bilder (`bilder/tueren/tuer-*.webp`, dahinter Licht in Türform per CSS-Maske), hinter jeder ein ABC-Tier.
   „Who is hiding? Find the Bear!“ (gesuchtes Tier klein oben), falsche Tür → „G is for Giraffe! Try another door.“ (`STIMMEN.tueren.tier`, `.andere`), richtig → „You found it!“ (`.gefunden`) + „B is for Bear“, Ela antippen → „Open a door!“ (`.oeffne`).
   Startseite: Knopf „Bye-bye“ (`STIMMEN.tschuess`).
