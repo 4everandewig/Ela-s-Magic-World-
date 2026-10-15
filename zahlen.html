@@ -128,7 +128,17 @@ function zusammenZaehlen(){
   [...dinge.children].forEach(d => { d.classList.remove("gezaehlt"); const nr = d.querySelector(".nr"); if (nr) nr.remove(); });
   [...dinge.children].forEach((d, i) => setTimeout(() => antippen(d), 300 + i * 900));
 }
-document.getElementById("zaehlen").onclick = zusammenZaehlen;
+/* Ela sagt "Let's count together!" und zählt dann alle Bilder mit (Knopf "Count with me" und nach einer falschen Zahl) */
+let zaehltGerade = false;
+function mitElaZaehlen(falsch){
+  if (zaehltGerade) return;
+  zaehltGerade = true; sperre = true;
+  say(t(falsch ? "n_again" : "n_together"));
+  if (LANG === "en") elaKette([{ datei: STIMMEN.zusammen, text: "Let's count together!" }]);
+  setTimeout(() => { zusammenZaehlen(); }, 1900);
+  setTimeout(() => { sperre = false; zaehltGerade = false; }, 1900 + anzahl * 900);
+}
+document.getElementById("zaehlen").onclick = () => mitElaZaehlen(false);
 
 function antwort(b, n){
   if (sperre) return;
@@ -142,10 +152,7 @@ function antwort(b, n){
   } else {
     // sanft: Ela zählt einfach mit dem Kind zusammen
     b.classList.remove("wiggle"); void b.offsetWidth; b.classList.add("wiggle");
-    say(t("n_again"));
-    sperre = true;
-    if (LANG === "en") elaKette([{ datei: STIMMEN.zusammen, text: "Let's count together!" }]);   // "Let's count together!"
-    setTimeout(() => { sperre = false; zusammenZaehlen(); }, 1900);
+    mitElaZaehlen(true);   // "Let's count together!" – dann zählt Ela mit
   }
 }
 
