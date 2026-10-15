@@ -16,7 +16,7 @@ const THEMEN = [
     { L: "M", wort: { en: "Mummy",        de: "Mumie",        tr: "Mumya" },          datei: "bilder/halloween/M-Mummy.png" },
     { L: "N", wort: { en: "Night",        de: "Nacht",        tr: "Gece" },           datei: "bilder/halloween/N-Night.png" },
     { L: "O", wort: { en: "Owl",          de: "Eule",         tr: "Baykuş" },         datei: "bilder/halloween/O-Owl.png" },
-    { L: "P", wort: { en: "Pumpkin",      de: "Kürbis",       tr: "Balkabağı" },      datei: "bilder/halloween/P-Pumpkin.png" },
+    { L: "P", wort: { en: "Pumpkin",      de: "Kürbis",       tr: "Balkabağı" },      datei: "bilder/halloween/P-Pumpkin.png", bunt: "bilder/halloween/bunt/P-Pumpkin.jpg" },
     { L: "S", wort: { en: "Spider",       de: "Spinne",       tr: "Örümcek" },        datei: "bilder/halloween/S-Spider.png" },
     { L: "T", wort: { en: "Treat",        de: "Süßigkeiten",  tr: "Şeker" },          datei: "bilder/halloween/T-Treat.png" },
     { L: "V", wort: { en: "Vampire",      de: "Vampir",       tr: "Vampir" },         datei: "bilder/halloween/V-Vampire.png" },

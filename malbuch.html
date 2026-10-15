@@ -65,6 +65,15 @@ canvas{display:block;max-width:100%;max-height:62vh;width:auto;height:auto;touch
 .sizes{display:flex;gap:8px}
 .sizes .btn{flex:1}
 .dot{display:inline-block;border-radius:50%;background:currentColor}
+/* Elas buntes Bild als Vorschau: kleines Bild neben dem Wort, antippen = groß */
+.word .bunt{align-self:center;border:0;padding:0;cursor:pointer;width:54px;height:54px;border-radius:14px;overflow:hidden;background:#fff;
+  box-shadow:0 0 0 3px var(--yellow),0 6px 12px -6px rgba(90,30,110,.5);animation:wackeln 2.6s ease-in-out infinite}
+.word .bunt img{width:100%;height:100%;object-fit:contain}
+@keyframes wackeln{0%,88%,100%{transform:rotate(0)}92%{transform:rotate(-8deg)}96%{transform:rotate(8deg)}}
+.bunt-show{position:fixed;inset:0;z-index:60;display:grid;place-items:center;background:rgba(58,36,64,.45);cursor:pointer}
+.bunt-show img{width:min(520px,86vw);height:auto;border-radius:24px;background:#fff;padding:12px;box-shadow:0 18px 30px -10px rgba(58,36,64,.6);animation:aufpoppen .35s ease-out}
+@keyframes aufpoppen{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+@media (prefers-reduced-motion:reduce){.word .bunt,.bunt-show img{animation:none}}
 .word .watch{align-self:center;font-family:var(--body);font-size:15px;padding:8px 14px;background:var(--purple);color:#fff;border-radius:999px}
 .word .watch svg{width:18px;height:18px}
 /* Ela schaut oben rechts zu (sie blickt im Video nach unten rechts aufs Bild) */
@@ -119,6 +128,7 @@ canvas{display:block;max-width:100%;max-height:62vh;width:auto;height:auto;touch
     <div class="frame"><section class="stage">
       <video class="ela-ecke" id="ela-ecke" playsinline hidden></video>
       <div class="word"><span class="L" id="bigL">P</span><span id="word">Pumpkin</span><span class="de" id="de"></span>
+        <button class="bunt" id="bunt" type="button" hidden aria-label="Ela's picture"><img alt=""></button>
         <button class="btn watch" id="watch" type="button" hidden><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span data-t="watch"></span></button></div>
       <canvas id="cv" aria-label="Canvas"></canvas>
     </section></div>
@@ -278,6 +288,17 @@ function open(i){
   let vNr = 0;
   watch.hidden = !vids.length;
   watch.onclick = () => elaVideo(vids[vNr++ % vids.length]);
+  // Elas fertig ausgemaltes Bild als Vorschau (Feld "bunt" in daten.js), antippen = groß, nochmal tippen = zu
+  const bunt = document.getElementById("bunt");
+  bunt.hidden = !current.bunt;
+  if (current.bunt) {
+    bunt.querySelector("img").src = current.bunt;
+    bunt.onclick = () => {
+      const show = document.createElement("div"); show.className = "bunt-show";
+      show.innerHTML = `<img src="${current.bunt}" alt="">`; show.onclick = () => show.remove();
+      document.body.appendChild(show);
+    };
+  }
   const img = new Image();
   img.onload = () => {
     // Weißer Rand rund ums Bild, damit man auch neben der Figur malen kann (die PNGs sind eng zugeschnitten)
