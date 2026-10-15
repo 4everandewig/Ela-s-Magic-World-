@@ -84,7 +84,6 @@
         <button class="friend" id="ela-friend" type="button" aria-label="Ela"><img src="bilder/ela-rund.png" alt=""></button>
         <div class="bubble" id="bubble" role="status" data-t="home_hello"></div>
       </div>
-      <button class="friend" id="cat-friend" type="button" data-t-label="kitty"><img src="bilder/katze.jpg" alt=""></button>
     </div>
   </section>
 
@@ -120,7 +119,7 @@
   <footer class="fuss">
     <p data-t="f_safe"></p>
     <p><a href="info.html" data-t="f_parents"></a></p>
-    <p class="version">v16</p>
+    <p class="version">v17</p>
   </footer>
 </div>
 <script src="gemeinsam.js"></script>
@@ -131,7 +130,7 @@ document.querySelectorAll(".tile.soon").forEach(tile => tile.addEventListener("c
 }));
 /* Im Oktober: Hexen-Ela und Kätzchen mit Hexenhut (Halloween-Look), sonst die normale Ela */
 const halloween = new Date().getMonth() === 9;
-const HALLO = halloween ? "hw_hello" : "home_hello", MIAU = halloween ? "hw_meow" : "meow";
+const HALLO = halloween ? "hw_hello" : "home_hello";
 let elaClip = null;
 if (halloween) {
   // Hexen-Ela als kleines Video: schaut zu (stumm, Schleife); beim Antippen sagt sie "Hallo" mit ihrer Stimme
@@ -144,7 +143,6 @@ if (halloween) {
     Object.assign(elaClip, { src: "bilder/ela-hexe-schaut.mp4", muted: true, loop: true });
     const q = elaClip.play(); if (q && q.catch) q.catch(() => {});
   });
-  document.querySelector("#cat-friend img").src = "bilder/katze-hexe.jpg";
   document.querySelector(".hero").style.backgroundImage = 'url("bilder/zimmer-halloween.jpg")';   // Halloween-Zimmer
   say(t(HALLO));
 }
@@ -160,7 +158,6 @@ document.getElementById("ela-friend").onclick = e => {
   Object.assign(elaClip, { src: "bilder/ela-hexe-hallo.mp4", muted: false, loop: false });
   const p = elaClip.play(); if (p && p.catch) p.catch(() => speak(t(HALLO)));
 };
-document.getElementById("cat-friend").onclick = e => { hop(e.currentTarget); say(t(MIAU)); speak(t(MIAU)); };
 let byeNr = 0;
 /* Abschied: "Bye-bye, Magic World! See you next time!" mit Elas Stimme, Ela winkt */
 document.getElementById("bye").onclick = () => {
