@@ -58,6 +58,7 @@ const STIMMEN = {
                G: "stimme/What-starts-with-G.mp3", H: "stimme/What-starts-with-H.mp3", I: "stimme/What-starts-with-I.mp3",
                J: "stimme/What-starts-with-J.mp3", K: "stimme/What-starts-with-K.mp3", L: "stimme/What-starts-with-L.mp3" },
   finde:     { A: "stimme/Find-the-letter-A.mp3", B: "stimme/Find-the-letter-B.mp3", C: "stimme/Find-the-letter-C.mp3",
+               D: "stimme/Find-the-letter-D.mp3", E: "stimme/Find-the-letter-E.mp3", F: "stimme/Find-the-letter-F.mp3",
                G: "stimme/Find-the-letter-G.mp3", H: "stimme/Find-the-letter-H.mp3", I: "stimme/Find-the-letter-I.mp3",
                J: "stimme/Find-the-letter-J.mp3", K: "stimme/Find-the-letter-K.mp3", L: "stimme/Find-the-letter-L.mp3" },
   farbe:     { red: "stimme/Red.mp3", orange: "stimme/Orange.mp3", yellow: "stimme/Yellow.mp3", green: "stimme/Green.mp3",
