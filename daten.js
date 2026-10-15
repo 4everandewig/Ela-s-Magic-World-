@@ -116,8 +116,8 @@ function karten(L){
    zuschauen: kleines Ela-Fenster oben rechts an der Malfläche nach der 4. Fläche, einmal pro Bild (pro Thema) */
 const ELA_VIDEOS = {
   abc:  { Pumpkin: "videos/P-is-for-Pumpkin.mp4", Hat: "videos/H-is-for-Hat.mp4", Bat: "videos/B-is-for-Bat.mp4" },
-  bild: { "halloween-P": ["videos/P-Wave-to-the-Pumpkin.mp4", "videos/P-Ela-and-Pumpkin.mp4"],
-          "halloween-H": ["videos/H-Witch-hat-like-mine.mp4", "videos/H-Hat-is-smiling.mp4"],
+  bild: { "halloween-P": ["videos/P-is-for-Pumpkin.mp4", "videos/P-Wave-to-the-Pumpkin.mp4", "videos/P-Ela-and-Pumpkin.mp4"],
+          "halloween-H": ["videos/H-is-for-Hat.mp4", "videos/H-Witch-hat-like-mine.mp4", "videos/H-Hat-is-smiling.mp4"],
           "halloween-B": ["videos/B-is-for-Bat.mp4", "videos/B-Cute-little-bat.mp4"] },
   thema: { halloween: "videos/Color-with-me.mp4" },
   seite: { abc:    ["videos/Think-think-think.mp4", "videos/What-is-it.mp4", "videos/Something-is-happening.mp4", "videos/Peekaboo.mp4"],
