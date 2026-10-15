@@ -68,11 +68,12 @@ const STIMMEN = {
                hase: "stimme/Oh-its-a-bunny.mp3", hase2: "stimme/A-bunny.mp3", hopp: "stimme/Hop-like-a-bunny.mp3",
                psst: "stimme/Shhh-what-is-it.mp3", mal: "stimme/Lets-find-out.mp3", blau: "stimme/The-blue-one.mp3", schau: "stimme/Wait-look.mp3",
                andere: "stimme/Try-another-door.mp3", gefunden: "stimme/You-found-it.mp3", oeffne: "stimme/Open-a-door.mp3",
-               // "Find the Bear!" … (noch aufzunehmen: T4–T5 für G–L)
+               // "Find the Bear!" … (noch aufzunehmen: T4 für G, H, I)
                tier: { A: "stimme/Find-the-Apple.mp3", B: "stimme/Find-the-Bear.mp3", C: "stimme/Find-the-Cat.mp3",
-                       D: "stimme/Find-the-Dog.mp3", E: "stimme/Find-the-Elephant.mp3", F: "stimme/Find-the-Frog.mp3" } },
-  // noch aufzunehmen (Liste Z1–Z2): "How many apples?" usw., Schlüssel wie DINGE in zahlen.html
-  wieviele: {},
+                       D: "stimme/Find-the-Dog.mp3", E: "stimme/Find-the-Elephant.mp3", F: "stimme/Find-the-Frog.mp3",
+                       J: "stimme/Find-the-Jellyfish.mp3", K: "stimme/Find-the-Kite.mp3", L: "stimme/Find-the-Lamb.mp3" } },
+  // "How many apples?" – Schlüssel wie DINGE in zahlen.html (noch aufzunehmen: stars, ducks)
+  wieviele: { apples: "stimme/How-many-apples.mp3", icecreams: "stimme/How-many-ice-creams.mp3", kites: "stimme/How-many-kites.mp3" },
   tschuess:  ["stimme/Bye-bye-magic-world.mp3", "stimme/See-you-next-time.mp3"],
   yay: "stimme/Yay.mp3",
   raten: "stimme/Can-you-guess.mp3",
