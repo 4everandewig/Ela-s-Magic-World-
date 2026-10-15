@@ -9,7 +9,9 @@ let kettenNr = 0;   // laufende Sprech-Kette (elaKette), wird von speak/elaSagt 
 
 /* ===== Sprachen =====
    Neue Sprache: in SPRACHEN eintragen und in TEXTE einen Block mit allen Schlüsseln ergänzen. */
-const SPRACHEN = { en: { name: "English", stimme: "en-US" }, de: { name: "Deutsch", stimme: "de-DE" }, tr: { name: "Türkçe", stimme: "tr-TR" } };
+// Nur Englisch, weil Ela überall mit ihrer echten (englischen) Stimme spricht. Die Texte für Deutsch und Türkisch
+// bleiben in TEXTE erhalten – zum Wieder-Einschalten hier ergänzen: de: { name: "Deutsch", stimme: "de-DE" }, tr: { name: "Türkçe", stimme: "tr-TR" }
+const SPRACHEN = { en: { name: "English", stimme: "en-US" } };
 let LANG = store.get("ela-sprache") || "en";
 if (!SPRACHEN[LANG]) LANG = "en";
 
@@ -120,6 +122,7 @@ function uebersetzen(root = document){
 /* Sprachauswahl in der Kopfzeile: <div class="lang" id="lang"></div> */
 function sprachAuswahl(){
   const box = document.getElementById("lang"); if (!box) return;
+  if (Object.keys(SPRACHEN).length < 2) { box.hidden = true; return; }   // nur eine Sprache → kein Umschalter
   box.setAttribute("aria-label", t("language"));
   Object.keys(SPRACHEN).forEach(code => {
     const b = document.createElement("button"); b.type = "button"; b.textContent = code.toUpperCase();

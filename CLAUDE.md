@@ -7,7 +7,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
 - `index.html` – Startseite: zuerst Intro-Video (`bilder/intro.mp4` + Standbild `intro.jpg`, stumm; „Let's go!“ = mit Ton;
   einmal pro Besuch über `sessionStorage` `ela-intro`). Dann Elas Zimmer (`bilder/zimmer.jpg`) mit Logo und Ela (begrüßt),
   KEIN sprechendes Kätzchen im Kreis mehr (auf Wunsch entfernt), darunter große Kacheln zu den Bereichen (Zahlen vorerst ausgeblendet).
-  Unten Fußzeile mit Versionsnummer (`v21`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
+  Unten Fußzeile mit Versionsnummer (`v22`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
 - `malbuch.html` – Malbuch mit **Themen** (Halloween aktiv; Christmas, Animals, Sweets, Ocean sind vorbereitet, aber ausgeblendet, bis sie Bilder haben).
   Bild wählen, Farbe wählen, in eine Fläche tippen → füllt sich. Zusätzlich Pinsel, Undo, Neu, Speichern.
   „Print“ (Knopf mit dem Halloween-Drucker `bilder/drucker.png` aus den Videos) druckt das leere Bild als A4-Blatt
@@ -36,7 +36,10 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
 - Jede Seite bindet am Ende von `<body>` zuerst `gemeinsam.js`, dann `daten.js`, dann ihr eigenes Skript ein.
 
 ## Sprachen
-- Standard: **Englisch**. Außerdem Deutsch und Türkisch. Umschalter „EN DE TR“ in der Kopfzeile (`<div class="lang" id="lang">`), gespeichert in `ela-sprache`.
+- **Nur Englisch** (auf Wunsch, weil Ela überall mit ihrer echten englischen Stimme spricht). `SPRACHEN` enthält nur `en`,
+  der Umschalter (`<div class="lang" id="lang">`) blendet sich bei nur einer Sprache aus. Die DE/TR-Texte in `TEXTE` bleiben erhalten,
+  zum Wieder-Einschalten nur `de`/`tr` in `SPRACHEN` ergänzen. Neue Texte trotzdem in allen Blöcken pflegen.
+  Die Datenschutz-Texte auf `info.html` bleiben dreisprachig (für Eltern).
 - Feste Texte im HTML: `data-t="schlüssel"` bzw. `data-t-label="schlüssel"`. Texte im Skript: `t("schlüssel", {var})`.
 - Neue Texte immer in **allen** Sprachblöcken von `TEXTE` ergänzen. Namen/Wörter in Daten als `{ en, de, tr }`.
 - Neue Sprache: in `SPRACHEN` (Name + Stimme, z. B. `fr-FR`) und `TEXTE` ergänzen, Daten um den Code erweitern.
