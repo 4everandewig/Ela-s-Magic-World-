@@ -143,9 +143,13 @@ const LERNFARBEN = [
 ];
 
 /* Sticker-Album: alle STICKER_ALLE Sterne gibt es einen neuen Sticker (Reihenfolge = Liste).
-   Erst Elas bunte Halloween-Bilder, dann die 3D-Tiere aus dem ABC, dann die Ente. Neue Bilder hängen sich automatisch an. */
+   Zuerst die Sternen-Sticker mit Gesicht (bilder/sterne/, durchsichtig → noch nicht gesammelt als graue Silhouette);
+   die seltenen (Rainbow, Star King) kommen zuletzt. Danach Elas bunte Halloween-Bilder, die 3D-Tiere aus dem ABC, die Ente.
+   Neue Bilder hängen sich automatisch an. */
 const STICKER_ALLE = 5;
+const STERN_STICKER = ["sunny", "rosie", "minty", "skye", "cool", "party", "artist", "smarty", "dreamy", "spooky", "rainbow", "king"];
 const STICKER = [
+  ...STERN_STICKER.map(n => "bilder/sterne/" + n + ".webp"),
   ...THEMEN.flatMap(th => th.bilder.filter(b => b.bunt).map(b => b.bunt)),
   ...Object.keys(ABC_WOERTER).filter(L => ABC_WOERTER[L].foto).map(L => ABC_WOERTER[L].foto),
   "bilder/zahlen/ente.jpg",

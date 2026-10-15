@@ -6,7 +6,7 @@
 <title>My Stickers – Ela's Magic World</title>
 <link rel="icon" href="bilder/ela-rund.png">
 <link rel="stylesheet" href="schriften/schriften.css">
-<link rel="stylesheet" href="gemeinsam.css?v=40">
+<link rel="stylesheet" href="gemeinsam.css?v=41">
 <style>
 /* Sticker-Album: alle 5 Sterne ein Sticker (STICKER in daten.js). Ohne Lesen verständlich: Sticker, leere Plätze mit "?",
    oben 5 Sternchen-Plätze = wie weit es bis zum nächsten Sticker ist. */
@@ -17,6 +17,7 @@
 .weiter svg{width:clamp(34px,8vw,46px);height:auto}
 .weiter .voll{fill:var(--yellow);stroke:#e0a800;stroke-width:1.2}
 .weiter .leer{fill:#f3e6ee;stroke:#e6cfdc;stroke-width:1.2}
+.weiter .naechster img{width:86%;height:86%;object-fit:contain;filter:brightness(0);opacity:.15}
 .weiter .pfeil{font-family:var(--display);font-weight:800;font-size:30px;color:var(--muted);margin:0 4px}
 .weiter .naechster{width:clamp(46px,11vw,60px);aspect-ratio:1;border-radius:50%;background:#fff;border:3px dashed #e6cfdc;display:grid;place-items:center;
   font-family:var(--display);font-weight:800;font-size:26px;color:#e6cfdc}
@@ -24,7 +25,8 @@
 .platz{aspect-ratio:1;border-radius:50%;display:grid;place-items:center}
 .platz.zu{background:#fff;border:3px dashed #e6cfdc;font-family:var(--display);font-weight:800;font-size:clamp(28px,7vw,40px);color:#e6cfdc}
 .platz.auf{background:#fff;box-shadow:0 0 0 5px #fff,0 0 0 8px var(--c,var(--yellow)),0 10px 16px -8px rgba(58,36,64,.45);transform:rotate(var(--r,0deg));cursor:pointer;border:0;padding:0}
-.platz.auf img{width:84%;height:84%;object-fit:contain;border-radius:50%}
+.platz.schatten img{width:86%;height:86%;object-fit:contain;filter:brightness(0);opacity:.13}
+.platz.auf img{width:92%;height:92%;object-fit:contain;border-radius:50%}
 .platz.neu{animation:neu-hopp 1s ease-in-out 3}
 @keyframes neu-hopp{0%,100%{transform:rotate(var(--r,0deg)) scale(1)}50%{transform:rotate(0) scale(1.15)}}
 .platz.auf:active{transform:scale(.94)}
@@ -53,8 +55,8 @@
   </div>
 </div>
 
-<script src="gemeinsam.js?v=40"></script>
-<script src="daten.js?v=40"></script>
+<script src="gemeinsam.js?v=41"></script>
+<script src="daten.js?v=41"></script>
 <script>
 const STERN = '<path d="M12 2l3 6.5 7 .8-5.2 4.8 1.5 7L12 17.6 5.7 21l1.5-7L2 9.3l7-.8z"/>';
 const RAHMEN = ["#fbbd23","#e8459b","#8b5cf6","#3d8ef0","#4cbb5c","#f7882f"];
@@ -66,7 +68,8 @@ const weiter = document.getElementById("weiter");
 if (frei < STICKER.length) {
   const voll = n % STICKER_ALLE;
   for (let i = 0; i < STICKER_ALLE; i++) weiter.insertAdjacentHTML("beforeend", `<svg viewBox="0 0 24 24" class="${i < voll ? "voll" : "leer"}">${STERN}</svg>`);
-  weiter.insertAdjacentHTML("beforeend", `<span class="pfeil">→</span><span class="naechster">?</span>`);
+  const naechster = STICKER[frei];   // der nächste Sticker – Sterne schon als Silhouette, sonst "?"
+  weiter.insertAdjacentHTML("beforeend", `<span class="pfeil">→</span><span class="naechster">${naechster.includes("/sterne/") ? `<img src="${naechster}" alt="">` : "?"}</span>`);
 }
 
 /* Album: freie Sticker (leicht schräg, bunter Rand), danach leere Plätze mit "?" */
@@ -80,7 +83,9 @@ STICKER.forEach((bild, i) => {
     b.onclick = () => stickerNeu(bild);                      // antippen = groß ansehen
     album.appendChild(b);
   } else {
-    album.insertAdjacentHTML("beforeend", `<div class="platz zu">?</div>`);
+    // Sterne (durchsichtig) als graue Silhouette – man sieht schon die Form; andere Sticker als "?"
+    album.insertAdjacentHTML("beforeend", bild.includes("/sterne/")
+      ? `<div class="platz zu schatten"><img src="${bild}" alt=""></div>` : `<div class="platz zu">?</div>`);
   }
 });
 store.set("ela-sticker-gesehen", String(frei));
