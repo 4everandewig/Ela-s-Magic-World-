@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="schriften/schriften.css">
 <link rel="stylesheet" href="gemeinsam.css">
 <style>
-/* Startseite: Intro-Video, dann Elas Zimmer mit Logo, Ela (mit Begrüßung) und Kätzchen, darunter große bunte Kacheln für jeden Bereich */
+/* Startseite: Intro-Video, dann Elas Zimmer mit Logo, Ela (mit Begrüßung), darunter große bunte Kacheln für jeden Bereich */
 #intro{position:fixed;inset:0;z-index:60;background:#f6dccb;display:flex;align-items:center;justify-content:center}
 #intro video{width:100%;height:100%;object-fit:cover}
 @media (orientation:portrait){#intro video{height:64vh}}
@@ -119,7 +119,7 @@
   <footer class="fuss">
     <p data-t="f_safe"></p>
     <p><a href="info.html" data-t="f_parents"></a></p>
-    <p class="version">v17</p>
+    <p class="version">v18</p>
   </footer>
 </div>
 <script src="gemeinsam.js"></script>
@@ -128,7 +128,7 @@
 document.querySelectorAll(".tile.soon").forEach(tile => tile.addEventListener("click", e => {
   e.preventDefault(); say(t("home_soon", { x: t(tile.dataset.soon) }));
 }));
-/* Im Oktober: Hexen-Ela und Kätzchen mit Hexenhut (Halloween-Look), sonst die normale Ela */
+/* Im Oktober: Hexen-Ela (Halloween-Look), sonst die normale Ela */
 const halloween = new Date().getMonth() === 9;
 const HALLO = halloween ? "hw_hello" : "home_hello";
 let elaClip = null;
@@ -149,7 +149,7 @@ if (halloween) {
 const n = sterne();
 if (n > 0) say(t("home_stars", { n }));
 
-/* Ela und ihr Kätzchen sprechen, wenn man sie antippt */
+/* Ela spricht, wenn man sie antippt */
 function hop(el){ el.classList.remove("hop"); void el.offsetWidth; el.classList.add("hop"); }
 document.getElementById("ela-friend").onclick = e => {
   hop(e.currentTarget); say(t(HALLO));
