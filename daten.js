@@ -25,7 +25,7 @@ const THEMEN = [
    mit diesem Buchstaben aus THEMEN (z. B. B: Bear + Bat). Siehe karten(L). */
 const ABC_WOERTER = {
   A:{en:"Apple",de:"Apfel",tr:"Elma",foto:"bilder/abc/A-Apple.jpg"}, B:{en:"Bear",de:"Bär",tr:"Ayı",foto:"bilder/abc/B-Bear.jpg"},
-  C:{en:"Cat",de:"Katze",tr:"Kedi",foto:"bilder/katze.jpg"}, D:{en:"Dog",de:"Hund",tr:"Köpek",foto:"bilder/abc/D-Dog.jpg"},
+  C:{en:"Cat",de:"Katze",tr:"Kedi",foto:"bilder/abc/C-Cat.jpg"}, D:{en:"Dog",de:"Hund",tr:"Köpek",foto:"bilder/abc/D-Dog.jpg"},
   E:{en:"Elephant",de:"Elefant",tr:"Fil",foto:"bilder/abc/E-Elephant.jpg"}, F:{en:"Frog",de:"Frosch",tr:"Kurbağa",foto:"bilder/abc/F-Frog.jpg"},
   G:{en:"Giraffe",de:"Giraffe",tr:"Zürafa",foto:"bilder/abc/G-Giraffe.jpg"}, H:{en:"Horse",de:"Pferd",tr:"At",foto:"bilder/abc/H-Horse.jpg"},
   I:{en:"Ice cream",de:"Eis",tr:"Dondurma",foto:"bilder/abc/I-Ice-cream.jpg"}, J:{en:"Jellyfish",de:"Qualle",tr:"Denizanası",foto:"bilder/abc/J-Jellyfish.jpg"},
@@ -46,17 +46,19 @@ const ABC_WOERTER = {
    lob       = Lob bei richtigen Antworten (zufällig)
    Neue Aufnahme: MP3 nach stimme/ legen (Name wie die vorhandenen) und hier eintragen. */
 const STIMMEN = {
-  abc:       { A: "stimme/A-is-for-Apple.mp3", B: "stimme/B-is-for-Bear.mp3",
+  abc:       { A: "stimme/A-is-for-Apple.mp3", B: "stimme/B-is-for-Bear.mp3", C: "stimme/C-is-for-Cat.mp3", F: "stimme/F-is-for-Frog.mp3", D: "stimme/D-is-for-Dog.mp3", E: "stimme/E-is-for-Elephant.mp3",
                G: "stimme/G-is-for-Giraffe.mp3", H: "stimme/H-is-for-Horse.mp3", I: "stimme/I-is-for-Ice-cream.mp3",
                J: "stimme/J-is-for-Jellyfish.mp3", K: "stimme/K-is-for-Kite.mp3", L: "stimme/L-is-for-Lamb.mp3" },
-  wort:      { A: "stimme/Apple.mp3", B: "stimme/Bear.mp3",
+  wort:      { A: "stimme/Apple.mp3", B: "stimme/Bear.mp3", C: "stimme/Cat.mp3", F: "stimme/Frog.mp3", D: "stimme/Dog.mp3", E: "stimme/Elephant.mp3",
                G: "stimme/Giraffe.mp3", H: "stimme/Horse.mp3", I: "stimme/Ice-cream.mp3",
                J: "stimme/Jellyfish.mp3", K: "stimme/Kite.mp3", L: "stimme/Lamb.mp3" },
-  buchstabe: { G: "stimme/G.mp3", H: "stimme/H.mp3", I: "stimme/I.mp3", J: "stimme/J.mp3", K: "stimme/K.mp3", L: "stimme/L.mp3" },
-  frage:     { A: "stimme/What-starts-with-A.mp3", B: "stimme/What-starts-with-B.mp3",
+  buchstabe: { A: "stimme/A.mp3", B: "stimme/B.mp3", C: "stimme/C.mp3", D: "stimme/D.mp3", E: "stimme/E.mp3", F: "stimme/F.mp3",
+               G: "stimme/G.mp3", H: "stimme/H.mp3", I: "stimme/I.mp3", J: "stimme/J.mp3", K: "stimme/K.mp3", L: "stimme/L.mp3" },
+  frage:     { A: "stimme/What-starts-with-A.mp3", B: "stimme/What-starts-with-B.mp3", C: "stimme/What-starts-with-C.mp3", F: "stimme/What-starts-with-F.mp3", D: "stimme/What-starts-with-D.mp3", E: "stimme/What-starts-with-E.mp3",
                G: "stimme/What-starts-with-G.mp3", H: "stimme/What-starts-with-H.mp3", I: "stimme/What-starts-with-I.mp3",
                J: "stimme/What-starts-with-J.mp3", K: "stimme/What-starts-with-K.mp3", L: "stimme/What-starts-with-L.mp3" },
-  finde:     { G: "stimme/Find-the-letter-G.mp3", H: "stimme/Find-the-letter-H.mp3", I: "stimme/Find-the-letter-I.mp3",
+  finde:     { A: "stimme/Find-the-letter-A.mp3", B: "stimme/Find-the-letter-B.mp3", C: "stimme/Find-the-letter-C.mp3",
+               G: "stimme/Find-the-letter-G.mp3", H: "stimme/Find-the-letter-H.mp3", I: "stimme/Find-the-letter-I.mp3",
                J: "stimme/Find-the-letter-J.mp3", K: "stimme/Find-the-letter-K.mp3", L: "stimme/Find-the-letter-L.mp3" },
   farbe:     { red: "stimme/Red.mp3", orange: "stimme/Orange.mp3", yellow: "stimme/Yellow.mp3", green: "stimme/Green.mp3",
                blue: "stimme/Blue.mp3", purple: "stimme/Purple.mp3" },

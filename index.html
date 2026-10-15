@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="schriften/schriften.css">
 <link rel="stylesheet" href="gemeinsam.css">
 <style>
-/* Startseite: Intro-Video, dann Elas Zimmer mit Logo, Ela (mit Begrüßung) und Kätzchen, darunter große bunte Kacheln für jeden Bereich */
+/* Startseite: Intro-Video, dann Elas Zimmer mit Logo, Ela (mit Begrüßung), darunter große bunte Kacheln für jeden Bereich */
 #intro{position:fixed;inset:0;z-index:60;background:#f6dccb;display:flex;align-items:center;justify-content:center}
 #intro video{width:100%;height:100%;object-fit:cover}
 @media (orientation:portrait){#intro video{height:64vh}}
@@ -50,8 +50,8 @@
 .dots{display:grid;grid-template-columns:repeat(3,28px);gap:8px}
 .dots i{width:28px;height:28px;border-radius:50%}
 .mem-ico{display:flex;gap:8px;align-items:center}
-.mini-tueren{position:relative;display:flex;gap:8px;align-items:flex-end}
-.mini-tueren i{width:30px;height:52px;border-radius:999px 999px 4px 4px;background:var(--c);box-shadow:inset 0 0 0 3px #8a5a35}
+.mini-tueren{position:relative;display:flex;gap:5px;align-items:flex-end}
+.mini-tueren img{height:58px;width:auto;filter:drop-shadow(0 3px 3px rgba(58,36,64,.3))}
 .mini-tueren b{position:absolute;right:-8px;top:-12px;font-size:26px;font-family:var(--display);font-weight:800;color:var(--purple);line-height:1}
 .bye-box{display:flex;justify-content:center}
 .bye{background:#fff;color:var(--pink);font-family:var(--display);font-size:20px;box-shadow:inset 0 0 0 3px var(--pink)}
@@ -84,7 +84,6 @@
         <button class="friend" id="ela-friend" type="button" aria-label="Ela"><img src="bilder/ela-rund.png" alt=""></button>
         <div class="bubble" id="bubble" role="status" data-t="home_hello"></div>
       </div>
-      <button class="friend" id="cat-friend" type="button" data-t-label="kitty"><img src="bilder/katze.jpg" alt=""></button>
     </div>
   </section>
 
@@ -110,7 +109,7 @@
       <b data-t="t_zahlen"></b><small data-t="t_zahlen_s"></small>
     </a>
     <a class="tile" href="tueren.html" style="--c:var(--purple)">
-      <div class="pic"><div class="mini-tueren"><i style="--c:#f05252"></i><i style="--c:#fbbd23"></i><i style="--c:#3d8ef0"></i><b>?</b></div></div>
+      <div class="pic"><div class="mini-tueren"><img src="bilder/tueren/tuer-rot.webp" alt=""><img src="bilder/tueren/tuer-gelb.webp" alt=""><img src="bilder/tueren/tuer-blau.webp" alt=""><b>?</b></div></div>
       <b data-t="t_tueren"></b><small data-t="t_tueren_s"></small>
     </a>
   </nav>
@@ -120,7 +119,7 @@
   <footer class="fuss">
     <p data-t="f_safe"></p>
     <p><a href="info.html" data-t="f_parents"></a></p>
-    <p class="version">v16</p>
+    <p class="version">v20</p>
   </footer>
 </div>
 <script src="gemeinsam.js"></script>
@@ -129,9 +128,9 @@
 document.querySelectorAll(".tile.soon").forEach(tile => tile.addEventListener("click", e => {
   e.preventDefault(); say(t("home_soon", { x: t(tile.dataset.soon) }));
 }));
-/* Im Oktober: Hexen-Ela und Kätzchen mit Hexenhut (Halloween-Look), sonst die normale Ela */
+/* Im Oktober: Hexen-Ela (Halloween-Look), sonst die normale Ela */
 const halloween = new Date().getMonth() === 9;
-const HALLO = halloween ? "hw_hello" : "home_hello", MIAU = halloween ? "hw_meow" : "meow";
+const HALLO = halloween ? "hw_hello" : "home_hello";
 let elaClip = null;
 if (halloween) {
   // Hexen-Ela als kleines Video: schaut zu (stumm, Schleife); beim Antippen sagt sie "Hallo" mit ihrer Stimme
@@ -144,14 +143,13 @@ if (halloween) {
     Object.assign(elaClip, { src: "bilder/ela-hexe-schaut.mp4", muted: true, loop: true });
     const q = elaClip.play(); if (q && q.catch) q.catch(() => {});
   });
-  document.querySelector("#cat-friend img").src = "bilder/katze-hexe.jpg";
   document.querySelector(".hero").style.backgroundImage = 'url("bilder/zimmer-halloween.jpg")';   // Halloween-Zimmer
   say(t(HALLO));
 }
 const n = sterne();
 if (n > 0) say(t("home_stars", { n }));
 
-/* Ela und ihr Kätzchen sprechen, wenn man sie antippt */
+/* Ela spricht, wenn man sie antippt */
 function hop(el){ el.classList.remove("hop"); void el.offsetWidth; el.classList.add("hop"); }
 document.getElementById("ela-friend").onclick = e => {
   hop(e.currentTarget); say(t(HALLO));
@@ -160,7 +158,6 @@ document.getElementById("ela-friend").onclick = e => {
   Object.assign(elaClip, { src: "bilder/ela-hexe-hallo.mp4", muted: false, loop: false });
   const p = elaClip.play(); if (p && p.catch) p.catch(() => speak(t(HALLO)));
 };
-document.getElementById("cat-friend").onclick = e => { hop(e.currentTarget); say(t(MIAU)); speak(t(MIAU)); };
 let byeNr = 0;
 /* Abschied: "Bye-bye, Magic World! See you next time!" mit Elas Stimme, Ela winkt */
 document.getElementById("bye").onclick = () => {

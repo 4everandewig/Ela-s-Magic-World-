@@ -17,23 +17,19 @@
   display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
 .q img{width:clamp(56px,12vw,76px);aspect-ratio:1;object-fit:cover;border-radius:16px;box-shadow:0 0 0 4px var(--yellow)}
 .tueren{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(10px,3vw,24px);align-items:end}
-.tuer{position:relative;border:0;padding:0;background:none;cursor:pointer;aspect-ratio:3/5;perspective:900px}
-/* Dahinter: warmes Licht + Überraschung */
-.tuer .dahinter{position:absolute;inset:6% 7% 0;border-radius:999px 999px 10px 10px;background:radial-gradient(circle at 50% 45%,#fff8d6,#ffe08a 55%,#f7c35c);
-  display:grid;place-items:center;overflow:hidden}
-.tuer .dahinter span{font-size:clamp(46px,12vw,86px);line-height:1}
-.tuer .dahinter img{width:86%;aspect-ratio:1;object-fit:cover;border-radius:16px}
-/* Rahmen + Türblatt */
-.tuer .rahmen{position:absolute;inset:0;border-radius:999px 999px 12px 12px;box-shadow:inset 0 0 0 clamp(6px,1.6vw,10px) #8a5a35,0 10px 18px -10px rgba(58,36,64,.6);pointer-events:none}
-.tuer .blatt{position:absolute;inset:6% 7% 0;border-radius:999px 999px 10px 10px;background:var(--c);transform-origin:left center;transition:transform .7s ease;
-  box-shadow:inset 0 0 0 6px rgba(255,255,255,.25),inset 0 -14px 0 rgba(0,0,0,.12);display:grid;place-items:center}
-.tuer .blatt::before{content:"";position:absolute;inset:16% 18% 46%;border-radius:999px 999px 8px 8px;border:4px solid rgba(255,255,255,.35)}
-.tuer .blatt::after{content:"";position:absolute;inset:60% 18% 10%;border-radius:8px;border:4px solid rgba(255,255,255,.35)}
-.tuer .blatt i{position:absolute;right:14%;top:56%;width:clamp(12px,3vw,18px);aspect-ratio:1;border-radius:50%;background:#f7d36a;box-shadow:0 0 0 3px #b8862b}
-.tuer.offen .blatt{transform:rotateY(-105deg)}
+/* Die drei Zaubertüren sind freigestellte 3D-Bilder (bilder/tueren/). Dahinter warmes Licht in genau der Türform (Maske = Türbild). */
+.tuer{position:relative;border:0;padding:0;background:none;cursor:pointer;width:100%;aspect-ratio:var(--ar);perspective:1000px}
+.tuer .dahinter{position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,#fffbe6,#ffe08a 55%,#f7c35c);
+  -webkit-mask:var(--bild) center/100% 100% no-repeat;mask:var(--bild) center/100% 100% no-repeat;display:grid;place-items:center}
+.tuer .dahinter img{width:72%;aspect-ratio:1;object-fit:cover;border-radius:16px;box-shadow:0 6px 14px -8px rgba(90,50,30,.6)}
+.tuer .blatt{position:absolute;inset:0;width:100%;height:100%;transform-origin:left center;transition:transform .8s ease;
+  filter:drop-shadow(0 10px 12px rgba(58,36,64,.35))}
+.tuer.rechts .blatt{transform-origin:right center}
+.tuer.offen .blatt{transform:rotateY(-100deg)}
+.tuer.rechts.offen .blatt{transform:rotateY(100deg)}
 .tuer:focus-visible{outline:3px solid var(--orange);outline-offset:4px;border-radius:20px}
 .tuer.wackel{animation:wiggle .4s ease}
-.tuer.richtig .dahinter{box-shadow:inset 0 0 0 5px var(--green)}
+.tuer.richtig .dahinter img{box-shadow:0 0 0 5px var(--green)}
 .leiste{display:flex;justify-content:center;margin-top:16px}
 .nochmal{background:var(--purple);color:#fff}
 @media (prefers-reduced-motion:reduce){.tuer .blatt{transition:none}}
@@ -65,7 +61,10 @@
 <script src="gemeinsam.js"></script>
 <script src="daten.js"></script>
 <script>
-const TUERFARBEN = ["#f05252", "#fbbd23", "#3d8ef0"];   // Red, yellow and blue!
+// Red, yellow and blue! – Bild, Seitenverhältnis, Scharnier-Seite (die gelbe Tür hat den Griff links)
+const TUEREN = [{ bild: "bilder/tueren/tuer-rot.webp",  ar: "465/720", rechts: false },
+                { bild: "bilder/tueren/tuer-gelb.webp", ar: "558/720", rechts: true },
+                { bild: "bilder/tueren/tuer-blau.webp", ar: "450/720", rechts: false }];
 const mischen = a => a.map(v => [Math.random(), v]).sort((x, y) => x[0] - y[0]).map(v => v[1]);
 const TIERE = Object.keys(ABC_WOERTER).filter(L => ABC_WOERTER[L].foto);
 const S = STIMMEN.tueren, EN = () => LANG === "en";
@@ -84,9 +83,11 @@ function neueRunde(){
   tueren.innerHTML = "";
   drei.forEach((L, i) => {
     const b = document.createElement("button"); b.type = "button"; b.className = "tuer";
-    b.style.setProperty("--c", TUERFARBEN[i]);
+    const tuer = TUEREN[i];
+    b.style.setProperty("--bild", `url("${tuer.bild}")`); b.style.setProperty("--ar", tuer.ar);
+    if (tuer.rechts) b.classList.add("rechts");
     b.setAttribute("aria-label", "Door " + (i + 1));
-    b.innerHTML = `<span class="dahinter"><img src="${ABC_WOERTER[L].foto}" alt="${ABC_WOERTER[L].en}"></span><span class="blatt"><i></i></span><span class="rahmen"></span>`;
+    b.innerHTML = `<span class="dahinter"><img src="${ABC_WOERTER[L].foto}" alt="${ABC_WOERTER[L].en}"></span><img class="blatt" src="${tuer.bild}" alt="">`;
     b.onclick = () => oeffnen(b, L);
     tueren.appendChild(b);
   });
