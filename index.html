@@ -6,7 +6,7 @@
 <title>Ela's Magic World</title>
 <link rel="icon" href="bilder/ela-rund.png">
 <link rel="stylesheet" href="schriften/schriften.css">
-<link rel="stylesheet" href="gemeinsam.css?v=28">
+<link rel="stylesheet" href="gemeinsam.css?v=29">
 <style>
 /* Startseite: Intro-Video, dann Elas Zimmer mit Logo, Ela (mit Begrüßung), darunter große bunte Kacheln für jeden Bereich */
 #intro{position:fixed;inset:0;z-index:60;background:#f6dccb;display:flex;align-items:center;justify-content:center}
@@ -119,11 +119,11 @@
   <footer class="fuss">
     <p data-t="f_safe"></p>
     <p><a href="info.html" data-t="f_parents"></a></p>
-    <p class="version">v28</p>
+    <p class="version">v29</p>
   </footer>
 </div>
-<script src="gemeinsam.js?v=28"></script>
-<script src="daten.js?v=28"></script>
+<script src="gemeinsam.js?v=29"></script>
+<script src="daten.js?v=29"></script>
 <script>
 document.querySelectorAll(".tile.soon").forEach(tile => tile.addEventListener("click", e => {
   e.preventDefault(); say(t("home_soon", { x: t(tile.dataset.soon) }));
@@ -143,8 +143,7 @@ if (halloween) {
   document.querySelector(".hero").style.backgroundImage = 'url("bilder/zimmer-halloween.jpg")';   // Halloween-Zimmer
   say(t(HALLO));
 }
-const n = sterne();
-if (n > 0) say(t("home_stars", { n }));
+// Keine Text-Meldung "You have 55 stars" – die Kinder können noch nicht lesen; die Sterne zeigt oben rechts das Sternchen-Feld.
 
 /* Ela spricht, wenn man sie antippt */
 function hop(el){ el.classList.remove("hop"); void el.offsetWidth; el.classList.add("hop"); }
