@@ -6,7 +6,7 @@
 <title>Memory – Ela's Magic World</title>
 <link rel="icon" href="bilder/ela-rund.png">
 <link rel="stylesheet" href="schriften/schriften.css">
-<link rel="stylesheet" href="gemeinsam.css?v=34">
+<link rel="stylesheet" href="gemeinsam.css?v=35">
 <style>
 /* ABC-Memory: Karten umdrehen, Buchstabe + passendes Bild finden ("B" ↔ Bear). Modus "Pictures": zwei gleiche Bilder. */
 .top h1{color:var(--orange)}
@@ -47,6 +47,7 @@
   <div class="tabs">
     <button class="tab" id="tab-abc" type="button" style="--c:var(--purple)" aria-pressed="true" data-t="mem_abc"></button>
     <button class="tab" id="tab-bild" type="button" style="--c:var(--orange)" aria-pressed="false" data-t="mem_pics"></button>
+    <button class="tab" id="tab-hw" type="button" style="--c:#f7882f" aria-pressed="false" hidden>🎃 <span data-t="mem_hw"></span></button>
   </div>
 
   <div class="main">
@@ -64,8 +65,8 @@
   </div>
 </div>
 
-<script src="gemeinsam.js?v=34"></script>
-<script src="daten.js?v=34"></script>
+<script src="gemeinsam.js?v=35"></script>
+<script src="daten.js?v=35"></script>
 <script>
 elaTippen(document.getElementById("ela-tipp"), ELA_VIDEOS.seite.abc);
 
@@ -75,6 +76,16 @@ const farbe = L => BUNT[(L.charCodeAt(0) - 65) % BUNT.length];
 const mischen = a => a.map(v => [Math.random(), v]).sort((x, y) => x[0] - y[0]).map(v => v[1]);
 // Alle Buchstaben mit 3D-Bild aus den Videos (bilder/abc/…)
 const MIT_FOTO = Object.keys(ABC_WOERTER).filter(L => ABC_WOERTER[L].foto);
+// Alle Karten-Motive: id → { L, en, foto, wort (Elas Wort), abc (Elas "B is for Bear") }
+const MOTIV = {};
+MIT_FOTO.forEach(L => { MOTIV[L] = { L, en: ABC_WOERTER[L].en, foto: ABC_WOERTER[L].foto, wort: STIMMEN.wort[L], abc: STIMMEN.abc[L] }; });
+// Halloween-Memory: Elas bunt ausgemalte Halloween-Bilder (Feld "bunt" in daten.js), zwei gleiche Bilder
+const HW = [];
+(THEMEN.find(th => th.id === "halloween") || { bilder: [] }).bilder.filter(b => b.bunt).forEach(b => {
+  const id = "hw-" + b.L; MOTIV[id] = { L: b.L, en: b.wort.en, foto: b.bunt }; HW.push(id);
+});
+document.getElementById("tab-hw").hidden = HW.length < 3;   // erst ab 3 bunten Bildern
+let paare = PAARE;
 
 let modus = "abc", offen = [], sperre = false, gefunden = 0, zuege = 0;
 const feld = document.getElementById("feld");
@@ -83,17 +94,18 @@ function zeigeZuege(){ document.getElementById("zuege").textContent = t("mem_mov
 
 function neuesSpiel(){
   offen = []; sperre = false; gefunden = 0; zuege = 0; zeigeZuege();
-  const auswahl = mischen(MIT_FOTO).slice(0, PAARE);
+  const auswahl = mischen(modus === "hw" ? HW : MIT_FOTO).slice(0, PAARE);
+  paare = auswahl.length;
   const karten = [];
-  auswahl.forEach(L => {
-    karten.push({ L, art: "bild" });
-    karten.push({ L, art: modus === "abc" ? "buchstabe" : "bild" });
+  auswahl.forEach(id => {
+    karten.push({ id, L: MOTIV[id].L, art: "bild" });
+    karten.push({ id, L: MOTIV[id].L, art: modus === "abc" ? "buchstabe" : "bild" });
   });
   feld.innerHTML = "";
   mischen(karten).forEach(k => {
-    const w = ABC_WOERTER[k.L];
+    const w = MOTIV[k.id];
     const b = document.createElement("button");
-    b.type = "button"; b.className = "karte"; b.dataset.L = k.L;
+    b.type = "button"; b.className = "karte"; b.dataset.id = k.id;
     b.style.setProperty("--c", farbe(k.L));
     b.setAttribute("aria-label", "?");
     b.innerHTML = `<span class="innen"><span class="seite rueck"><b>?</b><i>✦</i></span>` +
@@ -107,27 +119,28 @@ function neuesSpiel(){
 function umdrehen(b, k){
   if (sperre || b.classList.contains("offen") || b.classList.contains("weg")) return;
   b.classList.add("offen");
-  b.setAttribute("aria-label", k.art === "bild" ? ABC_WOERTER[k.L].en : k.L);
+  const m = MOTIV[k.id];
+  b.setAttribute("aria-label", k.art === "bild" ? m.en : k.L);
   offen.push(b);
-  const paar = offen.length === 2 && offen[0].dataset.L === offen[1].dataset.L;
+  const paar = offen.length === 2 && offen[0].dataset.id === offen[1].dataset.id;
   // Beim Umdrehen Wort bzw. Buchstabe mit Elas Stimme ("Bear" / "Letter B"), sonst Geräte-Stimme.
   // Bei einem Paar gleich das Lob + "B is for Bear", damit nichts abgeschnitten wird.
   if (!paar) {
-    const datei = k.art === "bild" ? STIMMEN.wort[k.L] : STIMMEN.buchstabe[k.L];
-    const text = k.art === "bild" ? ABC_WOERTER[k.L].en : k.L;
+    const datei = k.art === "bild" ? m.wort : STIMMEN.buchstabe[k.L];
+    const text = k.art === "bild" ? m.en : k.L;
     if (datei) elaSagt([datei], text); else speak(text, "en-US");
   }
   if (offen.length < 2) return;
   zuege++; zeigeZuege();
   const [a, c] = offen; offen = [];
   if (paar) {
-    const L = a.dataset.L, en = ABC_WOERTER[L].en;
+    const { L, en, abc } = MOTIV[a.dataset.id];
     say(`${lob()} ${t("a_is", { L, w: en })}`);
-    if (STIMMEN.abc[L]) elaSagt([zufall(STIMMEN.lob), STIMMEN.abc[L]], `${L} is for ${en}!`);
+    if (abc) elaSagt([zufall(STIMMEN.lob), abc], `${L} is for ${en}!`);
     else elaSagt([zufall(STIMMEN.lob)], `${L} is for ${en}!`, `${L} is for ${en}!`);
     setTimeout(() => {
       a.classList.add("weg"); c.classList.add("weg");
-      if (++gefunden === PAARE) fertig();
+      if (++gefunden === paare) fertig();
     }, 900);
   } else {
     sperre = true;
@@ -148,10 +161,12 @@ function setzeModus(m){
   modus = m;
   document.getElementById("tab-abc").setAttribute("aria-pressed", m === "abc");
   document.getElementById("tab-bild").setAttribute("aria-pressed", m === "bild");
+  document.getElementById("tab-hw").setAttribute("aria-pressed", m === "hw");
   neuesSpiel();
 }
 document.getElementById("tab-abc").onclick = () => setzeModus("abc");
 document.getElementById("tab-bild").onclick = () => setzeModus("bild");
+document.getElementById("tab-hw").onclick = () => setzeModus("hw");
 document.getElementById("neu").onclick = neuesSpiel;
 neuesSpiel();
 </script>
