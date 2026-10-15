@@ -52,7 +52,7 @@
       <div class="leiste"><button class="btn nochmal" id="nochmal" type="button" hidden data-t="d_again"></button></div>
     </section>
     <aside class="ela">
-      <img class="round" src="bilder/ela-rund.png" alt="Ela">
+      <img class="round tippbar" id="ela-tipp" src="bilder/ela-rund.png" alt="Ela">
       <div class="bubble" id="bubble" role="status"></div>
     </aside>
   </div>
@@ -113,7 +113,8 @@ function oeffnen(b, L){
   if (L === ziel) {
     fertig = true; b.classList.add("richtig");
     say(`${lob()} ${t("d_right", { w: wortVon(L) })}`);
-    if (EN()) elaKette([{ datei: zufall(STIMMEN.lob), text: lob() }, { datei: STIMMEN.abc[L], text: `${L} is for ${en}!` }]);
+    // "You found it!" – "B is for Bear!"
+    if (EN()) elaKette([{ datei: S.gefunden, text: "You found it!" }, { datei: STIMMEN.abc[L], text: `${L} is for ${en}!` }]);
     else speak(`${lob()} ${t("d_right", { w: wortVon(L) })}`);
     sternDazu(); sternRegen();
     // alle Türen aufmachen, damit man sieht, wer sich noch versteckt hat
@@ -128,6 +129,12 @@ function oeffnen(b, L){
 }
 
 document.getElementById("nochmal").onclick = neueRunde;
+/* Auf Ela tippen: "Open a door!" (solange noch gesucht wird), danach die Frage nochmal */
+document.getElementById("ela-tipp").onclick = () => {
+  if (fertig || !EN()) return frageSagen();
+  say(t("d_find", { w: wortVon(ziel) }));
+  elaKette([{ datei: S.oeffne, text: "Open a door!" }]);
+};
 neueRunde();
 </script>
 </body>

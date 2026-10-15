@@ -58,6 +58,7 @@ const STIMMEN = {
                G: "stimme/What-starts-with-G.mp3", H: "stimme/What-starts-with-H.mp3", I: "stimme/What-starts-with-I.mp3",
                J: "stimme/What-starts-with-J.mp3", K: "stimme/What-starts-with-K.mp3", L: "stimme/What-starts-with-L.mp3" },
   finde:     { A: "stimme/Find-the-letter-A.mp3", B: "stimme/Find-the-letter-B.mp3", C: "stimme/Find-the-letter-C.mp3",
+               D: "stimme/Find-the-letter-D.mp3", E: "stimme/Find-the-letter-E.mp3", F: "stimme/Find-the-letter-F.mp3",
                G: "stimme/Find-the-letter-G.mp3", H: "stimme/Find-the-letter-H.mp3", I: "stimme/Find-the-letter-I.mp3",
                J: "stimme/Find-the-letter-J.mp3", K: "stimme/Find-the-letter-K.mp3", L: "stimme/Find-the-letter-L.mp3" },
   farbe:     { red: "stimme/Red.mp3", orange: "stimme/Orange.mp3", yellow: "stimme/Yellow.mp3", green: "stimme/Green.mp3",
@@ -66,8 +67,9 @@ const STIMMEN = {
   tueren:    { finde: "stimme/Find-the-star.mp3", stern: "stimme/A-star.mp3", wer: "stimme/Who-is-hiding.mp3",
                hase: "stimme/Oh-its-a-bunny.mp3", hase2: "stimme/A-bunny.mp3", hopp: "stimme/Hop-like-a-bunny.mp3",
                psst: "stimme/Shhh-what-is-it.mp3", mal: "stimme/Lets-find-out.mp3", blau: "stimme/The-blue-one.mp3", schau: "stimme/Wait-look.mp3",
-               // noch aufzunehmen (Liste T1–T5): andere = "Try another door!", tier = { B: "stimme/Find-the-Bear.mp3", … }
-               andere: null, tier: {} },
+               andere: "stimme/Try-another-door.mp3", gefunden: "stimme/You-found-it.mp3", oeffne: "stimme/Open-a-door.mp3",
+               // "Find the Bear!" … (noch aufzunehmen: T3–T5 für D–L)
+               tier: { A: "stimme/Find-the-Apple.mp3", B: "stimme/Find-the-Bear.mp3", C: "stimme/Find-the-Cat.mp3" } },
   // noch aufzunehmen (Liste Z1–Z2): "How many apples?" usw., Schlüssel wie DINGE in zahlen.html
   wieviele: {},
   tschuess:  ["stimme/Bye-bye-magic-world.mp3", "stimme/See-you-next-time.mp3"],
