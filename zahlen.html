@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="schriften/schriften.css">
 <link rel="stylesheet" href="gemeinsam.css">
 <style>
-/* Zahlen: 2–5 gleiche Dinge (Äpfel, Eis, Drachen, Sterne) antippen und mit Ela zählen ("One, two, three"), dann die richtige Zahl wählen. */
+/* Zahlen: 2–5 gleiche Dinge (Äpfel, Eis, Drachen, Enten, Sterne) antippen und mit Ela zählen ("One, two, three"), dann die richtige Zahl wählen. */
 .top h1{color:var(--green)}
 .main{display:grid;grid-template-columns:1fr 260px;gap:16px;align-items:start}
 @media (max-width:860px){.main{grid-template-columns:1fr}.main .ela{order:-1}}
@@ -65,6 +65,7 @@ const DINGE = [
   { id: "apples",    bild: ABC_WOERTER.A.foto, name: { en: "apples",     de: "Äpfel",   tr: "elma" } },
   { id: "icecreams", bild: ABC_WOERTER.I.foto, name: { en: "ice creams", de: "Eis",     tr: "dondurma" } },
   { id: "kites",     bild: ABC_WOERTER.K.foto, name: { en: "kites",      de: "Drachen", tr: "uçurtma" } },
+  { id: "ducks",     bild: "bilder/zahlen/ente.jpg", name: { en: "ducks", de: "Enten", tr: "ördek" } },   // wie im Video "Look, Papa! Ducks!"
   { id: "stars",     bild: null,               name: { en: "stars",      de: "Sterne",  tr: "yıldız" } },
 ];
 let anzahl = 0, gezaehlt = 0, sperre = false, letztes = 0, ding = DINGE[0];
