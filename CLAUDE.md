@@ -7,7 +7,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
 - `index.html` – Startseite: zuerst Intro-Video (`bilder/intro.mp4` + Standbild `intro.jpg`, stumm; „Let's go!“ = mit Ton;
   einmal pro Besuch über `sessionStorage` `ela-intro`). Dann Elas Zimmer (`bilder/zimmer.jpg`) mit Logo und Ela (begrüßt),
   KEIN sprechendes Kätzchen im Kreis mehr (auf Wunsch entfernt), darunter große Kacheln zu den Bereichen (Zahlen vorerst ausgeblendet).
-  Unten Fußzeile mit Versionsnummer (`v32`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
+  Unten Fußzeile mit Versionsnummer (`v33`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
 - `malbuch.html` – Malbuch mit **Themen** (Halloween aktiv; Christmas, Animals, Sweets, Ocean sind vorbereitet, aber ausgeblendet, bis sie Bilder haben).
   Bild wählen, Farbe wählen, in eine Fläche tippen → füllt sich. Zusätzlich Pinsel, Undo, Neu, Speichern.
   „Print“ (Knopf mit dem Halloween-Drucker `bilder/drucker.png` aus den Videos) druckt das leere Bild als A4-Blatt
@@ -82,6 +82,8 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
    Aus den A4-PDFs („ausmalbild-X-….pdf“): `pdftoppm -r 200 -gray`, dann nur die Zeichnung (größter Block zwischen
    Buchstabe oben und Wort unten) ausschneiden, 4 % Rand, auf 1000 px. Wird ein Bild ersetzt, verwirft das Malbuch alte Speicherstände
    mit anderer Größe automatisch.
+   Optional Elas fertig ausgemaltes Bild als Vorschau: `bilder/<thema-id>/bunt/<L>-<Wort>.jpg` (700 px, weißer Rand) und im Eintrag
+   `bunt: "…jpg"` – erscheint als kleines wackelndes Bild neben dem Wort, antippen = groß.
 2. In `daten.js` beim Thema unter `bilder` ergänzen:
    `{ L: "Z", wort: { en: "Zombie", de: "Zombie", tr: "Zombi" }, datei: "bilder/halloween/Z-Zombie.png" }` (alphabetisch).
    Das Bild erscheint dann automatisch auch im ABC und im ABC-Spiel.
