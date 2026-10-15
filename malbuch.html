@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Coloring Book – Ela's Magic World</title>
 <link rel="stylesheet" href="schriften/schriften.css">
-<link rel="stylesheet" href="gemeinsam.css?v=29">
+<link rel="stylesheet" href="gemeinsam.css?v=30">
 <style>
 /* Layout: Themenleiste, Bilderleiste, Malfläche mit Regenbogenrahmen, rechts Ela + Farben + Werkzeuge. */
 /* Grundfarben, Kopfzeile, Ela und Knöpfe kommen aus gemeinsam.css */
@@ -162,8 +162,8 @@ canvas{display:block;max-width:100%;max-height:62vh;width:auto;height:auto;touch
   <div class="d-fuss"><img src="bilder/logo.png" alt=""><span>Ela's Magic World · youtube.com/@ElasMagicPhonics</span></div>
 </div>
 
-<script src="gemeinsam.js?v=29"></script>
-<script src="daten.js?v=29"></script>
+<script src="gemeinsam.js?v=30"></script>
+<script src="daten.js?v=30"></script>
 <script>
 let thema = THEMEN[0], BILDER = thema.bilder;
 
@@ -286,8 +286,12 @@ function open(i){
     cctx.fillStyle = "#fff"; cctx.fillRect(0, 0, W, H);
     undoStack = [];
     const saved = store.get("ela-bild-" + thema.id + "-" + current.L);
-    // Ältere Speicherstände haben noch keinen Rand → um PAD verschoben einsetzen
-    if (saved) { const s = new Image(); s.onload = () => { const alt = s.naturalWidth === img.naturalWidth; cctx.drawImage(s, alt ? PAD : 0, alt ? PAD : 0); render(); }; s.src = saved; }
+    // Ältere Speicherstände haben noch keinen Rand → um PAD verschoben einsetzen.
+    // Passt die Größe gar nicht (Bild wurde durch eine neue Zeichnung ersetzt), alten Stand verwerfen.
+    if (saved) { const s = new Image(); s.onload = () => {
+      const neu = s.naturalWidth === W && s.naturalHeight === H, alt = s.naturalWidth === img.naturalWidth && s.naturalHeight === img.naturalHeight;
+      if (neu || alt) { cctx.drawImage(s, alt ? PAD : 0, alt ? PAD : 0); render(); }
+    }; s.src = saved; }
     render();
   };
   img.src = current.datei;
