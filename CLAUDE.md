@@ -25,7 +25,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
 - `zahlen.html` – Numbers: 2–5 gleiche Dinge (`DINGE`: Äpfel, Eis, Drachen, Enten `bilder/zahlen/ente.jpg`, Sterne) antippen und mit Ela zählen („One, two …“, `STIMMEN.zahl`),
   „How many apples?“ (`STIMMEN.wieviele[id]`), dann die Zahl wählen. Falsche Zahl → Ela zählt sanft mit.
 - `tueren.html` – Magic Doors (aus „Ela & Papa“ Ep. 1): rote, gelbe, blaue Tür als freigestellte 3D-Bilder (`bilder/tueren/tuer-*.webp`, dahinter Licht in Türform per CSS-Maske), hinter jeder ein ABC-Tier.
-  „Who is hiding? Find the Bear!“ (gesuchtes Tier klein oben), falsche Tür → „G is for Giraffe! Try another door.“ (`STIMMEN.tueren.tier`, `.andere`).
+  „Who is hiding? Find the Bear!“ (gesuchtes Tier klein oben), falsche Tür → „G is for Giraffe! Try another door.“ (`STIMMEN.tueren.tier`, `.andere`), richtig → „You found it!“ (`.gefunden`) + „B is for Bear“, Ela antippen → „Open a door!“ (`.oeffne`).
   Startseite: Knopf „Bye-bye“ (`STIMMEN.tschuess`).
 
 ## Gemeinsame Dateien
