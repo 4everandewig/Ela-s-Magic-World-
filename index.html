@@ -119,7 +119,7 @@
   <footer class="fuss">
     <p data-t="f_safe"></p>
     <p><a href="info.html" data-t="f_parents"></a></p>
-    <p class="version">v23</p>
+    <p class="version">v24</p>
   </footer>
 </div>
 <script src="gemeinsam.js"></script>
@@ -133,16 +133,13 @@ const halloween = new Date().getMonth() === 9;
 const HALLO = halloween ? "hw_hello" : "home_hello";
 let elaClip = null;
 if (halloween) {
-  // Hexen-Ela als kleines Video: schaut zu (stumm, Schleife); beim Antippen sagt sie "Hallo" mit ihrer Stimme
+  // Hexen-Ela im Kreis: Standbild, sie schaut nach vorn (das "schaut zu"-Video blickte zur Seite, sah im Kreis komisch aus).
+  // Beim Antippen sagt sie "Hallo" als kleines Video mit ihrer Stimme, danach wieder das Standbild.
   elaClip = document.createElement("video");
-  Object.assign(elaClip, { src: "bilder/ela-hexe-schaut.mp4", poster: "bilder/ela-hexe-rund.jpg", muted: true, loop: true, autoplay: true, playsInline: true });
+  Object.assign(elaClip, { poster: "bilder/ela-hexe-rund.jpg", playsInline: true });
   elaClip.setAttribute("playsinline", ""); elaClip.setAttribute("aria-hidden", "true");
   document.querySelector("#ela-friend img").replaceWith(elaClip);
-  const p = elaClip.play(); if (p && p.catch) p.catch(() => {});
-  elaClip.addEventListener("ended", () => {   // nach "Hallo" wieder zuschauen
-    Object.assign(elaClip, { src: "bilder/ela-hexe-schaut.mp4", muted: true, loop: true });
-    const q = elaClip.play(); if (q && q.catch) q.catch(() => {});
-  });
+  elaClip.addEventListener("ended", () => { elaClip.removeAttribute("src"); elaClip.load(); });
   document.querySelector(".hero").style.backgroundImage = 'url("bilder/zimmer-halloween.jpg")';   // Halloween-Zimmer
   say(t(HALLO));
 }
