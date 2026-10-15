@@ -88,3 +88,12 @@ html.halloween body::before{background-image:linear-gradient(rgba(255,242,248,.4
 .fuss{text-align:center;color:var(--muted);font-weight:800;font-size:14px;padding:8px 0 4px}
 .fuss p{margin:4px 0}
 .fuss a{color:var(--pink)}
+
+/* Neuer Sticker (alle 5 Sterne) */
+.sticker-neu{position:fixed;inset:0;z-index:80;display:grid;place-items:center;background:rgba(58,36,64,.35);cursor:pointer;transition:opacity .5s}
+.sticker-neu img{width:min(300px,64vw);aspect-ratio:1;object-fit:contain;border-radius:50%;background:#fff;padding:14px;
+  box-shadow:0 0 0 8px #fff,0 0 0 13px var(--yellow),0 20px 40px -10px rgba(58,36,64,.6);animation:sticker-rein .9s cubic-bezier(.2,1.4,.4,1)}
+.sticker-neu.weg{opacity:0}
+.sticker-neu.weg img{transform:translate(38vw,-42vh) scale(.1);transition:transform .6s ease-in}
+@keyframes sticker-rein{0%{transform:scale(0) rotate(-200deg)}100%{transform:scale(1) rotate(0)}}
+@media (prefers-reduced-motion:reduce){.sticker-neu img{animation:none}}

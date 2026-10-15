@@ -28,7 +28,7 @@ const TEXTE = {
     t_memory: "Memory", t_memory_s: "Find the pairs",
     n_q: "How many can you count?", n_tap: "Tap each picture and count with me!", n_which: "Now tap the right number!", n_count: "Count with me",
     n_right: "{n} {x}! Great counting!", n_again: "Almost! Let's count together!", n_together: "Let's count together!", n_how: "How many {x}?",
-    t_tueren: "Magic Doors", t_tueren_s: "Who is hiding?", d_find: "Who is hiding? Find the {w}!", d_wrong: "{L} is for {w}! Try another door.", d_right: "You found the {w}!", d_again: "Let's play again!",
+    t_sticker: "My Stickers", t_sticker_s: "Collect stickers with your stars", st_hint: "Every 5 stars you get a new sticker!", st_new: "A new sticker!", t_tueren: "Magic Doors", t_tueren_s: "Who is hiding?", d_find: "Who is hiding? Find the {w}!", d_wrong: "{L} is for {w}! Try another door.", d_right: "You found the {w}!", d_again: "Let's play again!",
     bye: "Bye-bye", bye_text: "Bye-bye, Magic World! See you next time!", mem_abc: "ABC", mem_pics: "Pictures", mem_hw: "Halloween", mem_new: "New game", mem_moves: "Moves: {n}",
     mem_hint_abc: "Find the letter and its picture! B goes with Bear.", mem_hint_pics: "Find two pictures that are the same!", mem_done: "You found all the pairs in {n} moves! 3 stars for you!",
     color: "Color", tool: "Tool", fill: "Fill", paint: "Paint", undo: "Undo", neu: "New", sure: "Sure?", save: "Save picture",
@@ -56,7 +56,7 @@ const TEXTE = {
     t_memory: "Memory", t_memory_s: "Finde die Paare",
     n_q: "Wie viele kannst du zählen?", n_tap: "Tipp jedes Bild an und zähl mit mir!", n_which: "Jetzt tipp auf die richtige Zahl!", n_count: "Zähl mit mir",
     n_right: "{n} {x}! Toll gezählt!", n_again: "Fast! Komm, wir zählen zusammen!", n_together: "Komm, wir zählen zusammen!", n_how: "Wie viele {x}?",
-    t_tueren: "Zaubertüren", t_tueren_s: "Wer versteckt sich?", d_find: "Wer versteckt sich? Finde: {w}!", d_wrong: "{L} wie {w}! Probier eine andere Tür.", d_right: "Gefunden: {w}!", d_again: "Komm, wir spielen nochmal!",
+    t_sticker: "Meine Sticker", t_sticker_s: "Sammle Sticker mit deinen Sternen", st_hint: "Für 5 Sterne gibt es einen neuen Sticker!", st_new: "Ein neuer Sticker!", t_tueren: "Zaubertüren", t_tueren_s: "Wer versteckt sich?", d_find: "Wer versteckt sich? Finde: {w}!", d_wrong: "{L} wie {w}! Probier eine andere Tür.", d_right: "Gefunden: {w}!", d_again: "Komm, wir spielen nochmal!",
     bye: "Tschüss", bye_text: "Tschüss, Zauberwelt! Bis zum nächsten Mal!", mem_abc: "ABC", mem_pics: "Bilder", mem_hw: "Halloween", mem_new: "Neues Spiel", mem_moves: "Züge: {n}",
     mem_hint_abc: "Finde den Buchstaben und sein Bild! B gehört zu Bear.", mem_hint_pics: "Finde zwei gleiche Bilder!", mem_done: "Du hast alle Paare in {n} Zügen gefunden! 3 Sterne für dich!",
     color: "Farbe", tool: "Werkzeug", fill: "Füllen", paint: "Malen", undo: "Zurück", neu: "Neu", sure: "Sicher?", save: "Bild speichern",
@@ -84,7 +84,7 @@ const TEXTE = {
     t_memory: "Hafıza", t_memory_s: "Eşleri bul",
     n_q: "Kaç tane sayabilirsin?", n_tap: "Her resme dokun ve benimle say!", n_which: "Şimdi doğru sayıya dokun!", n_count: "Benimle say",
     n_right: "{n} {x}! Harika saydın!", n_again: "Neredeyse! Hadi birlikte sayalım!", n_together: "Hadi birlikte sayalım!", n_how: "Kaç {x} var?",
-    t_tueren: "Sihirli Kapılar", t_tueren_s: "Kim saklanıyor?", d_find: "Kim saklanıyor? Bul: {w}!", d_wrong: "{L}: {w}! Başka bir kapı dene.", d_right: "Buldun: {w}!", d_again: "Hadi tekrar oynayalım!",
+    t_sticker: "Çıkartmalarım", t_sticker_s: "Yıldızlarınla çıkartma topla", st_hint: "Her 5 yıldızda yeni bir çıkartma!", st_new: "Yeni bir çıkartma!", t_tueren: "Sihirli Kapılar", t_tueren_s: "Kim saklanıyor?", d_find: "Kim saklanıyor? Bul: {w}!", d_wrong: "{L}: {w}! Başka bir kapı dene.", d_right: "Buldun: {w}!", d_again: "Hadi tekrar oynayalım!",
     bye: "Hoşça kal", bye_text: "Hoşça kal, Sihirli Dünya! Bir dahaki sefere görüşürüz!", mem_abc: "ABC", mem_pics: "Resimler", mem_hw: "Cadılar Bayramı", mem_new: "Yeni oyun", mem_moves: "Hamle: {n}",
     mem_hint_abc: "Harfi ve resmini bul! B, Bear ile gider.", mem_hint_pics: "Aynı iki resmi bul!", mem_done: "Tüm eşleri {n} hamlede buldun! Sana 3 yıldız!",
     color: "Renk", tool: "Araç", fill: "Doldur", paint: "Boya", undo: "Geri al", neu: "Yeni", sure: "Emin misin?", save: "Resmi kaydet",
@@ -247,7 +247,23 @@ function elaTippen(img, videos){
 /* Sterne sammeln (gilt für alle Spiele) */
 function sterne(){ return parseInt(store.get("ela-sterne") || "0", 10) || 0; }
 function zeigeSterne(){ const el = document.getElementById("stars-n"); if (el) el.textContent = sterne(); }
-function sternDazu(n = 1){ store.set("ela-sterne", String(sterne() + n)); zeigeSterne(); }
+function sternDazu(n = 1){
+  const vorher = sterne(), jetzt = vorher + n;
+  store.set("ela-sterne", String(jetzt)); zeigeSterne();
+  // Alle 5 Sterne ein neuer Sticker: kurz groß zeigen (ohne Text – die Kinder können noch nicht lesen)
+  if (typeof STICKER !== "undefined" && Math.floor(jetzt / STICKER_ALLE) > Math.floor(vorher / STICKER_ALLE)) {
+    const nr = Math.floor(jetzt / STICKER_ALLE) - 1;
+    if (STICKER[nr]) setTimeout(() => stickerNeu(STICKER[nr]), 1200);
+  }
+}
+/* Neuer Sticker: fliegt groß herein, dreht sich, fliegt dann zum Sternchen-Feld oben rechts */
+function stickerNeu(bild){
+  const box = document.createElement("div"); box.className = "sticker-neu";
+  box.innerHTML = `<img src="${bild}" alt="">`;
+  const zu = () => { box.classList.add("weg"); setTimeout(() => box.remove(), 600); };
+  box.onclick = zu; document.body.appendChild(box);
+  sternRegen(); setTimeout(zu, 2600);
+}
 
 function sternRegen(){
   const box = document.createElement("div"); box.className = "confetti";
@@ -273,3 +289,9 @@ function elaImOktober(){
 /* Schon beim Laden: Texte übersetzen, Sprachauswahl und Sterne anzeigen.
    (Die Seiten binden dieses Skript am Ende von <body> ein, das DOM ist also schon da.) */
 uebersetzen(); sprachAuswahl(); zeigeSterne(); elaImOktober();
+/* Das Sternchen-Feld oben rechts führt zum Sticker-Album */
+document.querySelectorAll(".stars").forEach(el => {
+  if (location.pathname.endsWith("sticker.html")) return;
+  el.classList.add("tippbar"); el.setAttribute("role", "link");
+  el.onclick = () => { location.href = "sticker.html"; };
+});
