@@ -46,12 +46,15 @@ const ABC_WOERTER = {
    lob       = Lob bei richtigen Antworten (zufällig)
    Neue Aufnahme: MP3 nach stimme/ legen (Name wie die vorhandenen) und hier eintragen. */
 const STIMMEN = {
-  abc:       { G: "stimme/G-is-for-Giraffe.mp3", H: "stimme/H-is-for-Horse.mp3", I: "stimme/I-is-for-Ice-cream.mp3",
+  abc:       { A: "stimme/A-is-for-Apple.mp3", B: "stimme/B-is-for-Bear.mp3",
+               G: "stimme/G-is-for-Giraffe.mp3", H: "stimme/H-is-for-Horse.mp3", I: "stimme/I-is-for-Ice-cream.mp3",
                J: "stimme/J-is-for-Jellyfish.mp3", K: "stimme/K-is-for-Kite.mp3", L: "stimme/L-is-for-Lamb.mp3" },
-  wort:      { G: "stimme/Giraffe.mp3", H: "stimme/Horse.mp3", I: "stimme/Ice-cream.mp3",
+  wort:      { A: "stimme/Apple.mp3", B: "stimme/Bear.mp3",
+               G: "stimme/Giraffe.mp3", H: "stimme/Horse.mp3", I: "stimme/Ice-cream.mp3",
                J: "stimme/Jellyfish.mp3", K: "stimme/Kite.mp3", L: "stimme/Lamb.mp3" },
   buchstabe: { G: "stimme/G.mp3", H: "stimme/H.mp3", I: "stimme/I.mp3", J: "stimme/J.mp3", K: "stimme/K.mp3", L: "stimme/L.mp3" },
-  frage:     { G: "stimme/What-starts-with-G.mp3", H: "stimme/What-starts-with-H.mp3", I: "stimme/What-starts-with-I.mp3",
+  frage:     { A: "stimme/What-starts-with-A.mp3", B: "stimme/What-starts-with-B.mp3",
+               G: "stimme/What-starts-with-G.mp3", H: "stimme/What-starts-with-H.mp3", I: "stimme/What-starts-with-I.mp3",
                J: "stimme/What-starts-with-J.mp3", K: "stimme/What-starts-with-K.mp3", L: "stimme/What-starts-with-L.mp3" },
   finde:     { G: "stimme/Find-the-letter-G.mp3", H: "stimme/Find-the-letter-H.mp3", I: "stimme/Find-the-letter-I.mp3",
                J: "stimme/Find-the-letter-J.mp3", K: "stimme/Find-the-letter-K.mp3", L: "stimme/Find-the-letter-L.mp3" },
@@ -60,7 +63,11 @@ const STIMMEN = {
   zahl:      ["", "stimme/One.mp3", "stimme/Two.mp3", "stimme/Three.mp3", "stimme/Four.mp3", "stimme/Five.mp3"],
   tueren:    { finde: "stimme/Find-the-star.mp3", stern: "stimme/A-star.mp3", wer: "stimme/Who-is-hiding.mp3",
                hase: "stimme/Oh-its-a-bunny.mp3", hase2: "stimme/A-bunny.mp3", hopp: "stimme/Hop-like-a-bunny.mp3",
-               psst: "stimme/Shhh-what-is-it.mp3", mal: "stimme/Lets-find-out.mp3", blau: "stimme/The-blue-one.mp3", schau: "stimme/Wait-look.mp3" },
+               psst: "stimme/Shhh-what-is-it.mp3", mal: "stimme/Lets-find-out.mp3", blau: "stimme/The-blue-one.mp3", schau: "stimme/Wait-look.mp3",
+               // noch aufzunehmen (Liste T1–T5): andere = "Try another door!", tier = { B: "stimme/Find-the-Bear.mp3", … }
+               andere: null, tier: {} },
+  // noch aufzunehmen (Liste Z1–Z2): "How many apples?" usw., Schlüssel wie DINGE in zahlen.html
+  wieviele: {},
   tschuess:  ["stimme/Bye-bye-magic-world.mp3", "stimme/See-you-next-time.mp3"],
   yay: "stimme/Yay.mp3",
   raten: "stimme/Can-you-guess.mp3",

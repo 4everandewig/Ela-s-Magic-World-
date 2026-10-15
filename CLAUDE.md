@@ -7,7 +7,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
 - `index.html` – Startseite: zuerst Intro-Video (`bilder/intro.mp4` + Standbild `intro.jpg`, stumm; „Let's go!“ = mit Ton;
   einmal pro Besuch über `sessionStorage` `ela-intro`). Dann Elas Zimmer (`bilder/zimmer.jpg`) mit Logo, Ela (begrüßt) und
   Elas Kätzchen (`bilder/katze.jpg`, sagt „Meow!“), darunter große Kacheln zu den Bereichen (Zahlen vorerst ausgeblendet).
-  Unten Fußzeile mit Versionsnummer (`v14`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
+  Unten Fußzeile mit Versionsnummer (`v16`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
 - `malbuch.html` – Malbuch mit **Themen** (Halloween aktiv; Christmas, Animals, Sweets, Ocean sind vorbereitet, aber ausgeblendet, bis sie Bilder haben).
   Bild wählen, Farbe wählen, in eine Fläche tippen → füllt sich. Zusätzlich Pinsel, Undo, Neu, Speichern.
   „Print“ (Knopf mit dem Halloween-Drucker `bilder/drucker.png` aus den Videos) druckt das leere Bild als A4-Blatt
@@ -22,9 +22,11 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   (Rechenaufgabe). Verlinkt in der Fußzeile der Startseite. Betreiberin lebt in der Türkei, Projekt nicht kommerziell.
   Datenschutz-Versprechen: keine Werbung, kein Tracking, keine Cookies, keine Anmeldung, nichts von Dritten nachladen.
   → Keine externen Dienste einbauen (kein Google Fonts, kein YouTube-Embed, keine Analytics). Schriften liegen lokal in `schriften/`.
-- `zahlen.html` – Numbers 1–5: 1–5 Tierbilder antippen und mit Ela zählen („One, two …“, `STIMMEN.zahl`), dann die Zahl wählen.
-- `tueren.html` – Magic Doors (aus „Ela & Papa“ Ep. 1): rote, gelbe, blaue Tür; dahinter Stern, Hase 🐰 oder ABC-Tier.
-  „Find the star!“ → „A star!“ + „Yay!“ (`STIMMEN.tueren`). Startseite: Knopf „Bye-bye“ (`STIMMEN.tschuess`).
+- `zahlen.html` – Numbers: 2–5 gleiche Dinge (`DINGE`: Äpfel, Eis, Drachen, Sterne) antippen und mit Ela zählen („One, two …“, `STIMMEN.zahl`),
+  „How many apples?“ (`STIMMEN.wieviele[id]`), dann die Zahl wählen. Falsche Zahl → Ela zählt sanft mit.
+- `tueren.html` – Magic Doors (aus „Ela & Papa“ Ep. 1): rote, gelbe, blaue Tür, hinter jeder ein ABC-Tier (3D-Bild).
+  „Who is hiding? Find the Bear!“ (gesuchtes Tier klein oben), falsche Tür → „G is for Giraffe! Try another door.“ (`STIMMEN.tueren.tier`, `.andere`).
+  Startseite: Knopf „Bye-bye“ (`STIMMEN.tschuess`).
 
 ## Gemeinsame Dateien
 - `gemeinsam.css` – Farben, Kopfzeile, Ela + Sprechblase, Knöpfe, Tabs, Sterne-Regen.
@@ -45,6 +47,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   `abc` („K is for Kite“), `wort` („Kite“), `buchstabe` („Letter G“), `frage` („What starts with G?“), `mitsprechen`, `lob` („Yes!“, „You did it!“).
 - Geräte-Stimme: `frauenStimme()` sucht eine Frauen-/Mädchenstimme (Ela ist ein Mädchen), sonst irgendeine der Sprache.
 - `elaSagt([dateien], ersatz, danach)` in `gemeinsam.js` spielt sie nacheinander; klappt es nicht, liest die Geräte-Stimme `ersatz` vor.
+- `elaKette([{datei, text}, …])`: Sätze nacheinander, jeder mit eigener Ersatz-Stimme – fehlt eine Aufnahme (`datei` leer), liest die Geräte-Stimme nur diesen Teil.
 - Wo keine Aufnahme eingetragen ist, liest automatisch die Geräte-Stimme (`speak`) vor.
 - Neue Aufnahme: MP3 nach `stimme/` (Name wie `What-starts-with-G.mp3`), in `STIMMEN` eintragen. Wörter in `ABC_WOERTER` müssen zur Aufnahme passen.
 
