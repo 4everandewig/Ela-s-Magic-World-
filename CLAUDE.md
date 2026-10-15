@@ -7,7 +7,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
 - `index.html` – Startseite: zuerst Intro-Video (`bilder/intro.mp4` + Standbild `intro.jpg`, stumm; „Let's go!“ = mit Ton;
   einmal pro Besuch über `sessionStorage` `ela-intro`). Dann Elas Zimmer (`bilder/zimmer.jpg`) mit Logo und Ela (begrüßt),
   KEIN sprechendes Kätzchen im Kreis mehr (auf Wunsch entfernt), darunter große Kacheln zu den Bereichen (Zahlen vorerst ausgeblendet).
-  Unten Fußzeile mit Versionsnummer (`v40`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
+  Unten Fußzeile mit Versionsnummer (`v41`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
 - `malbuch.html` – Malbuch mit **Themen** (Halloween aktiv; Christmas, Animals, Sweets, Ocean sind vorbereitet, aber ausgeblendet, bis sie Bilder haben).
   Bild wählen, Farbe wählen, in eine Fläche tippen → füllt sich. Zusätzlich Pinsel, Undo, Neu, Speichern.
   „Print“ (Knopf mit dem Halloween-Drucker `bilder/drucker.png` aus den Videos) druckt das leere Bild als A4-Blatt
@@ -30,8 +30,8 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
 - `tueren.html` – Magic Doors (aus „Ela & Papa“ Ep. 1): rote, gelbe, blaue Tür als freigestellte 3D-Bilder (`bilder/tueren/tuer-*.webp`, dahinter Licht in Türform per CSS-Maske), hinter jeder ein ABC-Tier.
   „Who is hiding? Find the Bear!“ (gesuchtes Tier klein oben), falsche Tür → „G is for Giraffe! Try another door.“ (`STIMMEN.tueren.tier`, `.andere`), richtig → „You found it!“ (`.gefunden`) + „B is for Bear“, Ela antippen → „Open a door!“ (`.oeffne`).
   Startseite: Knopf „Bye-bye“ (`STIMMEN.tschuess`).
-- `sticker.html` – My Stickers: alle 5 Sterne (`STICKER_ALLE`) ein neuer Sticker aus `STICKER` (daten.js: bunte Halloween-Bilder, 3D-ABC-Tiere, Ente –
-  neue Bilder hängen sich automatisch an). Oben 5 Sternchen-Plätze bis zum nächsten Sticker, leere Plätze mit „?“. Neue Sticker hüpfen
+- `sticker.html` – My Stickers: alle 5 Sterne (`STICKER_ALLE`) ein neuer Sticker aus `STICKER` (daten.js: zuerst 12 Sternen-Sticker mit Gesicht `bilder/sterne/*.webp`, selten zuletzt: Rainbow, Star King; dann bunte Halloween-Bilder, 3D-ABC-Tiere, Ente –
+  neue Bilder hängen sich automatisch an). Oben 5 Sternchen-Plätze bis zum nächsten Sticker, leere Plätze mit „?“. Noch nicht gesammelte Sterne als graue Silhouette. Neue Sticker hüpfen
   (`ela-sticker-gesehen`). `sternDazu()` zeigt beim Erreichen eines neuen Stickers `stickerNeu()` groß. Sternchen-Feld oben rechts führt überall hierher.
 
 ## Gemeinsame Dateien
