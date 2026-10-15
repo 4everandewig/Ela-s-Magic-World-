@@ -46,14 +46,14 @@ const ABC_WOERTER = {
    lob       = Lob bei richtigen Antworten (zufällig)
    Neue Aufnahme: MP3 nach stimme/ legen (Name wie die vorhandenen) und hier eintragen. */
 const STIMMEN = {
-  abc:       { A: "stimme/A-is-for-Apple.mp3", B: "stimme/B-is-for-Bear.mp3", E: "stimme/E-is-for-Elephant.mp3",
+  abc:       { A: "stimme/A-is-for-Apple.mp3", B: "stimme/B-is-for-Bear.mp3", D: "stimme/D-is-for-Dog.mp3", E: "stimme/E-is-for-Elephant.mp3",
                G: "stimme/G-is-for-Giraffe.mp3", H: "stimme/H-is-for-Horse.mp3", I: "stimme/I-is-for-Ice-cream.mp3",
                J: "stimme/J-is-for-Jellyfish.mp3", K: "stimme/K-is-for-Kite.mp3", L: "stimme/L-is-for-Lamb.mp3" },
-  wort:      { A: "stimme/Apple.mp3", B: "stimme/Bear.mp3", E: "stimme/Elephant.mp3",
+  wort:      { A: "stimme/Apple.mp3", B: "stimme/Bear.mp3", D: "stimme/Dog.mp3", E: "stimme/Elephant.mp3",
                G: "stimme/Giraffe.mp3", H: "stimme/Horse.mp3", I: "stimme/Ice-cream.mp3",
                J: "stimme/Jellyfish.mp3", K: "stimme/Kite.mp3", L: "stimme/Lamb.mp3" },
   buchstabe: { G: "stimme/G.mp3", H: "stimme/H.mp3", I: "stimme/I.mp3", J: "stimme/J.mp3", K: "stimme/K.mp3", L: "stimme/L.mp3" },
-  frage:     { A: "stimme/What-starts-with-A.mp3", B: "stimme/What-starts-with-B.mp3", E: "stimme/What-starts-with-E.mp3",
+  frage:     { A: "stimme/What-starts-with-A.mp3", B: "stimme/What-starts-with-B.mp3", D: "stimme/What-starts-with-D.mp3", E: "stimme/What-starts-with-E.mp3",
                G: "stimme/What-starts-with-G.mp3", H: "stimme/What-starts-with-H.mp3", I: "stimme/What-starts-with-I.mp3",
                J: "stimme/What-starts-with-J.mp3", K: "stimme/What-starts-with-K.mp3", L: "stimme/What-starts-with-L.mp3" },
   finde:     { G: "stimme/Find-the-letter-G.mp3", H: "stimme/Find-the-letter-H.mp3", I: "stimme/Find-the-letter-I.mp3",
