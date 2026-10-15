@@ -5,7 +5,7 @@
    Namen und Wörter immer in allen Sprachen angeben: en (Hauptsprache), de, tr. */
 const THEMEN = [
   { id: "halloween", name: { en: "Halloween", de: "Halloween", tr: "Cadılar Bayramı" }, farbe: "#f7882f", ela: "bilder/ela-hexe.png", bilder: [
-    { L: "B", wort: { en: "Bat",          de: "Fledermaus",   tr: "Yarasa" },         datei: "bilder/halloween/B-Bat.png" },
+    { L: "B", wort: { en: "Bat",          de: "Fledermaus",   tr: "Yarasa" },         datei: "bilder/halloween/B-Bat.png", bunt: "bilder/halloween/bunt/B-Bat.jpg" },
     { L: "C", wort: { en: "Cat",          de: "Katze",        tr: "Kedi" },           datei: "bilder/halloween/C-Cat.png" },
     { L: "D", wort: { en: "Devil",        de: "Teufelchen",   tr: "Küçük şeytan" },   datei: "bilder/halloween/D-Devil.png" },
     { L: "F", wort: { en: "Frankenstein", de: "Frankenstein", tr: "Frankenstein" },   datei: "bilder/halloween/F-Frankenstein.png" },
