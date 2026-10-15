@@ -141,3 +141,12 @@ const LERNFARBEN = [
   { hex: "#ffffff", name: { en: "white",  de: "Weiß",    tr: "beyaz" } },
   { hex: "#9aa0a6", name: { en: "gray",   de: "Grau",    tr: "gri" } },
 ];
+
+/* Sticker-Album: alle STICKER_ALLE Sterne gibt es einen neuen Sticker (Reihenfolge = Liste).
+   Erst Elas bunte Halloween-Bilder, dann die 3D-Tiere aus dem ABC, dann die Ente. Neue Bilder hängen sich automatisch an. */
+const STICKER_ALLE = 5;
+const STICKER = [
+  ...THEMEN.flatMap(th => th.bilder.filter(b => b.bunt).map(b => b.bunt)),
+  ...Object.keys(ABC_WOERTER).filter(L => ABC_WOERTER[L].foto).map(L => ABC_WOERTER[L].foto),
+  "bilder/zahlen/ente.jpg",
+];
