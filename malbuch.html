@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Coloring Book – Ela's Magic World</title>
 <link rel="stylesheet" href="schriften/schriften.css">
-<link rel="stylesheet" href="gemeinsam.css?v=31">
+<link rel="stylesheet" href="gemeinsam.css?v=33">
 <style>
 /* Layout: Themenleiste, Bilderleiste, Malfläche mit Regenbogenrahmen, rechts Ela + Farben + Werkzeuge. */
 /* Grundfarben, Kopfzeile, Ela und Knöpfe kommen aus gemeinsam.css */
@@ -65,6 +65,15 @@ canvas{display:block;max-width:100%;max-height:62vh;width:auto;height:auto;touch
 .sizes{display:flex;gap:8px}
 .sizes .btn{flex:1}
 .dot{display:inline-block;border-radius:50%;background:currentColor}
+/* Elas buntes Bild als Vorschau: kleines Bild neben dem Wort, antippen = groß */
+.word .bunt{align-self:center;border:0;padding:0;cursor:pointer;width:54px;height:54px;border-radius:14px;overflow:hidden;background:#fff;
+  box-shadow:0 0 0 3px var(--yellow),0 6px 12px -6px rgba(90,30,110,.5);animation:wackeln 2.6s ease-in-out infinite}
+.word .bunt img{width:100%;height:100%;object-fit:contain}
+@keyframes wackeln{0%,88%,100%{transform:rotate(0)}92%{transform:rotate(-8deg)}96%{transform:rotate(8deg)}}
+.bunt-show{position:fixed;inset:0;z-index:60;display:grid;place-items:center;background:rgba(58,36,64,.45);cursor:pointer}
+.bunt-show img{width:min(520px,86vw);height:auto;border-radius:24px;background:#fff;padding:12px;box-shadow:0 18px 30px -10px rgba(58,36,64,.6);animation:aufpoppen .35s ease-out}
+@keyframes aufpoppen{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+@media (prefers-reduced-motion:reduce){.word .bunt,.bunt-show img{animation:none}}
 .word .watch{align-self:center;font-family:var(--body);font-size:15px;padding:8px 14px;background:var(--purple);color:#fff;border-radius:999px}
 .word .watch svg{width:18px;height:18px}
 /* Ela schaut oben rechts zu (sie blickt im Video nach unten rechts aufs Bild) */
@@ -75,6 +84,11 @@ canvas{display:block;max-width:100%;max-height:62vh;width:auto;height:auto;touch
 @media (prefers-reduced-motion:reduce){.ela-ecke{animation:none}}
 #print{background:#fff3e3;color:var(--ink);font-size:17px;padding:6px 8px;box-shadow:inset 0 -4px 0 var(--orange)}
 #print img{width:64px;height:auto}
+/* Beim Drucken: der Halloween-Drucker druckt genau dieses Bild (bilder/drucker/drucker-<L>.webp), kurz groß in der Mitte */
+.druck-show{position:fixed;inset:0;z-index:60;display:grid;place-items:center;background:rgba(58,36,64,.35)}
+.druck-show img{width:min(420px,78vw);height:auto;filter:drop-shadow(0 18px 24px rgba(58,36,64,.45));animation:druckt 1.6s ease-in-out}
+@keyframes druckt{0%{transform:scale(.4) rotate(-6deg);opacity:0}25%{transform:scale(1.05) rotate(2deg);opacity:1}40%,60%,80%{transform:scale(1) translateY(-4px)}50%,70%,90%{transform:scale(1) translateY(3px)}100%{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.druck-show img{animation:none}}
 #ela-img.tippbar{cursor:pointer}
 
 /* Druckblatt im Stil der "Free Coloring Page"-PDFs: Buchstabe zum Ausmalen, Bild, "P is for Pumpkin", Name, Kanal.
@@ -114,6 +128,7 @@ canvas{display:block;max-width:100%;max-height:62vh;width:auto;height:auto;touch
     <div class="frame"><section class="stage">
       <video class="ela-ecke" id="ela-ecke" playsinline hidden></video>
       <div class="word"><span class="L" id="bigL">P</span><span id="word">Pumpkin</span><span class="de" id="de"></span>
+        <button class="bunt" id="bunt" type="button" hidden aria-label="Ela's picture"><img alt=""></button>
         <button class="btn watch" id="watch" type="button" hidden><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span data-t="watch"></span></button></div>
       <canvas id="cv" aria-label="Canvas"></canvas>
     </section></div>
@@ -162,8 +177,8 @@ canvas{display:block;max-width:100%;max-height:62vh;width:auto;height:auto;touch
   <div class="d-fuss"><img src="bilder/logo.png" alt=""><span>Ela's Magic World · youtube.com/@ElasMagicPhonics</span></div>
 </div>
 
-<script src="gemeinsam.js?v=31"></script>
-<script src="daten.js?v=31"></script>
+<script src="gemeinsam.js?v=33"></script>
+<script src="daten.js?v=33"></script>
 <script>
 let thema = THEMEN[0], BILDER = thema.bilder;
 
@@ -261,6 +276,7 @@ function zuschauen(){
 
 function open(i){
   current = BILDER[i]; flaechen = 0; eckeZu();
+  document.querySelector("#print img").src = druckerBild();   // Drucker, der genau dieses Bild druckt (wenn vorhanden)
   [...pics.children].forEach((p,j)=>p.setAttribute("aria-pressed", j===i));
   document.getElementById("bigL").textContent = current.L + current.L.toLowerCase();
   document.getElementById("word").textContent = current.wort.en;
@@ -272,6 +288,17 @@ function open(i){
   let vNr = 0;
   watch.hidden = !vids.length;
   watch.onclick = () => elaVideo(vids[vNr++ % vids.length]);
+  // Elas fertig ausgemaltes Bild als Vorschau (Feld "bunt" in daten.js), antippen = groß, nochmal tippen = zu
+  const bunt = document.getElementById("bunt");
+  bunt.hidden = !current.bunt;
+  if (current.bunt) {
+    bunt.querySelector("img").src = current.bunt;
+    bunt.onclick = () => {
+      const show = document.createElement("div"); show.className = "bunt-show";
+      show.innerHTML = `<img src="${current.bunt}" alt="">`; show.onclick = () => show.remove();
+      document.body.appendChild(show);
+    };
+  }
   const img = new Image();
   img.onload = () => {
     // Weißer Rand rund ums Bild, damit man auch neben der Figur malen kann (die PNGs sind eng zugeschnitten)
@@ -286,8 +313,12 @@ function open(i){
     cctx.fillStyle = "#fff"; cctx.fillRect(0, 0, W, H);
     undoStack = [];
     const saved = store.get("ela-bild-" + thema.id + "-" + current.L);
-    // Ältere Speicherstände haben noch keinen Rand → um PAD verschoben einsetzen
-    if (saved) { const s = new Image(); s.onload = () => { const alt = s.naturalWidth === img.naturalWidth; cctx.drawImage(s, alt ? PAD : 0, alt ? PAD : 0); render(); }; s.src = saved; }
+    // Ältere Speicherstände haben noch keinen Rand → um PAD verschoben einsetzen.
+    // Passt die Größe gar nicht (Bild wurde durch eine neue Zeichnung ersetzt), alten Stand verwerfen.
+    if (saved) { const s = new Image(); s.onload = () => {
+      const neu = s.naturalWidth === W && s.naturalHeight === H, alt = s.naturalWidth === img.naturalWidth && s.naturalHeight === img.naturalHeight;
+      if (neu || alt) { cctx.drawImage(s, alt ? PAD : 0, alt ? PAD : 0); render(); }
+    }; s.src = saved; }
     render();
   };
   img.src = current.datei;
@@ -376,13 +407,19 @@ document.getElementById("save").onclick = () => {
   say(t("m_saved"));
   const gv = ELA_VIDEOS.gespeichert[thema.id]; if (gv) setTimeout(() => elaVideo(gv), 600);   // "It's alive! It's blinking!"
 };
+/* Halloween-Drucker, der das jeweilige Bild druckt (Bat, Ghost, Hat, Pumpkin); sonst der normale Drucker */
+const DRUCKER = { B: "bilder/drucker/drucker-B.webp", G: "bilder/drucker/drucker-G.webp", H: "bilder/drucker/drucker-H.webp", P: "bilder/drucker/drucker-P.webp" };
+function druckerBild(){ return (thema.id === "halloween" && DRUCKER[current.L]) || "bilder/drucker.png"; }
 /* Ausdrucken: leeres Ausmalbild als Druckblatt (siehe #druckblatt) */
 document.getElementById("print").onclick = () => {
   const bild = document.getElementById("d-bild"), w = current.wort.en;
   document.getElementById("d-L").textContent = current.L + current.L.toLowerCase();
   document.getElementById("d-satz").textContent = `${current.L} is for ${w}`;
   say(t("m_print"));
-  const los = () => window.print();
+  // erst kurz den Drucker zeigen, der "druckt", dann das Druckfenster
+  const show = document.createElement("div"); show.className = "druck-show"; show.innerHTML = `<img src="${druckerBild()}" alt="">`;
+  document.body.appendChild(show); show.onclick = () => show.remove();
+  const los = () => setTimeout(() => { show.remove(); window.print(); }, 1600);
   if (bild.getAttribute("src") === current.datei && bild.complete) los();
   else { bild.onload = los; bild.src = current.datei; }
 };
