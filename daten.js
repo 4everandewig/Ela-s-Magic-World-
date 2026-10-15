@@ -68,8 +68,8 @@ const STIMMEN = {
                hase: "stimme/Oh-its-a-bunny.mp3", hase2: "stimme/A-bunny.mp3", hopp: "stimme/Hop-like-a-bunny.mp3",
                psst: "stimme/Shhh-what-is-it.mp3", mal: "stimme/Lets-find-out.mp3", blau: "stimme/The-blue-one.mp3", schau: "stimme/Wait-look.mp3",
                andere: "stimme/Try-another-door.mp3", gefunden: "stimme/You-found-it.mp3", oeffne: "stimme/Open-a-door.mp3",
-               // noch aufzunehmen (Liste T2–T5): tier = { B: "stimme/Find-the-Bear.mp3", … }
-               tier: {} },
+               // "Find the Bear!" … (noch aufzunehmen: T3–T5 für D–L)
+               tier: { A: "stimme/Find-the-Apple.mp3", B: "stimme/Find-the-Bear.mp3", C: "stimme/Find-the-Cat.mp3" } },
   // noch aufzunehmen (Liste Z1–Z2): "How many apples?" usw., Schlüssel wie DINGE in zahlen.html
   wieviele: {},
   tschuess:  ["stimme/Bye-bye-magic-world.mp3", "stimme/See-you-next-time.mp3"],
