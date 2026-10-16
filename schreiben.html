@@ -59,6 +59,13 @@
   .leiste button[aria-pressed="true"]{outline:0;background:var(--c);color:#fff;transform:scale(1.15);box-shadow:0 4px 10px -4px rgba(58,36,64,.5)}
   .leiste button.geschafft::after{top:auto;right:auto;bottom:-9px;left:50%;transform:translateX(-50%);font-size:12px}
 }
+/* Zahlen: die gezählten Dinge hüpfen einzeln in den Rahmen */
+.feld .menge{position:relative;z-index:2;width:90%;height:90%;display:grid;gap:4%;place-content:center;place-items:center}
+.feld .menge img,.feld .menge svg{width:100%;aspect-ratio:1;object-fit:contain;border-radius:12px}
+.feld .menge img.da{animation:rein .55s cubic-bezier(.2,1.5,.4,1)}
+@keyframes rein{0%{transform:translateY(-60px) scale(.2);opacity:0}100%{transform:none;opacity:1}}
+.leiste.zahlen{grid-template-columns:repeat(10,minmax(0,78px));justify-content:center}
+@media (max-width:560px){.leiste.zahlen{grid-template-columns:repeat(10,1fr)}}
 /* Unsichtbares SVG zum Vermessen der Strich-Pfade */
 #mess{position:absolute;width:0;height:0;overflow:hidden}
 /* Handy: Bilderrahmen klein oben (Bild links, Wort rechts daneben), darunter die Schreibfläche in voller Breite */
@@ -82,11 +89,16 @@
     <div class="stars" data-t-label="stars"><svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .8-5.2 4.8 1.5 7L12 17.6 5.7 21l1.5-7L2 9.3l7-.8z"/></svg><span id="stars-n">0</span></div>
   </header>
 
+  <div class="tabs">
+    <button class="tab" id="tab-abc" type="button" style="--c:var(--pink)" aria-pressed="true">ABC</button>
+    <button class="tab" id="tab-123" type="button" style="--c:var(--green)" aria-pressed="false">123</button>
+  </div>
+
   <div class="main">
-    <section class="card">
+    <section class="card" id="spur-karte">
       <div class="spur">
         <div class="flaeche">
-          <canvas id="cv" aria-label="Trace the letter"></canvas>
+          <canvas id="cv" aria-label="Trace"></canvas>
           <div class="formen" id="formen"><i id="f-gross">A</i><i id="f-klein">a</i></div>
         </div>
         <div class="rahmen" id="rahmen">
@@ -175,7 +187,18 @@ const SCHRIFT = {
   w: ["M5 50 L20 100 L37 62 L54 100 L69 50"],
   x: ["M10 50 L55 100", "M55 50 L10 100"],
   y: ["M8 50 L33 98", "M58 50 L18 140"],
-  z: ["M10 50 L55 50 L10 100 L55 100"]
+  z: ["M10 50 L55 50 L10 100 L55 100"],
+  /* Ziffern (ganze Höhe 0–100); die 10 wird aus "1" und "0" zusammengesetzt (siehe aufgabe) */
+  "0": ["M35 0 C-8 0 -8 100 35 100 C78 100 78 0 35 0"],
+  "1": ["M14 20 L36 0 L36 100"],
+  "2": ["M8 25 C10 -6 62 -6 62 26 C62 50 30 70 8 100 L64 100"],
+  "3": ["M10 12 C24 -6 62 -2 60 24 C58 44 40 48 30 48 C46 48 64 56 62 76 C60 104 18 106 8 86"],
+  "4": ["M38 0 L8 64 L68 64", "M52 0 L52 100"],
+  "5": ["M14 0 L14 44 C30 32 64 36 64 68 C64 104 20 106 8 86", "M14 0 L60 0"],
+  "6": ["M56 6 C40 -6 8 10 8 60 C8 106 62 106 62 70 C62 40 20 38 10 62"],
+  "7": ["M8 0 L64 0 L26 100"],
+  "8": ["M56 18 C56 -6 12 -6 12 20 C12 44 60 50 60 76 C60 106 8 106 8 76 C8 50 56 44 56 18"],
+  "9": ["M58 28 C58 -6 8 -6 8 28 C8 58 58 56 58 28 L58 100"]
 };
 
 const BUNT = ["#f05252","#f7882f","#e5a50a","#4cbb5c","#3d8ef0","#8b5cf6","#e8459b"];
@@ -193,7 +216,9 @@ function abtasten(d){
 }
 /* Aufgabe = ein Buchstabe (groß oder klein), waagerecht auf 0 zentriert */
 function aufgabe(z){
-  const striche = SCHRIFT[z].map(abtasten);
+  const teile = z === "10" ? [["1", -34], ["0", 30]] : [[z, 0]];
+  const striche = [];
+  teile.forEach(([zz, dx]) => SCHRIFT[zz].forEach(d => { const st = abtasten(d); st.pts.forEach(p => p.x += dx); striche.push(st); }));
   let min = Infinity, max = -Infinity;
   striche.forEach(s => s.pts.forEach(p => { min = Math.min(min, p.x); max = Math.max(max, p.x); }));
   const dx = -(min + max) / 2;
@@ -205,6 +230,15 @@ function aufgabe(z){
 let L = "A", form = 0, A = null, stift = store.get("ela-stift") || "regenbogen";
 if (!STIFTE.includes(stift)) stift = "regenbogen";
 let geschafft = (store.get("ela-spur-fertig") || "").split("").filter(x => LETTERS.includes(x));
+let modus = store.get("ela-spur-modus") === "zahl" ? "zahl" : "abc", Z = 1;   // ABC oder Zahlen 1–10
+let zahlenGeschafft = (store.get("ela-spur-zahlen") || "").split(",").map(Number).filter(n => n >= 1 && n <= 10);
+const ZAHLWORT = ["", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
+/* Dinge zum Zählen (wie auf der Zahlen-Seite) */
+const DINGE = [
+  { bild: ABC_WOERTER.A.foto, en: "apples" }, { bild: ABC_WOERTER.I.foto, en: "ice creams" },
+  { bild: ABC_WOERTER.K.foto, en: "kites" }, { bild: "bilder/zahlen/ente.jpg", en: "ducks" }, { bild: ABC_WOERTER.B.foto, en: "bears" }
+];
+const zahlFarbe = n => BUNT[(n - 1) % BUNT.length];
 let buchstabenFertig = 0;   // wie viele Buchstaben in diesem Besuch geschafft (für das seltene Lob)
 let zugOk = false;   // zählt dieser Fingerzug? Nur wenn er am grünen Punkt (oder da, wo man aufgehört hat) beginnt
 let zeigeStart = 0, finger = false, spur = [], funken = [], weiterTimer = null, gesprochen = false;
@@ -388,6 +422,7 @@ function strichFertig(s){
 const karte = Lx => karten(Lx).find(k => k.bild) || karten(Lx)[0];
 function formFertig(){
   A.fertig = true; ton(2);
+  if (modus === "zahl") return zahlFertig();
   const k = karte(L), en = k.wort.en;
   if (form === 0) {
     // Großer Buchstabe geschafft: das Bild hüpft in den Rahmen
@@ -414,6 +449,36 @@ function formFertig(){
     document.getElementById("weiter").classList.add("lockt");
     clearTimeout(weiterTimer); weiterTimer = setTimeout(naechster, 6000);
   }
+}
+/* Zahl geschafft: die Dinge hüpfen einzeln in den Rahmen, Ela zählt mit ("One", "Two", …), dann ein Stern */
+function zahlFertig(){
+  const n = Z, ding = zufall(DINGE), feld = document.getElementById("feld");
+  document.getElementById("wort").innerHTML = `<b>${n}</b> ${ZAHLWORT[n]}`;
+  document.getElementById("de").textContent = "";
+  feld.innerHTML = "";
+  const menge = document.createElement("div"); menge.className = "menge";
+  const spalten = n <= 1 ? 1 : n <= 4 ? 2 : n <= 9 ? 3 : 4;
+  menge.style.gridTemplateColumns = `repeat(${spalten}, 1fr)`;
+  feld.appendChild(menge);
+  const takt = 850;
+  for (let i = 1; i <= n; i++) setTimeout(() => {
+    const img = document.createElement("img"); img.src = ding.bild; img.alt = ""; img.className = "da";
+    menge.appendChild(img);
+    if (STIMMEN.zahl[i]) elaSagt([STIMMEN.zahl[i]], ZAHLWORT[i]); else speak(ZAHLWORT[i], "en-US");
+    say(`${i}`);
+  }, 200 + (i - 1) * takt);
+  const ende = 200 + n * takt + 300;
+  setTimeout(() => {
+    const mitLob = ++buchstabenFertig % 3 === 0;
+    say(mitLob ? `${lob()} ${n} ${n === 1 ? ding.en.replace(/s$/, "") : ding.en}!` : `${n} ${n === 1 ? ding.en.replace(/s$/, "") : ding.en}!`);
+    if (mitLob) elaSagt([zufall(STIMMEN.lob)], lob());
+    feld.classList.remove("tanz"); void feld.offsetWidth; feld.classList.add("tanz");
+    sternDazu(); sternRegen();
+    if (!zahlenGeschafft.includes(n)) { zahlenGeschafft.push(n); store.set("ela-spur-zahlen", zahlenGeschafft.join(",")); }
+    leiste();
+    document.getElementById("weiter").classList.add("lockt");
+    clearTimeout(weiterTimer); weiterTimer = setTimeout(naechster, 4500);
+  }, ende);
 }
 function bildHuepft(k){
   const feld = document.getElementById("feld"), wort = document.getElementById("wort");
@@ -444,18 +509,23 @@ function rahmenLeer(){
 }
 function neu(){
   clearTimeout(weiterTimer);
-  A = aufgabe(form === 0 ? L : L.toLowerCase());
+  A = aufgabe(modus === "zahl" ? String(Z) : form === 0 ? L : L.toLowerCase());
   groesse(); zeigeStart = performance.now(); spur = [];
   const gross = document.getElementById("f-gross"), klein = document.getElementById("f-klein");
-  gross.textContent = L; klein.textContent = L.toLowerCase();
-  gross.className = form === 0 ? "jetzt" : "ok"; klein.className = form === 1 ? "jetzt" : "";
+  if (modus === "zahl") { gross.textContent = Z; gross.className = "jetzt"; klein.hidden = true; }
+  else {
+    klein.hidden = false;
+    gross.textContent = L; klein.textContent = L.toLowerCase();
+    gross.className = form === 0 ? "jetzt" : "ok"; klein.className = form === 1 ? "jetzt" : "";
+  }
   document.getElementById("weiter").classList.remove("lockt");
+}
+function farbeSetzen(c){
+  ["spur-karte", "rahmen", "formen"].forEach(id => document.getElementById(id).style.setProperty("--c", c));
 }
 function waehle(Lx, laut){
   L = Lx; form = 0; store.set("ela-spur-L", L);
-  document.querySelector(".card").style.setProperty("--c", farbe(L));
-  document.getElementById("rahmen").style.setProperty("--c", farbe(L));
-  document.getElementById("formen").style.setProperty("--c", farbe(L));
+  farbeSetzen(farbe(L));
   rahmenLeer(); neu(); leiste();
   say(t("tr_big", { L }));
   if (laut) sagBuchstabe();
@@ -467,10 +537,33 @@ function sagBuchstabe(){
   teile.push({ datei: STIMMEN.buchstabe[L] || "", text: L });
   elaKette(teile);
 }
+function waehleZahl(n, laut){
+  Z = n; form = 0; store.set("ela-spur-Z", String(n));
+  farbeSetzen(zahlFarbe(n));
+  rahmenLeer(); neu(); leiste();
+  say(t("tr_num", { n }));
+  if (laut) {
+    const teile = [];
+    if (STIMMEN.spuren) teile.push({ datei: STIMMEN.spuren, text: "Let's trace" });
+    teile.push({ datei: STIMMEN.zahl[n] || "", text: ZAHLWORT[n] });
+    elaKette(teile);
+  }
+}
 function naechster(){
+  if (modus === "zahl") return waehleZahl(Z % 10 + 1, true);
   const i = LETTERS.indexOf(L);
   waehle(LETTERS[(i + 1) % LETTERS.length], true);
 }
+/* Tabs ABC / 123 */
+function setzeModus(m, laut){
+  modus = m; store.set("ela-spur-modus", m);
+  document.getElementById("tab-abc").setAttribute("aria-pressed", m === "abc");
+  document.getElementById("tab-123").setAttribute("aria-pressed", m === "zahl");
+  document.getElementById("leiste").innerHTML = "";
+  if (m === "zahl") waehleZahl(Z, laut); else waehle(L, laut);
+}
+document.getElementById("tab-abc").onclick = () => setzeModus("abc", true);
+document.getElementById("tab-123").onclick = () => setzeModus("zahl", true);
 
 /* ---------- Knöpfe ---------- */
 document.getElementById("nochmal").onclick = () => { if (form === 1 && A.fertig) form = 1; neu(); };
@@ -486,6 +579,20 @@ STIFTE.forEach(f => {
 });
 function leiste(){
   const box = document.getElementById("leiste");
+  box.classList.toggle("zahlen", modus === "zahl");
+  if (modus === "zahl") {
+    if (!box.children.length) for (let n = 1; n <= 10; n++) {
+      const b = document.createElement("button"); b.type = "button"; b.textContent = n; b.dataset.n = n;
+      b.style.setProperty("--c", zahlFarbe(n)); b.setAttribute("aria-label", String(n));
+      b.onclick = () => waehleZahl(n, true);
+      box.appendChild(b);
+    }
+    [...box.children].forEach(b => {
+      b.setAttribute("aria-pressed", +b.dataset.n === Z);
+      b.classList.toggle("geschafft", zahlenGeschafft.includes(+b.dataset.n));
+    });
+    return;
+  }
   if (!box.children.length) LETTERS.forEach(Lx => {
     const b = document.createElement("button"); b.type = "button"; b.textContent = Lx; b.dataset.l = Lx;
     b.style.setProperty("--c", farbe(Lx)); b.setAttribute("aria-label", Lx);
@@ -499,8 +606,10 @@ function leiste(){
 }
 new ResizeObserver(() => groesse()).observe(cv);
 
-const start = store.get("ela-spur-L");
-waehle(LETTERS.includes(start) ? start : "A", false);
+const start = store.get("ela-spur-L"), startZ = parseInt(store.get("ela-spur-Z"), 10);
+L = LETTERS.includes(start) ? start : "A";
+Z = startZ >= 1 && startZ <= 10 ? startZ : 1;
+setzeModus(modus, false);
 requestAnimationFrame(schleife);
 </script>
 </body>
