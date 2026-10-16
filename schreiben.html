@@ -313,7 +313,7 @@ function zeichnen(t){
     if (s.k > 0) { const p = s.pts[s.k]; stern(p.x, p.y, 7.5, stift === "regenbogen" ? regenbogenFarbe(s.k, s.nr) : stift, t / 300); }
     // Glitzerstern zeigt den Weg vor: läuft vom Start zum Ziel (wenn noch nicht angefangen oder "Show me")
     if (!finger && s.k < 3 && !s.punkt) {
-      const dauer = Math.max(900, s.len * 22), pause = 700, lauf = (t - zeigeStart) % (dauer + pause);
+      const dauer = Math.max(900, s.len * 22), pause = 700, lauf = Math.max(0, t - zeigeStart) % (dauer + pause);
       if (lauf < dauer) {
         const i = Math.round(lauf / dauer * (s.pts.length - 1)), p = s.pts[i];
         ctx.globalAlpha = .85; stern(p.x, p.y, 8, "#fbbd23", t / 250); ctx.globalAlpha = 1;
