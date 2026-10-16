@@ -7,7 +7,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
 - `index.html` – Startseite: zuerst Intro-Video (`bilder/intro.mp4` + Standbild `intro.jpg`, stumm; „Let's go!“ = mit Ton;
   einmal pro Besuch über `sessionStorage` `ela-intro`). Dann Elas Zimmer (`bilder/zimmer.jpg`) mit Logo und Ela (begrüßt),
   KEIN sprechendes Kätzchen im Kreis mehr (auf Wunsch entfernt), darunter große Kacheln zu den Bereichen (Zahlen vorerst ausgeblendet).
-  Unten Fußzeile mit Versionsnummer (`v49`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
+  Unten Fußzeile mit Versionsnummer (`v50`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
 - `malbuch.html` – Malbuch mit **Themen** (Halloween aktiv; Christmas, Animals, Sweets, Ocean sind vorbereitet, aber ausgeblendet, bis sie Bilder haben).
   Bilder-Liste zum Aufklappen: zu = nur gewähltes Bild + Knopf „Alle Bilder“ (4 Mini-Bilder + Anzahl), auf = alle als Raster; Bild wählen klappt zu.
   Thema + zugeklappte Bilder stehen in einer Zeile (`.leiste`), die Malfläche ist auf die Bildschirmhöhe begrenzt → am PC passt das ganze Bild ohne Scrollen.
@@ -37,6 +37,8 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   Grüner Startpunkt mit Nummer, Pfeile, Glitzerstern fährt vor („Show me“). Ein Strich zählt nur ab dem grünen Punkt und in Schreibrichtung
   (falsch = zählt einfach nicht, keine Strafe). Stift: Regenbogen oder Farbe (`ela-stift`). Großes A fertig → Bild (`karten(L)`, A: Apfel)
   hüpft in den Rahmen; kleines a fertig → Bild tanzt, Elas Lob + „A is for Apple“, 1 Stern, nach 6 s nächster Buchstabe.
+  Stimme: Start = Elas Buchstabe („A“, davor „Let's trace!“ sobald `STIMMEN.spuren` aufgenommen ist), großer Buchstabe fertig = nur das Wort („Apple!“),
+  kleiner fertig = „A is for Apple!“; Lob nur bei jedem 3. Buchstaben (sonst zu viel).
   Geschaffte Buchstaben in `ela-spur-fertig` (Sternchen in der ABC-Leiste: PC Kacheln, Handy ABC-Band). Aufwärm-Linien bewusst weggelassen.
 - `sticker.html` – My Stickers: alle 5 Sterne (`STICKER_ALLE`) ein neuer Sticker aus `STICKER` (daten.js: zuerst 12 Sternen-Sticker mit Gesicht `bilder/sterne/*.webp`, selten zuletzt: Rainbow, Star King; dann bunte Halloween-Bilder, 3D-ABC-Tiere, Ente –
   neue Bilder hängen sich automatisch an). Oben 5 Sternchen-Plätze bis zum nächsten Sticker, leere Plätze mit „?“. Noch nicht gesammelte Sterne als graue Silhouette. Neue Sticker hüpfen

@@ -6,7 +6,7 @@
 <title>Tracing – Ela's Magic World</title>
 <link rel="icon" href="bilder/ela-rund.png">
 <link rel="stylesheet" href="schriften/schriften.css">
-<link rel="stylesheet" href="gemeinsam.css?v=49">
+<link rel="stylesheet" href="gemeinsam.css?v=50">
 <style>
 /* Nachspuren: links die Schreibfläche (Buchstabe mit Startpunkt, Nummern, Pfeilen), rechts der Bilderrahmen,
    in den nach dem Nachspuren das Bild hüpft (A: Apfel). Darunter Stifte, unten die ABC-Leiste. */
@@ -117,8 +117,8 @@
 </div>
 <svg id="mess" aria-hidden="true"><path id="mess-pfad"/></svg>
 
-<script src="gemeinsam.js?v=49"></script>
-<script src="daten.js?v=49"></script>
+<script src="gemeinsam.js?v=50"></script>
+<script src="daten.js?v=50"></script>
 <script>
 elaTippen(document.getElementById("ela-tipp"), ELA_VIDEOS.seite.abc);
 
@@ -207,6 +207,7 @@ function aufgabe(z){
 let L = "A", form = 0, A = null, stift = store.get("ela-stift") || "regenbogen";
 if (!STIFTE.includes(stift)) stift = "regenbogen";
 let geschafft = (store.get("ela-spur-fertig") || "").split("").filter(x => LETTERS.includes(x));
+let buchstabenFertig = 0;   // wie viele Buchstaben in diesem Besuch geschafft (für das seltene Lob)
 let zugOk = false;   // zählt dieser Fingerzug? Nur wenn er am grünen Punkt (oder da, wo man aufgehört hat) beginnt
 let zeigeStart = 0, finger = false, spur = [], funken = [], weiterTimer = null, gesprochen = false;
 
@@ -393,16 +394,22 @@ function formFertig(){
   if (form === 0) {
     // Großer Buchstabe geschafft: das Bild hüpft in den Rahmen
     bildHuepft(k);
-    say(`${lob()} ${t("tr_small", { l: L.toLowerCase() })}`);
-    elaSagt([zufall(STIMMEN.lob)], lob());
+    // Ela sagt nur das Wort ("Apple!") – kein Lob, sonst lobt sie bei jedem Buchstaben zweimal
+    say(`${en}! ${t("tr_small", { l: L.toLowerCase() })}`);
+    if (STIMMEN.wort[L] && k.wort === ABC_WOERTER[L]) elaSagt([STIMMEN.wort[L]], `${en}!`);
+    else speak(`${en}!`, "en-US");
     setTimeout(() => { form = 1; neu(); }, 2200);
   } else {
     // Kleiner Buchstabe geschafft: "Yes! A is for Apple", Bild tanzt, Stern
     document.getElementById("f-klein").className = "ok";
     const feld = document.getElementById("feld"); feld.classList.remove("tanz"); void feld.offsetWidth; feld.classList.add("tanz");
-    say(`${lob()} ${t("a_is", { L, w: en })}`);
-    if (STIMMEN.abc[L] && k.wort === ABC_WOERTER[L]) elaSagt([zufall(STIMMEN.lob), STIMMEN.abc[L]], `${L} is for ${en}!`);
-    else elaSagt([zufall(STIMMEN.lob)], `${L} is for ${en}!`, `${L} is for ${en}!`);
+    // "A is for Apple!" – ein Lob ("You are so smart!") nur bei jedem dritten Buchstaben, sonst wird es zu viel
+    const mitLob = ++buchstabenFertig % 3 === 0, satz = `${L} is for ${en}!`;
+    say(mitLob ? `${lob()} ${t("a_is", { L, w: en })}` : t("a_is", { L, w: en }));
+    const abc = STIMMEN.abc[L] && k.wort === ABC_WOERTER[L] ? STIMMEN.abc[L] : "";
+    if (mitLob) elaKette([{ datei: zufall(STIMMEN.lob), text: lob() }, { datei: abc, text: satz }]);
+    else if (abc) elaSagt([abc], satz);
+    else speak(satz, "en-US");
     sternDazu(); sternRegen();
     if (!geschafft.includes(L)) { geschafft.push(L); store.set("ela-spur-fertig", geschafft.join("")); }
     leiste();
@@ -456,8 +463,11 @@ function waehle(Lx, laut){
   if (laut) sagBuchstabe();
 }
 function sagBuchstabe(){
-  if (STIMMEN.buchstabe[L]) elaKette([{ datei: "", text: "Let's trace" }, { datei: STIMMEN.buchstabe[L], text: L }]);
-  else speak(`Let's trace ${L}!`, "en-US");
+  // "Let's trace … A" – "Let's trace" nur mit Elas Aufnahme (STIMMEN.spuren), damit keine zwei Stimmen gemischt werden
+  const teile = [];
+  if (STIMMEN.spuren) teile.push({ datei: STIMMEN.spuren, text: "Let's trace" });
+  teile.push({ datei: STIMMEN.buchstabe[L] || "", text: L });
+  elaKette(teile);
 }
 function naechster(){
   const i = LETTERS.indexOf(L);
