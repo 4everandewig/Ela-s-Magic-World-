@@ -7,7 +7,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
 - `index.html` – Startseite: zuerst Intro-Video (`bilder/intro.mp4` + Standbild `intro.jpg`, stumm; „Let's go!“ = mit Ton;
   einmal pro Besuch über `sessionStorage` `ela-intro`). Dann Elas Zimmer (`bilder/zimmer.jpg`) mit Logo und Ela (begrüßt),
   KEIN sprechendes Kätzchen im Kreis mehr (auf Wunsch entfernt), darunter große Kacheln zu den Bereichen (Zahlen vorerst ausgeblendet).
-  Unten Fußzeile mit Versionsnummer (`v44`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
+  Unten Fußzeile mit Versionsnummer (`v45`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
 - `malbuch.html` – Malbuch mit **Themen** (Halloween aktiv; Christmas, Animals, Sweets, Ocean sind vorbereitet, aber ausgeblendet, bis sie Bilder haben).
   Bilder-Liste zum Aufklappen: zu = nur gewähltes Bild + Knopf „Alle Bilder“ (4 Mini-Bilder + Anzahl), auf = alle als Raster; Bild wählen klappt zu.
   Bild wählen, Farbe wählen, in eine Fläche tippen → füllt sich. Zusätzlich Pinsel, Undo, Neu, Speichern.
@@ -45,10 +45,10 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   Bei jeder neuen Version mit hochzählen: `sed -i -E 's/\?v=[0-9]+"/?v=NEU"/g' *.html`.
 
 ## Sprachen
-- **Nur Englisch** (auf Wunsch, weil Ela überall mit ihrer echten englischen Stimme spricht). `SPRACHEN` enthält nur `en`,
-  der Umschalter (`<div class="lang" id="lang">`) blendet sich bei nur einer Sprache aus. Die DE/TR-Texte in `TEXTE` bleiben erhalten,
-  zum Wieder-Einschalten nur `de`/`tr` in `SPRACHEN` ergänzen. Neue Texte trotzdem in allen Blöcken pflegen.
-  Die Datenschutz-Texte auf `info.html` bleiben dreisprachig (für Eltern).
+- **Menü in 3 Sprachen, Inhalt immer Englisch** (Wunsch: deutsche/türkische Kinder können mitspielen, aber Buchstaben, Wörter,
+  Bilder und alle Audios bleiben Englisch). `MENU` = gewählte Menü-Sprache (Umschalter „EN DE TR“, `ela-sprache`) für Überschriften,
+  Kacheln, Knöpfe, Tabs: `tm()`/`txm()`. `LANG` ist fest `"en"` für Inhalt, Elas Sprechblasen und Stimme: `t()`/`tx()`.
+  `uebersetzen()`: `data-t` innerhalb von `.bubble`, `.q`, `.ela` → Englisch, sonst Menü-Sprache. `info.html` (Eltern) bleibt dreisprachig.
 - Feste Texte im HTML: `data-t="schlüssel"` bzw. `data-t-label="schlüssel"`. Texte im Skript: `t("schlüssel", {var})`.
 - Neue Texte immer in **allen** Sprachblöcken von `TEXTE` ergänzen. Namen/Wörter in Daten als `{ en, de, tr }`.
 - Neue Sprache: in `SPRACHEN` (Name + Stimme, z. B. `fr-FR`) und `TEXTE` ergänzen, Daten um den Code erweitern.

@@ -9,11 +9,13 @@ let kettenNr = 0;   // laufende Sprech-Kette (elaKette), wird von speak/elaSagt 
 
 /* ===== Sprachen =====
    Neue Sprache: in SPRACHEN eintragen und in TEXTE einen Block mit allen Schlüsseln ergänzen. */
-// Nur Englisch, weil Ela überall mit ihrer echten (englischen) Stimme spricht. Die Texte für Deutsch und Türkisch
-// bleiben in TEXTE erhalten – zum Wieder-Einschalten hier ergänzen: de: { name: "Deutsch", stimme: "de-DE" }, tr: { name: "Türkçe", stimme: "tr-TR" }
-const SPRACHEN = { en: { name: "English", stimme: "en-US" } };
-let LANG = store.get("ela-sprache") || "en";
-if (!SPRACHEN[LANG]) LANG = "en";
+// Zwei Sprachen-Ebenen:
+//  MENU = Menü (Überschriften, Kacheln, Knöpfe) – umschaltbar EN/DE/TR, gespeichert in "ela-sprache".
+//  LANG = Inhalt (Buchstaben, Wörter, Bilder, Elas Sätze und Stimme) – immer Englisch, weil Ela Englisch spricht.
+const SPRACHEN = { en: { name: "English", stimme: "en-US" }, de: { name: "Deutsch", stimme: "de-DE" }, tr: { name: "Türkçe", stimme: "tr-TR" } };
+const LANG = "en";
+let MENU = store.get("ela-sprache") || "en";
+if (!SPRACHEN[MENU]) MENU = "en";
 
 const TEXTE = {
   en: {
@@ -109,24 +111,34 @@ function t(key, vars = {}){
 }
 /* Übersetzter Name aus einem {en, de, tr}-Objekt */
 const tx = obj => (obj && (obj[LANG] || obj.en)) || "";
+/* Menü-Texte in der gewählten Menü-Sprache (Überschriften, Kacheln, Knöpfe) */
+function tm(key, vars = {}){
+  const s = (TEXTE[MENU] && TEXTE[MENU][key] !== undefined) ? TEXTE[MENU][key] : TEXTE.en[key];
+  if (typeof s !== "string") return t(key, vars);
+  const out = s.replace(/\{(\w+)\}/g, (_, k) => vars[k] !== undefined ? vars[k] : "");
+  return out.charAt(0).toLocaleUpperCase(MENU) + out.slice(1);
+}
+const txm = obj => (obj && (obj[MENU] || obj.en)) || "";
 function lob(){ return zufall(t("lob")); }
 function nochmal(){ return zufall(t("nochmal")); }
 
 /* Texte im HTML übersetzen: data-t="schlüssel" (Inhalt), data-t-label="schlüssel" (aria-label/title) */
 function uebersetzen(root = document){
   document.documentElement.lang = LANG;
-  root.querySelectorAll("[data-t]").forEach(el => el.textContent = t(el.dataset.t));
-  root.querySelectorAll("[data-t-label]").forEach(el => { el.setAttribute("aria-label", t(el.dataset.tLabel)); el.title = t(el.dataset.tLabel); });
+  // Was Ela sagt (Sprechblase) und die Spielfragen bleiben Englisch; alles andere ist Menü → Menü-Sprache
+  const inhalt = el => el.closest(".bubble, .q, .ela");
+  root.querySelectorAll("[data-t]").forEach(el => el.textContent = inhalt(el) ? t(el.dataset.t) : tm(el.dataset.t));
+  root.querySelectorAll("[data-t-label]").forEach(el => { const s = inhalt(el) ? t(el.dataset.tLabel) : tm(el.dataset.tLabel); el.setAttribute("aria-label", s); el.title = s; });
 }
 
 /* Sprachauswahl in der Kopfzeile: <div class="lang" id="lang"></div> */
 function sprachAuswahl(){
   const box = document.getElementById("lang"); if (!box) return;
   if (Object.keys(SPRACHEN).length < 2) { box.hidden = true; return; }   // nur eine Sprache → kein Umschalter
-  box.setAttribute("aria-label", t("language"));
+  box.setAttribute("aria-label", tm("language"));
   Object.keys(SPRACHEN).forEach(code => {
     const b = document.createElement("button"); b.type = "button"; b.textContent = code.toUpperCase();
-    b.title = SPRACHEN[code].name; b.setAttribute("aria-pressed", code === LANG);
+    b.title = SPRACHEN[code].name; b.setAttribute("aria-pressed", code === MENU);
     b.onclick = () => { store.set("ela-sprache", code); location.reload(); };
     box.appendChild(b);
   });
