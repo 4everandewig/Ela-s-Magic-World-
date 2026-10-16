@@ -42,7 +42,6 @@
 .stift{width:44px;height:44px;border-radius:50%;border:4px solid #fff;cursor:pointer;background:var(--c);box-shadow:0 0 0 2px var(--line)}
 .stift.regenbogen{background:conic-gradient(#f05252,#f7882f,#fbbd23,#4cbb5c,#3d8ef0,#8b5cf6,#e8459b,#f05252)}
 .stift[aria-pressed="true"]{box-shadow:0 0 0 3px var(--ink);transform:scale(1.1)}
-.btn.zeig{background:var(--yellow)}
 .btn.weiter{background:var(--green);color:#fff}
 .btn.weiter.lockt{animation:lockt 1.1s ease-in-out infinite}
 @keyframes lockt{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
@@ -99,7 +98,6 @@
       <div class="werkzeug">
         <div class="stifte" id="stifte" data-t-label="tr_pen"></div>
         <div class="knoepfe">
-        <button class="btn zeig" id="zeig" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><span data-t="tr_show"></span></button>
         <button class="btn" id="nochmal" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 3v6h6"/></svg><span data-t="tr_again"></span></button>
         <button class="btn weiter" id="weiter" type="button"><span data-t="tr_next"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button>
         </div>
@@ -312,7 +310,7 @@ function zeichnen(t){
     nummer(s, true, t);
     // Kopf des Stifts beim Nachspuren
     if (s.k > 0) { const p = s.pts[s.k]; stern(p.x, p.y, 7.5, stift === "regenbogen" ? regenbogenFarbe(s.k, s.nr) : stift, t / 300); }
-    // Glitzerstern zeigt den Weg vor: läuft vom Start zum Ziel (wenn noch nicht angefangen oder "Show me")
+    // Glitzerstern zeigt den Weg vor: läuft vom Start zum Ziel (solange noch nicht angefangen)
     if (!finger && s.k < 3 && !s.punkt) {
       const dauer = Math.max(900, s.len * 22), pause = 700, lauf = Math.max(0, t - zeigeStart) % (dauer + pause);
       if (lauf < dauer) {
@@ -475,10 +473,6 @@ function naechster(){
 }
 
 /* ---------- Knöpfe ---------- */
-document.getElementById("zeig").onclick = () => {
-  zeigeStart = performance.now(); say(t("tr_start"));
-  speak(t("tr_start"), "en-US");
-};
 document.getElementById("nochmal").onclick = () => { if (form === 1 && A.fertig) form = 1; neu(); };
 document.getElementById("weiter").onclick = naechster;
 const stifte = document.getElementById("stifte");

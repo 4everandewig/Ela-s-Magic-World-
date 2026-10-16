@@ -34,7 +34,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   Startseite: Knopf „Bye-bye“ (`STIMMEN.tschuess`).
 - `schreiben.html` – Tracing / Nachspuren: Buchstaben A–Z mit dem Finger nachspuren, erst groß, dann klein. Striche in `SCHRIFT`
   (SVG-Pfade, 0 = obere Linie, 50 = Mittellinie, 100 = Grundlinie, 140 = Unterlänge; Strich < 3 Einheiten = Punkt zum Antippen).
-  Grüner Startpunkt mit Nummer, Pfeile, Glitzerstern fährt vor („Show me“). Ein Strich zählt nur ab dem grünen Punkt und in Schreibrichtung
+  Grüner Startpunkt mit Nummer, Pfeile, Glitzerstern fährt den Weg immer wieder vor (kein „Show me“-Knopf – auf Wunsch weg). Ein Strich zählt nur ab dem grünen Punkt und in Schreibrichtung
   (falsch = zählt einfach nicht, keine Strafe). Stift: Regenbogen oder Farbe (`ela-stift`). Großes A fertig → Bild (`karten(L)`, A: Apfel)
   hüpft in den Rahmen; kleines a fertig → Bild tanzt, Elas Lob + „A is for Apple“, 1 Stern, nach 6 s nächster Buchstabe.
   Stimme: Start = Elas Buchstabe („A“, davor „Let's trace!“ sobald `STIMMEN.spuren` aufgenommen ist), großer Buchstabe fertig = nur das Wort („Apple!“),
