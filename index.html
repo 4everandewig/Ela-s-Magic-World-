@@ -6,7 +6,7 @@
 <title>Ela's Magic World</title>
 <link rel="icon" href="bilder/ela-rund.png">
 <link rel="stylesheet" href="schriften/schriften.css">
-<link rel="stylesheet" href="gemeinsam.css?v=51">
+<link rel="stylesheet" href="gemeinsam.css?v=52">
 <style>
 /* Startseite: Intro-Video, dann Elas Zimmer mit Logo, Ela (mit Begrüßung), darunter große bunte Kacheln für jeden Bereich */
 #intro{position:fixed;inset:0;z-index:60;background:#f6dccb;display:flex;align-items:center;justify-content:center}
@@ -68,7 +68,10 @@
 .tile .pic img.hupf{animation:kachel-hupf 2.6s ease-in-out infinite;transform-origin:50% 90%}
 .tile .pic img.hupf.spaet{animation-delay:-1.3s;animation-duration:2.9s}
 @keyframes kachel-hupf{0%,100%{transform:rotate(-4deg) translateY(0)}40%{transform:rotate(4deg) translateY(-9px)}60%{transform:rotate(-2deg) translateY(-2px)}}
-@media (prefers-reduced-motion:reduce){.mini-spur img,.tile .pic img.hupf{animation:none}}
+/* Sticker: nur der mittlere hüpft (er sitzt schon etwas höher, daher eigene Bewegung) */
+.mini-sticker img:nth-child(2){animation:sticker-hupf 3.1s ease-in-out infinite;animation-delay:-.7s}
+@keyframes sticker-hupf{0%,100%{transform:translateY(-8px) rotate(0)}40%{transform:translateY(-16px) rotate(-6deg)}60%{transform:translateY(-6px) rotate(3deg)}}
+@media (prefers-reduced-motion:reduce){.mini-spur img,.tile .pic img.hupf,.mini-sticker img:nth-child(2){animation:none}}
 .fuss .version{font-size:11px;opacity:.6}
 </style>
 </head>
@@ -146,11 +149,11 @@
   <footer class="fuss">
     <p data-t="f_safe"></p>
     <p><a href="info.html" data-t="f_parents"></a></p>
-    <p class="version">v51</p>
+    <p class="version">v52</p>
   </footer>
 </div>
-<script src="gemeinsam.js?v=51"></script>
-<script src="daten.js?v=51"></script>
+<script src="gemeinsam.js?v=52"></script>
+<script src="daten.js?v=52"></script>
 <script>
 document.querySelectorAll(".tile.soon").forEach(tile => tile.addEventListener("click", e => {
   e.preventDefault(); say(t("home_soon", { x: t(tile.dataset.soon) }));
