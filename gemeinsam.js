@@ -9,11 +9,13 @@ let kettenNr = 0;   // laufende Sprech-Kette (elaKette), wird von speak/elaSagt 
 
 /* ===== Sprachen =====
    Neue Sprache: in SPRACHEN eintragen und in TEXTE einen Block mit allen Schlüsseln ergänzen. */
-// Nur Englisch, weil Ela überall mit ihrer echten (englischen) Stimme spricht. Die Texte für Deutsch und Türkisch
-// bleiben in TEXTE erhalten – zum Wieder-Einschalten hier ergänzen: de: { name: "Deutsch", stimme: "de-DE" }, tr: { name: "Türkçe", stimme: "tr-TR" }
-const SPRACHEN = { en: { name: "English", stimme: "en-US" } };
-let LANG = store.get("ela-sprache") || "en";
-if (!SPRACHEN[LANG]) LANG = "en";
+// Zwei Sprachen-Ebenen:
+//  MENU = Menü (Überschriften, Kacheln, Knöpfe) – umschaltbar EN/DE/TR, gespeichert in "ela-sprache".
+//  LANG = Inhalt (Buchstaben, Wörter, Bilder, Elas Sätze und Stimme) – immer Englisch, weil Ela Englisch spricht.
+const SPRACHEN = { en: { name: "English", stimme: "en-US" }, de: { name: "Deutsch", stimme: "de-DE" }, tr: { name: "Türkçe", stimme: "tr-TR" } };
+const LANG = "en";
+let MENU = store.get("ela-sprache") || "en";
+if (!SPRACHEN[MENU]) MENU = "en";
 
 const TEXTE = {
   en: {
@@ -28,7 +30,7 @@ const TEXTE = {
     t_memory: "Memory", t_memory_s: "Find the pairs",
     n_q: "How many can you count?", n_tap: "Tap each picture and count with me!", n_which: "Now tap the right number!", n_count: "Count with me",
     n_right: "{n} {x}! Great counting!", n_again: "Almost! Let's count together!", n_together: "Let's count together!", n_how: "How many {x}?",
-    t_sticker: "My Stickers", t_sticker_s: "Collect stickers with your stars", st_hint: "Every 5 stars you get a new sticker!", st_new: "A new sticker!", t_tueren: "Magic Doors", t_tueren_s: "Who is hiding?", d_find: "Who is hiding? Find the {w}!", d_wrong: "{L} is for {w}! Try another door.", d_right: "You found the {w}!", d_again: "Let's play again!",
+    m_alle: "All pictures", t_sticker: "My Stickers", t_sticker_s: "Collect stickers with your stars", st_hint: "Every 5 stars you get a new sticker!", st_new: "A new sticker!", t_tueren: "Magic Doors", t_tueren_s: "Who is hiding?", d_find: "Who is hiding? Find the {w}!", d_wrong: "{L} is for {w}! Try another door.", d_right: "You found the {w}!", d_again: "Let's play again!",
     bye: "Bye-bye", bye_text: "Bye-bye, Magic World! See you next time!", mem_abc: "ABC", mem_pics: "Pictures", mem_hw: "Halloween", mem_new: "New game", mem_moves: "Moves: {n}",
     mem_hint_abc: "Find the letter and its picture! B goes with Bear.", mem_hint_pics: "Find two pictures that are the same!", mem_done: "You found all the pairs in {n} moves! 3 stars for you!",
     color: "Color", tool: "Tool", fill: "Fill", paint: "Paint", undo: "Undo", neu: "New", sure: "Sure?", save: "Save picture",
@@ -56,7 +58,7 @@ const TEXTE = {
     t_memory: "Memory", t_memory_s: "Finde die Paare",
     n_q: "Wie viele kannst du zählen?", n_tap: "Tipp jedes Bild an und zähl mit mir!", n_which: "Jetzt tipp auf die richtige Zahl!", n_count: "Zähl mit mir",
     n_right: "{n} {x}! Toll gezählt!", n_again: "Fast! Komm, wir zählen zusammen!", n_together: "Komm, wir zählen zusammen!", n_how: "Wie viele {x}?",
-    t_sticker: "Meine Sticker", t_sticker_s: "Sammle Sticker mit deinen Sternen", st_hint: "Für 5 Sterne gibt es einen neuen Sticker!", st_new: "Ein neuer Sticker!", t_tueren: "Zaubertüren", t_tueren_s: "Wer versteckt sich?", d_find: "Wer versteckt sich? Finde: {w}!", d_wrong: "{L} wie {w}! Probier eine andere Tür.", d_right: "Gefunden: {w}!", d_again: "Komm, wir spielen nochmal!",
+    m_alle: "Alle Bilder", t_sticker: "Meine Sticker", t_sticker_s: "Sammle Sticker mit deinen Sternen", st_hint: "Für 5 Sterne gibt es einen neuen Sticker!", st_new: "Ein neuer Sticker!", t_tueren: "Zaubertüren", t_tueren_s: "Wer versteckt sich?", d_find: "Wer versteckt sich? Finde: {w}!", d_wrong: "{L} wie {w}! Probier eine andere Tür.", d_right: "Gefunden: {w}!", d_again: "Komm, wir spielen nochmal!",
     bye: "Tschüss", bye_text: "Tschüss, Zauberwelt! Bis zum nächsten Mal!", mem_abc: "ABC", mem_pics: "Bilder", mem_hw: "Halloween", mem_new: "Neues Spiel", mem_moves: "Züge: {n}",
     mem_hint_abc: "Finde den Buchstaben und sein Bild! B gehört zu Bear.", mem_hint_pics: "Finde zwei gleiche Bilder!", mem_done: "Du hast alle Paare in {n} Zügen gefunden! 3 Sterne für dich!",
     color: "Farbe", tool: "Werkzeug", fill: "Füllen", paint: "Malen", undo: "Zurück", neu: "Neu", sure: "Sicher?", save: "Bild speichern",
@@ -84,7 +86,7 @@ const TEXTE = {
     t_memory: "Hafıza", t_memory_s: "Eşleri bul",
     n_q: "Kaç tane sayabilirsin?", n_tap: "Her resme dokun ve benimle say!", n_which: "Şimdi doğru sayıya dokun!", n_count: "Benimle say",
     n_right: "{n} {x}! Harika saydın!", n_again: "Neredeyse! Hadi birlikte sayalım!", n_together: "Hadi birlikte sayalım!", n_how: "Kaç {x} var?",
-    t_sticker: "Çıkartmalarım", t_sticker_s: "Yıldızlarınla çıkartma topla", st_hint: "Her 5 yıldızda yeni bir çıkartma!", st_new: "Yeni bir çıkartma!", t_tueren: "Sihirli Kapılar", t_tueren_s: "Kim saklanıyor?", d_find: "Kim saklanıyor? Bul: {w}!", d_wrong: "{L}: {w}! Başka bir kapı dene.", d_right: "Buldun: {w}!", d_again: "Hadi tekrar oynayalım!",
+    m_alle: "Tüm resimler", t_sticker: "Çıkartmalarım", t_sticker_s: "Yıldızlarınla çıkartma topla", st_hint: "Her 5 yıldızda yeni bir çıkartma!", st_new: "Yeni bir çıkartma!", t_tueren: "Sihirli Kapılar", t_tueren_s: "Kim saklanıyor?", d_find: "Kim saklanıyor? Bul: {w}!", d_wrong: "{L}: {w}! Başka bir kapı dene.", d_right: "Buldun: {w}!", d_again: "Hadi tekrar oynayalım!",
     bye: "Hoşça kal", bye_text: "Hoşça kal, Sihirli Dünya! Bir dahaki sefere görüşürüz!", mem_abc: "ABC", mem_pics: "Resimler", mem_hw: "Cadılar Bayramı", mem_new: "Yeni oyun", mem_moves: "Hamle: {n}",
     mem_hint_abc: "Harfi ve resmini bul! B, Bear ile gider.", mem_hint_pics: "Aynı iki resmi bul!", mem_done: "Tüm eşleri {n} hamlede buldun! Sana 3 yıldız!",
     color: "Renk", tool: "Araç", fill: "Doldur", paint: "Boya", undo: "Geri al", neu: "Yeni", sure: "Emin misin?", save: "Resmi kaydet",
@@ -109,24 +111,34 @@ function t(key, vars = {}){
 }
 /* Übersetzter Name aus einem {en, de, tr}-Objekt */
 const tx = obj => (obj && (obj[LANG] || obj.en)) || "";
+/* Menü-Texte in der gewählten Menü-Sprache (Überschriften, Kacheln, Knöpfe) */
+function tm(key, vars = {}){
+  const s = (TEXTE[MENU] && TEXTE[MENU][key] !== undefined) ? TEXTE[MENU][key] : TEXTE.en[key];
+  if (typeof s !== "string") return t(key, vars);
+  const out = s.replace(/\{(\w+)\}/g, (_, k) => vars[k] !== undefined ? vars[k] : "");
+  return out.charAt(0).toLocaleUpperCase(MENU) + out.slice(1);
+}
+const txm = obj => (obj && (obj[MENU] || obj.en)) || "";
 function lob(){ return zufall(t("lob")); }
 function nochmal(){ return zufall(t("nochmal")); }
 
 /* Texte im HTML übersetzen: data-t="schlüssel" (Inhalt), data-t-label="schlüssel" (aria-label/title) */
 function uebersetzen(root = document){
   document.documentElement.lang = LANG;
-  root.querySelectorAll("[data-t]").forEach(el => el.textContent = t(el.dataset.t));
-  root.querySelectorAll("[data-t-label]").forEach(el => { el.setAttribute("aria-label", t(el.dataset.tLabel)); el.title = t(el.dataset.tLabel); });
+  // Was Ela sagt (Sprechblase) und die Spielfragen bleiben Englisch; alles andere ist Menü → Menü-Sprache
+  const inhalt = el => el.closest(".bubble, .q, .ela");
+  root.querySelectorAll("[data-t]").forEach(el => el.textContent = inhalt(el) ? t(el.dataset.t) : tm(el.dataset.t));
+  root.querySelectorAll("[data-t-label]").forEach(el => { const s = inhalt(el) ? t(el.dataset.tLabel) : tm(el.dataset.tLabel); el.setAttribute("aria-label", s); el.title = s; });
 }
 
 /* Sprachauswahl in der Kopfzeile: <div class="lang" id="lang"></div> */
 function sprachAuswahl(){
   const box = document.getElementById("lang"); if (!box) return;
   if (Object.keys(SPRACHEN).length < 2) { box.hidden = true; return; }   // nur eine Sprache → kein Umschalter
-  box.setAttribute("aria-label", t("language"));
+  box.setAttribute("aria-label", tm("language"));
   Object.keys(SPRACHEN).forEach(code => {
     const b = document.createElement("button"); b.type = "button"; b.textContent = code.toUpperCase();
-    b.title = SPRACHEN[code].name; b.setAttribute("aria-pressed", code === LANG);
+    b.title = SPRACHEN[code].name; b.setAttribute("aria-pressed", code === MENU);
     b.onclick = () => { store.set("ela-sprache", code); location.reload(); };
     box.appendChild(b);
   });
