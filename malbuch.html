@@ -5,8 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Coloring Book – Ela's Magic World</title>
 <link rel="stylesheet" href="schriften/schriften.css">
-<link rel="stylesheet" href="gemeinsam.css?v=46">
+<link rel="stylesheet" href="gemeinsam.css?v=48">
 <style>
+/* Thema + Bilder in einer Zeile (zugeklappt), damit das ganze Ausmalbild auch am PC ohne Scrollen auf den Bildschirm passt */
+.leiste{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin-bottom:6px}
+.leiste .pics.zu{display:flex;gap:8px;padding:2px}
+.leiste .pics:not(.zu){flex-basis:100%}
+.leiste .pics.zu .pic{flex-direction:row;padding:6px 12px 9px 6px;gap:6px}
+.leiste .pics.zu .alle{flex-direction:row;padding:6px 12px 6px 8px;gap:6px}
+@media (min-width:861px) and (max-height:820px){.side .ela img{width:96px}.side .bubble{font-size:16px}}
 /* Layout: Themenleiste, Bilderleiste, Malfläche mit Regenbogenrahmen, rechts Ela + Farben + Werkzeuge. */
 /* Grundfarben, Kopfzeile, Ela und Knöpfe kommen aus gemeinsam.css */
 .top h1 .m{color:var(--pink)}
@@ -53,7 +60,7 @@
 .word{font-family:var(--display);font-weight:800;font-size:clamp(28px,5vw,44px);line-height:1;display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;justify-content:center}
 .word .L{color:var(--pink)} .word #word{color:var(--purple)}
 .word .de{font-family:var(--body);font-size:15px;color:var(--muted);font-weight:800}
-canvas{display:block;max-width:100%;max-height:62vh;width:auto;height:auto;touch-action:none;cursor:crosshair;border-radius:12px;
+canvas{display:block;max-width:100%;max-height:max(300px,calc(100vh - 330px));max-height:max(300px,calc(100dvh - 330px));width:auto;height:auto;touch-action:none;cursor:crosshair;border-radius:12px;
   box-shadow:0 0 0 3px var(--line)}   /* zeigt, wo die Malfläche aufhört */
 
 .side{display:flex;flex-direction:column;gap:14px}
@@ -134,8 +141,10 @@ canvas{display:block;max-width:100%;max-height:62vh;width:auto;height:auto;touch
     <div class="stars" data-t-label="stars"><svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .8-5.2 4.8 1.5 7L12 17.6 5.7 21l1.5-7L2 9.3l7-.8z"/></svg><span id="stars-n">0</span></div>
   </header>
 
-  <nav class="themes" id="themes" aria-label="Themes"></nav>
-  <nav class="pics" id="pics" aria-label="Pictures"></nav>
+  <div class="leiste">
+    <nav class="themes" id="themes" aria-label="Themes"></nav>
+    <nav class="pics" id="pics" aria-label="Pictures"></nav>
+  </div>
 
   <div class="main">
     <div class="frame"><section class="stage">
@@ -190,8 +199,8 @@ canvas{display:block;max-width:100%;max-height:62vh;width:auto;height:auto;touch
   <div class="d-fuss"><img src="bilder/logo.png" alt=""><span>Ela's Magic World · youtube.com/@ElasMagicPhonics</span></div>
 </div>
 
-<script src="gemeinsam.js?v=46"></script>
-<script src="daten.js?v=46"></script>
+<script src="gemeinsam.js?v=48"></script>
+<script src="daten.js?v=48"></script>
 <script>
 let thema = THEMEN[0], BILDER = thema.bilder;
 
