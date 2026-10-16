@@ -6,7 +6,7 @@
 <title>Ela's Magic World</title>
 <link rel="icon" href="bilder/ela-rund.png">
 <link rel="stylesheet" href="schriften/schriften.css">
-<link rel="stylesheet" href="gemeinsam.css?v=42">
+<link rel="stylesheet" href="gemeinsam.css?v=43">
 <style>
 /* Startseite: Intro-Video, dann Elas Zimmer mit Logo, Ela (mit Begrüßung), darunter große bunte Kacheln für jeden Bereich */
 #intro{position:fixed;inset:0;z-index:60;background:#f6dccb;display:flex;align-items:center;justify-content:center}
@@ -126,11 +126,11 @@
   <footer class="fuss">
     <p data-t="f_safe"></p>
     <p><a href="info.html" data-t="f_parents"></a></p>
-    <p class="version">v42</p>
+    <p class="version">v43</p>
   </footer>
 </div>
-<script src="gemeinsam.js?v=42"></script>
-<script src="daten.js?v=42"></script>
+<script src="gemeinsam.js?v=43"></script>
+<script src="daten.js?v=43"></script>
 <script>
 document.querySelectorAll(".tile.soon").forEach(tile => tile.addEventListener("click", e => {
   e.preventDefault(); say(t("home_soon", { x: t(tile.dataset.soon) }));
