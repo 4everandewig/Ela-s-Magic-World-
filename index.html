@@ -6,7 +6,7 @@
 <title>Ela's Magic World</title>
 <link rel="icon" href="bilder/ela-rund.png">
 <link rel="stylesheet" href="schriften/schriften.css">
-<link rel="stylesheet" href="gemeinsam.css?v=50">
+<link rel="stylesheet" href="gemeinsam.css?v=51">
 <style>
 /* Startseite: Intro-Video, dann Elas Zimmer mit Logo, Ela (mit Begrüßung), darunter große bunte Kacheln für jeden Bereich */
 #intro{position:fixed;inset:0;z-index:60;background:#f6dccb;display:flex;align-items:center;justify-content:center}
@@ -64,7 +64,11 @@
 .mini-spur svg{width:82px;height:82px}
 .mini-spur img{width:54px;height:54px;object-fit:contain;border-radius:14px;box-shadow:0 0 0 3px var(--red);background:#fff;transform:rotate(8deg) translateY(-8px);animation:apfel-hupf 2.4s ease-in-out infinite}
 @keyframes apfel-hupf{0%,100%{transform:rotate(8deg) translateY(-8px)}40%{transform:rotate(-4deg) translateY(-18px)}60%{transform:rotate(6deg) translateY(-4px)}}
-@media (prefers-reduced-motion:reduce){.mini-spur img{animation:none}}
+/* Kürbis (Malbuch) und Bär (Memory) hüpfen sanft wie der Apfel beim Nachspuren – leicht versetzt, damit nicht alle im Takt wackeln */
+.tile .pic img.hupf{animation:kachel-hupf 2.6s ease-in-out infinite;transform-origin:50% 90%}
+.tile .pic img.hupf.spaet{animation-delay:-1.3s;animation-duration:2.9s}
+@keyframes kachel-hupf{0%,100%{transform:rotate(-4deg) translateY(0)}40%{transform:rotate(4deg) translateY(-9px)}60%{transform:rotate(-2deg) translateY(-2px)}}
+@media (prefers-reduced-motion:reduce){.mini-spur img,.tile .pic img.hupf{animation:none}}
 .fuss .version{font-size:11px;opacity:.6}
 </style>
 </head>
@@ -97,7 +101,7 @@
 
   <nav class="tiles" aria-label="Areas">
     <a class="tile" href="malbuch.html" style="--c:var(--pink)">
-      <div class="pic"><img src="bilder/halloween/P-Pumpkin.png" alt=""></div>
+      <div class="pic"><img class="hupf" src="bilder/halloween/P-Pumpkin.png" alt=""></div>
       <b data-t="t_malbuch"></b><small data-t="t_malbuch_s"></small>
     </a>
     <a class="tile" href="abc.html" style="--c:var(--purple)">
@@ -120,7 +124,7 @@
       <b data-t="t_farben"></b><small data-t="t_farben_s"></small>
     </a>
     <a class="tile" href="memory.html" style="--c:var(--orange)">
-      <div class="pic"><div class="mem-ico"><img src="bilder/abc/B-Bear.jpg" alt=""><b>B</b></div></div>
+      <div class="pic"><div class="mem-ico"><img class="hupf spaet" src="bilder/abc/B-Bear.jpg" alt=""><b>B</b></div></div>
       <b data-t="t_memory"></b><small data-t="t_memory_s"></small>
     </a>
     <a class="tile" href="zahlen.html" style="--c:var(--green)">
@@ -142,11 +146,11 @@
   <footer class="fuss">
     <p data-t="f_safe"></p>
     <p><a href="info.html" data-t="f_parents"></a></p>
-    <p class="version">v50</p>
+    <p class="version">v51</p>
   </footer>
 </div>
-<script src="gemeinsam.js?v=50"></script>
-<script src="daten.js?v=50"></script>
+<script src="gemeinsam.js?v=51"></script>
+<script src="daten.js?v=51"></script>
 <script>
 document.querySelectorAll(".tile.soon").forEach(tile => tile.addEventListener("click", e => {
   e.preventDefault(); say(t("home_soon", { x: t(tile.dataset.soon) }));
