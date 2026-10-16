@@ -20,7 +20,7 @@ const THEMEN = [
     { L: "S", wort: { en: "Spider",       de: "Spinne",       tr: "Örümcek" },        datei: "bilder/halloween/S-Spider.png" },
     { L: "T", wort: { en: "Treat",        de: "Süßigkeiten",  tr: "Şeker" },          datei: "bilder/halloween/T-Treat.png" },
     { L: "V", wort: { en: "Vampire",      de: "Vampir",       tr: "Vampir" },         datei: "bilder/halloween/V-Vampire.png" },
-    { L: "W", wort: { en: "Witch",        de: "Hexe",         tr: "Cadı" },           datei: "bilder/halloween/W-Witch.png" },
+    { L: "W", wort: { en: "Witch",        de: "Hexe",         tr: "Cadı" },           datei: "bilder/halloween/W-Witch.png", bunt: "bilder/halloween/bunt/W-Witch.jpg" },
     { L: "Y", wort: { en: "Yeti",         de: "Yeti",         tr: "Yeti" },           datei: "bilder/halloween/Y-Yeti.png" },
   ]},
   { id: "weihnachten", name: { en: "Christmas", de: "Weihnachten", tr: "Yılbaşı" },   farbe: "#f05252", icon: "🎄", bilder: [] },
