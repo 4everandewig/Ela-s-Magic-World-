@@ -6,7 +6,7 @@
 <title>ABC – Ela's Magic World</title>
 <link rel="icon" href="bilder/ela-rund.png">
 <link rel="stylesheet" href="schriften/schriften.css">
-<link rel="stylesheet" href="gemeinsam.css?v=52">
+<link rel="stylesheet" href="gemeinsam.css?v=53">
 <style>
 /* ABC: Tabs Entdecken/Spielen; links die große Buchstabenkarte bzw. das Rätsel, rechts Ela; darunter das Buchstaben-Raster */
 .top h1{color:var(--purple)}
@@ -30,6 +30,26 @@
 .choice.l{font-family:var(--display);font-weight:800;font-size:clamp(56px,10vw,90px);line-height:1;color:#fff;background:var(--c)}
 .choice img{max-width:100%;max-height:150px}
 .choice.ok{background:var(--green);color:#fff}
+
+/* Blasen: "Find the letter G!" – alle Blasen mit G/g antippen, sie platzen */
+.ziel{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+.ziel .bl{width:84px;height:84px;font-size:46px}
+.himmel{position:relative;width:100%;height:clamp(320px,52vh,500px);border-radius:22px;overflow:hidden;
+  background:linear-gradient(#e6f3ff,#fdf0ff);box-shadow:inset 0 0 0 3px var(--line)}
+.bl{position:absolute;display:grid;place-items:center;width:clamp(56px,13vw,90px);aspect-ratio:1;border-radius:50%;border:0;cursor:pointer;padding:0;
+  font-family:var(--display);font-weight:800;font-size:clamp(28px,6vw,44px);line-height:1;color:var(--c);
+  background:radial-gradient(circle at 32% 28%,#fff 0 12%,rgba(255,255,255,.55) 13% 30%,transparent 31%),
+    radial-gradient(circle at 50% 50%,rgba(255,255,255,.85) 0 55%,color-mix(in srgb,var(--c) 28%,#fff) 70%,color-mix(in srgb,var(--c) 55%,#fff) 100%);
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 45%,#fff),0 10px 18px -12px rgba(58,36,64,.6);animation:schweben var(--d,4s) ease-in-out infinite;animation-delay:var(--v,0s)}
+.ziel .bl{position:static;animation:none}
+@keyframes schweben{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.bl.platzt{animation:platzen .35s ease-out forwards;pointer-events:none}
+@keyframes platzen{0%{transform:scale(1)}60%{transform:scale(1.35);opacity:.7}100%{transform:scale(1.6);opacity:0}}
+.bl.nein{animation:wiggle .4s ease}
+.fund{display:flex;gap:6px;justify-content:center;min-height:30px}
+.fund i{width:26px;height:26px;border-radius:50%;background:var(--line)}
+.fund i.ja{background:var(--yellow);box-shadow:0 0 0 3px #fff7dc}
+@media (prefers-reduced-motion:reduce){.bl{animation:none}}
 </style>
 </head>
 <body>
@@ -45,6 +65,7 @@
   <div class="tabs">
     <button class="tab" id="tab-lernen" type="button" style="--c:var(--pink)" aria-pressed="true" data-t="explore"></button>
     <button class="tab" id="tab-spiel" type="button" style="--c:var(--purple)" aria-pressed="false" data-t="play"></button>
+    <button class="tab" id="tab-blasen" type="button" style="--c:var(--blue)" aria-pressed="false" data-t="bl_tab"></button>
   </div>
 
   <div class="main">
@@ -57,6 +78,16 @@
           <div class="word" id="k-word">Apple</div>
           <div class="de" id="k-de">Apfel</div>
           <button class="btn speaker" id="k-say" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg><span data-t="hear"></span></button>
+        </div>
+      </div>
+      <!-- Blasen -->
+      <div id="blasen" hidden>
+        <div class="big" style="gap:12px">
+          <div class="ziel">
+            <button class="bl" id="bl-ziel" type="button" style="--c:var(--blue)" data-t-label="hear_q">Bb</button>
+          </div>
+          <div class="fund" id="fund"></div>
+          <div class="himmel" id="himmel"></div>
         </div>
       </div>
       <!-- Spielen -->
@@ -81,8 +112,8 @@
   </section>
 </div>
 
-<script src="gemeinsam.js?v=52"></script>
-<script src="daten.js?v=52"></script>
+<script src="gemeinsam.js?v=53"></script>
+<script src="daten.js?v=53"></script>
 <script>
 /* Auf Ela tippen: ihre Videos der Reihe nach */
 elaTippen(document.getElementById("ela-tipp"), ELA_VIDEOS.seite.abc);
@@ -202,18 +233,89 @@ function antwort(btn, L){
 }
 document.getElementById("s-say").onclick = frageVorlesen;
 
+/* ---------- Blasen ----------
+   Ela: "Find the letter G!" – 5 Blasen tragen G oder g, die anderen andere Buchstaben. Richtige Blase antippen = sie platzt.
+   Nur Buchstaben mit Elas Aufnahme (STIMMEN.finde, A–L), damit keine Geräte-Stimme dazwischen spricht. Falsch = Blase wackelt nur. */
+const BL_ZIELE = LETTERS.filter(L => STIMMEN.finde[L]);
+const AEHNLICH = { B: "DPR", D: "BOP", E: "FB", F: "ET", C: "OGE", G: "CQO", I: "LJT", J: "IL", K: "XH", L: "IJT", A: "HV", H: "AK" };
+let blZiel = null, blGefunden = 0, blRunden = 0, audioBl = null;
+const BL_ANZAHL = 5;
+function plopp(){
+  try {
+    if (!audioBl) audioBl = new (window.AudioContext || window.webkitAudioContext)();
+    const o = audioBl.createOscillator(), g = audioBl.createGain(), t0 = audioBl.currentTime;
+    o.type = "sine"; o.frequency.setValueAtTime(520, t0); o.frequency.exponentialRampToValueAtTime(1300, t0 + .09);
+    g.gain.setValueAtTime(.0001, t0); g.gain.exponentialRampToValueAtTime(.12, t0 + .01); g.gain.exponentialRampToValueAtTime(.0001, t0 + .14);
+    o.connect(g).connect(audioBl.destination); o.start(t0); o.stop(t0 + .16);
+  } catch(e){}
+}
+function blasenRunde(){
+  blZiel = zufall(BL_ZIELE.filter(L => L !== blZiel)); blGefunden = 0;
+  const ziel = document.getElementById("bl-ziel");
+  ziel.textContent = blZiel + blZiel.toLowerCase(); ziel.style.setProperty("--c", farbe(blZiel));
+  document.getElementById("fund").innerHTML = "<i></i>".repeat(BL_ANZAHL);
+  // 5 richtige (groß und klein gemischt) + 9 andere, gern ähnlich aussehende Buchstaben
+  const richtige = [blZiel, blZiel.toLowerCase(), blZiel, blZiel.toLowerCase(), zufall([blZiel, blZiel.toLowerCase()])];
+  const andereL = LETTERS.filter(L => L !== blZiel);
+  const pool = [...(AEHNLICH[blZiel] || "").split(""), ...mischen(andereL)].filter(L => L !== blZiel);
+  // Großes I und kleines l sehen in der Schrift gleich aus → nie als falsche Blasen (sonst unfair bei I oder L)
+  const andere = [];
+  for (const L of pool) {
+    if (andere.length >= 9) break;
+    const z = Math.random() < .5 ? L : L.toLowerCase();
+    if (z === "I" || z === "l") continue;
+    if (!andere.includes(z)) andere.push(z);
+  }
+  const alle = mischen([...richtige.map(z => ({ z, ok: true })), ...andere.map(z => ({ z, ok: false }))]);
+  // Auf ein Raster mit leichtem Zufall verteilen, damit sich keine Blasen überdecken
+  const himmel = document.getElementById("himmel"); himmel.innerHTML = "";
+  const spalten = himmel.clientWidth < 500 ? 4 : 5, reihen = Math.ceil(alle.length / spalten);
+  const zellen = mischen([...Array(spalten * reihen).keys()]).slice(0, alle.length);
+  alle.forEach((b, i) => {
+    const el = document.createElement("button"); el.type = "button"; el.className = "bl"; el.textContent = b.z;
+    el.setAttribute("aria-label", b.z);
+    const farbeB = farbe(String.fromCharCode(65 + Math.floor(Math.random() * 26)));
+    el.style.setProperty("--c", farbeB);
+    const zelle = zellen[i], sx = zelle % spalten, sy = Math.floor(zelle / spalten);
+    el.style.left = `calc(${(sx + .5) / spalten * 100}% - clamp(28px,6.5vw,45px) + ${(Math.random() - .5) * 18}px)`;
+    el.style.top = `calc(${(sy + .5) / reihen * 100}% - clamp(28px,6.5vw,45px) + ${(Math.random() - .5) * 16}px)`;
+    el.style.setProperty("--d", (3 + Math.random() * 2.5).toFixed(2) + "s");
+    el.style.setProperty("--v", (-Math.random() * 4).toFixed(2) + "s");
+    el.onclick = () => blaseTippen(el, b.ok);
+    himmel.appendChild(el);
+  });
+  say(t("a_q3", { L: blZiel }));
+  elaSagt([STIMMEN.finde[blZiel]], `Find the letter ${blZiel}!`);
+}
+function blaseTippen(el, ok){
+  if (!ok) { el.classList.remove("nein"); void el.offsetWidth; el.classList.add("nein"); return; }
+  plopp(); el.classList.add("platzt"); setTimeout(() => el.remove(), 360);
+  const punkte = document.getElementById("fund").children; if (punkte[blGefunden]) punkte[blGefunden].className = "ja";
+  blGefunden++;
+  if (blGefunden < BL_ANZAHL) return;
+  // Alle gefunden: Elas Lob (nur bei jeder 2. Runde, sonst ihr Buchstabe), Stern, nächste Runde
+  const mitLob = ++blRunden % 2 === 0;
+  say(mitLob ? lob() : `${blZiel}! ${blZiel}!`);
+  if (mitLob) elaSagt([zufall(STIMMEN.lob)], lob()); else if (STIMMEN.buchstabe[blZiel]) elaSagt([STIMMEN.buchstabe[blZiel]], blZiel);
+  sternDazu(); sternRegen();
+  setTimeout(() => { if (!document.getElementById("blasen").hidden) blasenRunde(); }, 2600);
+}
+document.getElementById("bl-ziel").onclick = () => { if (blZiel) elaSagt([STIMMEN.finde[blZiel]], `Find the letter ${blZiel}!`); };
+
 /* ---------- Tabs ---------- */
 function modus(m){
-  document.getElementById("tab-lernen").setAttribute("aria-pressed", m === "lernen");
-  document.getElementById("tab-spiel").setAttribute("aria-pressed", m === "spiel");
-  document.getElementById("lernen").hidden = m !== "lernen";
-  document.getElementById("spiel").hidden = m !== "spiel";
+  ["lernen", "spiel", "blasen"].forEach(x => {
+    document.getElementById("tab-" + x).setAttribute("aria-pressed", m === x);
+    document.getElementById(x).hidden = m !== x;
+  });
   document.getElementById("raster-box").hidden = m !== "lernen";
   if (m === "spiel") { say(t("a_play")); neueFrage(); }
+  else if (m === "blasen") blasenRunde();
   else say(t("a_tap"));
 }
 document.getElementById("tab-lernen").onclick = () => modus("lernen");
 document.getElementById("tab-spiel").onclick = () => modus("spiel");
+document.getElementById("tab-blasen").onclick = () => modus("blasen");
 
 zeige(store.get("ela-abc") || "A", false);
 </script>
