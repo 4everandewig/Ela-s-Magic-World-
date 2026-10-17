@@ -6,7 +6,7 @@
 <title>Ela's Magic World</title>
 <link rel="icon" href="bilder/ela-rund.png">
 <link rel="stylesheet" href="schriften/schriften.css">
-<link rel="stylesheet" href="gemeinsam.css?v=56">
+<link rel="stylesheet" href="gemeinsam.css?v=57">
 <style>
 /* Startseite: Intro-Video, dann Elas Zimmer mit Logo, Ela (mit Begrüßung), darunter große bunte Kacheln für jeden Bereich */
 #intro{position:fixed;inset:0;z-index:60;background:#f6dccb;display:flex;align-items:center;justify-content:center}
@@ -149,11 +149,11 @@
   <footer class="fuss">
     <p data-t="f_safe"></p>
     <p><a href="info.html" data-t="f_parents"></a></p>
-    <p class="version">v56</p>
+    <p class="version">v57</p>
   </footer>
 </div>
-<script src="gemeinsam.js?v=56"></script>
-<script src="daten.js?v=56"></script>
+<script src="gemeinsam.js?v=57"></script>
+<script src="daten.js?v=57"></script>
 <script>
 document.querySelectorAll(".tile.soon").forEach(tile => tile.addEventListener("click", e => {
   e.preventDefault(); say(t("home_soon", { x: t(tile.dataset.soon) }));
@@ -184,6 +184,19 @@ document.getElementById("ela-friend").onclick = e => {
   Object.assign(elaClip, { src: "bilder/ela-hexe-hallo.mp4", muted: false, loop: false });
   const p = elaClip.play(); if (p && p.catch) p.catch(() => speak(t(HALLO)));
 };
+/* Maus über der Malbuch-Kachel (nur PC, einmal pro Besuch): Ela fragt im Kreis "Do you want to color with me?"
+   Ohne vorheriges Klicken erlaubt der Browser keinen Ton – dann spricht Ela stumm im Kreis und die Frage steht in der Sprechblase. */
+const MAL_VIDEO = HALLOWEEN ? ELA_VIDEOS.thema.halloween : null;
+let malGefragt = false;
+document.querySelector('.tile[href="malbuch.html"]').addEventListener("pointerenter", e => {
+  if (e.pointerType !== "mouse" || malGefragt || !MAL_VIDEO || !elaClip) return;
+  malGefragt = true;
+  hop(document.getElementById("ela-friend")); say("Do you want to color with me?");
+  try { speechSynthesis.cancel(); } catch(err){}
+  Object.assign(elaClip, { src: MAL_VIDEO, muted: false, loop: false });
+  const p = elaClip.play();
+  if (p && p.catch) p.catch(() => { elaClip.muted = true; elaClip.play().catch(() => {}); });
+});
 let byeNr = 0;
 /* Abschied: "Bye-bye, Magic World! See you next time!" mit Elas Stimme, Ela winkt */
 document.getElementById("bye").onclick = () => {

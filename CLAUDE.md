@@ -7,8 +7,10 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
 - `index.html` – Startseite: zuerst Intro-Video (`bilder/intro.mp4` + Standbild `intro.jpg`, stumm; „Let's go!“ = mit Ton;
   einmal pro Besuch über `sessionStorage` `ela-intro`). Dann Elas Zimmer (`bilder/zimmer.jpg`) mit Logo und Ela (begrüßt),
   KEIN sprechendes Kätzchen im Kreis mehr (auf Wunsch entfernt), darunter große Kacheln zu den Bereichen (Zahlen vorerst ausgeblendet).
+  Maus über der Malbuch-Kachel (nur PC, Oktober, einmal pro Besuch): Hexen-Ela fragt im Kreis „Do you want to color with me?“ (`ELA_VIDEOS.thema.halloween`;
+  ohne vorheriges Klicken erlaubt der Browser keinen Ton → stumm + Sprechblase).
   Kürbis (Malbuch), Bär (Memory), Apfel (Tracing) und der mittlere Sticker hüpfen sanft auf ihren Kacheln (`.hupf`, versetzt) – nicht mehr, sonst zu unruhig.
-  Unten Fußzeile mit Versionsnummer (`v56`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
+  Unten Fußzeile mit Versionsnummer (`v57`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
 - `malbuch.html` – Malbuch mit **Themen** (Halloween aktiv; Christmas, Animals, Sweets, Ocean sind vorbereitet, aber ausgeblendet, bis sie Bilder haben).
   Bilder-Liste zum Aufklappen: zu = nur gewähltes Bild + Knopf „Alle Bilder“ (4 Mini-Bilder + Anzahl), auf = alle als Raster; Bild wählen klappt zu.
   Thema + zugeklappte Bilder stehen in einer Zeile (`.leiste`), die Malfläche ist auf die Bildschirmhöhe begrenzt → am PC passt das ganze Bild ohne Scrollen.
