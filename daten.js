@@ -125,7 +125,7 @@ const ELA_VIDEOS = {
           "halloween-B": ["videos/B-is-for-Bat.mp4", "videos/B-Cute-little-bat.mp4"],
           "halloween-W": ["videos/W-is-for-Witch.mp4", "videos/W-Little-witch-like-me.mp4", "videos/W-Pumpkin-and-bats.mp4", "videos/W-Abracadabra.mp4"] },
   thema: { halloween: "videos/Color-with-me.mp4" },
-  spuren: { W: "videos/W-Tracing.mp4" },   // Nachspuren: Ela malt den Buchstaben in die Luft, wenn er gewählt wird (im Kreis)
+  spuren: { W: ["videos/W-Today-we-learn.mp4", "videos/W-Tracing.mp4"] },   // mehrere = nacheinander: "Today we learn the letter W!", dann malt Ela das W in die Luft   // Nachspuren: Ela malt den Buchstaben in die Luft, wenn er gewählt wird (im Kreis)
   seite: { abc:    ["videos/Think-think-think.mp4", "videos/What-is-it.mp4", "videos/Something-is-happening.mp4", "videos/Peekaboo.mp4"],
            farben: ["videos/Which-color-is-next.mp4", "videos/Say-the-colours.mp4"] },
   gespeichert: { halloween: "videos/Its-alive.mp4" },

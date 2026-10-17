@@ -264,6 +264,8 @@ function elaVideo(src, ersatz){
 /* Ela spricht im runden Kreis (statt im großen Video-Fenster): das runde Ela-Bild wird kurz zum Video
    und ist danach wieder das Bild. Antippen beendet. Klappt das Abspielen nicht, liest die Geräte-Stimme "ersatz" vor. */
 function elaKreisVideo(img, src, ersatz){
+  const liste = Array.isArray(src) ? src.slice() : [src];   // mehrere Videos = nacheinander im Kreis
+  src = liste.shift();
   if (!img) return elaVideo(src, ersatz);
   try { if ("speechSynthesis" in window) speechSynthesis.cancel(); } catch(e){}
   if (elaTon) elaTon.pause();
@@ -273,7 +275,12 @@ function elaKreisVideo(img, src, ersatz){
   v.style.width = v.style.height = Math.round(r.width) + "px";
   let fertig = false;
   v.zurueck = () => { if (fertig) return; fertig = true; v.pause(); v.replaceWith(img); };
-  v.onended = v.zurueck; v.onclick = v.zurueck;
+  v.onended = () => {
+    if (!liste.length) return v.zurueck();
+    const naechstes = liste.shift(); v.poster = naechstes.replace(/\.mp4$/, ".jpg"); v.src = naechstes;
+    const p2 = v.play(); if (p2 && p2.catch) p2.catch(v.zurueck);
+  };
+  v.onclick = v.zurueck;
   v.onerror = () => { v.zurueck(); if (ersatz) speak(ersatz, "en-US"); };
   img.replaceWith(v); v.src = src;
   const p = v.play(); if (p && p.catch) p.catch(v.onerror);
