@@ -6,7 +6,7 @@
 <title>Colors – Ela's Magic World</title>
 <link rel="icon" href="bilder/ela-rund.png">
 <link rel="stylesheet" href="schriften/schriften.css">
-<link rel="stylesheet" href="gemeinsam.css?v=63">
+<link rel="stylesheet" href="gemeinsam.css?v=64">
 <style>
 /* Farben: Tabs Entdecken/Spielen; links großer Farbklecks bzw. die Frage, rechts Ela; darunter die Farbtöpfe */
 .top h1{color:var(--blue)}
@@ -38,8 +38,8 @@
   </header>
 
   <div class="tabs">
-    <button class="tab" id="tab-lernen" type="button" style="--c:var(--pink)" aria-pressed="true" data-t="explore"></button>
-    <button class="tab" id="tab-spiel" type="button" style="--c:var(--blue)" aria-pressed="false" data-t="play"></button>
+    <button class="tab bild" id="tab-lernen" type="button" style="--c:var(--pink)" aria-pressed="true"><span class="tab-bild tb-punkte" aria-hidden="true"><i style="background:#f05252"></i><i style="background:#f7882f"></i><i style="background:#fbbd23"></i><i style="background:#4cbb5c"></i><i style="background:#3d8ef0"></i><i style="background:#8b5cf6"></i></span><span data-t="explore"></span></button>
+    <button class="tab bild" id="tab-spiel" type="button" style="--c:var(--blue)" aria-pressed="false"><span class="tab-bild tb-punkte tb-finger" aria-hidden="true"><i style="background:#f05252"></i><i style="background:#3d8ef0" class="an"></i><i style="background:#fbbd23"></i><b>👆</b></span><span data-t="play"></span></button>
   </div>
 
   <div class="main">
@@ -69,8 +69,8 @@
   </section>
 </div>
 
-<script src="gemeinsam.js?v=63"></script>
-<script src="daten.js?v=63"></script>
+<script src="gemeinsam.js?v=64"></script>
+<script src="daten.js?v=64"></script>
 <script>
 /* Auf Ela tippen: ihre Videos der Reihe nach */
 elaTippen(document.getElementById("ela-tipp"), ELA_VIDEOS.seite.farben);

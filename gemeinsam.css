@@ -122,3 +122,18 @@ html.halloween body::before{background-image:linear-gradient(rgba(255,242,248,.4
 .tab-bild.enten3 img{width:22px;height:22px;object-fit:contain;margin:0 -2px}
 .tab-bild.enten3 img:nth-child(2){transform:translateY(-7px)}
 .tab.bild[aria-pressed="true"] .tab-bild{box-shadow:none}
+.tab-bild .tb-L{font-family:var(--display);font-weight:800;font-size:28px;line-height:1}
+.tab-bild .tb-mini{width:24px;height:24px;object-fit:contain}
+.tab-bild:has(.tb-L){display:flex;align-items:center;justify-content:center;gap:1px}
+.tb-blase{position:relative;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;font-style:normal;font-family:var(--display);font-weight:800;font-size:17px;color:var(--c);
+  background:radial-gradient(circle at 32% 28%,#fff 0 14%,transparent 15%),color-mix(in srgb,var(--c) 18%,#fff);box-shadow:0 0 0 2px color-mix(in srgb,var(--c) 45%,#fff)}
+.tb-blase.klein{width:22px;height:22px;font-size:12px;margin:-18px 0 0 -6px}
+.tab-bild:has(.tb-blase){display:flex;align-items:center;justify-content:center}
+.tb-punkte{display:grid;grid-template-columns:repeat(3,13px);gap:4px;place-content:center}
+.tb-punkte i{width:13px;height:13px;border-radius:50%}
+.tb-finger{position:relative;grid-template-columns:repeat(3,13px);align-content:start;padding-top:9px}
+.tb-finger i.an{box-shadow:0 0 0 2px #fff,0 0 0 4px var(--ink)}
+.tb-finger b{position:absolute;left:21px;top:22px;font-size:18px;line-height:1}
+.tb-karten{display:flex;gap:3px;place-content:center;align-items:center}
+.tb-karte{width:24px;height:30px;border-radius:6px;object-fit:contain;background:#fff;box-shadow:0 0 0 2px var(--orange)}
+b.tb-karte{display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:18px;color:var(--orange)}

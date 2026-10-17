@@ -6,7 +6,7 @@
 <title>ABC – Ela's Magic World</title>
 <link rel="icon" href="bilder/ela-rund.png">
 <link rel="stylesheet" href="schriften/schriften.css">
-<link rel="stylesheet" href="gemeinsam.css?v=63">
+<link rel="stylesheet" href="gemeinsam.css?v=64">
 <style>
 /* ABC: Tabs Entdecken/Spielen; links die große Buchstabenkarte bzw. das Rätsel, rechts Ela; darunter das Buchstaben-Raster */
 .top h1{color:var(--purple)}
@@ -63,9 +63,9 @@
   </header>
 
   <div class="tabs">
-    <button class="tab" id="tab-lernen" type="button" style="--c:var(--pink)" aria-pressed="true" data-t="explore"></button>
-    <button class="tab" id="tab-spiel" type="button" style="--c:var(--purple)" aria-pressed="false" data-t="play"></button>
-    <button class="tab" id="tab-blasen" type="button" style="--c:var(--blue)" aria-pressed="false" data-t="bl_tab"></button>
+    <button class="tab bild" id="tab-lernen" type="button" style="--c:var(--pink)" aria-pressed="true"><span class="tab-bild" aria-hidden="true"><b class="tb-L" style="color:#f05252">A</b><img class="tb-mini" src="bilder/abc/A-Apple.jpg" alt=""></span><span data-t="explore"></span></button>
+    <button class="tab bild" id="tab-spiel" type="button" style="--c:var(--purple)" aria-pressed="false"><span class="tab-bild" aria-hidden="true"><img class="tb-mini" src="bilder/abc/A-Apple.jpg" alt=""><b class="tb-L" style="color:var(--purple)">?</b></span><span data-t="play"></span></button>
+    <button class="tab bild" id="tab-blasen" type="button" style="--c:var(--blue)" aria-pressed="false"><span class="tab-bild" aria-hidden="true"><i class="tb-blase" style="--c:#3d8ef0">b</i><i class="tb-blase klein" style="--c:#e8459b">B</i></span><span data-t="bl_tab"></span></button>
   </div>
 
   <div class="main">
@@ -112,8 +112,8 @@
   </section>
 </div>
 
-<script src="gemeinsam.js?v=63"></script>
-<script src="daten.js?v=63"></script>
+<script src="gemeinsam.js?v=64"></script>
+<script src="daten.js?v=64"></script>
 <script>
 /* Auf Ela tippen: ihre Videos der Reihe nach */
 const elaBild = document.getElementById("ela-tipp");   // fest merken: beim Kreis-Video ist das Bild kurz nicht im DOM

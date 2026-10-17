@@ -9,7 +9,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   KEIN sprechendes Kätzchen im Kreis mehr (auf Wunsch entfernt), darunter große Kacheln zu den Bereichen (Zahlen vorerst ausgeblendet).
   KEIN Ela-Video beim Drüberfahren über Kacheln (auf Wunsch wieder entfernt – wird zu unruhig, wenn Kinder schnell über die Kacheln fahren).
   Kürbis (Malbuch), Bär (Memory), Apfel (Tracing) und der mittlere Sticker hüpfen sanft auf ihren Kacheln (`.hupf`, versetzt) – nicht mehr, sonst zu unruhig.
-  Unten Fußzeile mit Versionsnummer (`v63`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
+  Unten Fußzeile mit Versionsnummer (`v64`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
 - `malbuch.html` – Malbuch mit **Themen** (Halloween aktiv; Christmas, Animals, Sweets, Ocean sind vorbereitet, aber ausgeblendet, bis sie Bilder haben).
   Bilder-Liste zum Aufklappen: zu = nur gewähltes Bild + Knopf „Alle Bilder“ (4 Mini-Bilder + Anzahl), auf = alle als Raster; Bild wählen klappt zu.
   Thema + zugeklappte Bilder stehen in einer Zeile (`.leiste`), die Malfläche ist auf die Bildschirmhöhe begrenzt → am PC passt das ganze Bild ohne Scrollen.
@@ -143,4 +143,6 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
 - Die Kinder können (noch) nicht lesen: Wichtiges immer mit Elas Stimme oder Bildern zeigen, keine reinen Text-Meldungen
   (z. B. keine „You have 55 stars“-Blase; Sterne zeigt das Sternchen-Feld oben rechts).
 - Motive auf Karten/Kacheln immer ganz zeigen (`object-fit:contain`), nie abschneiden.
+- Tabs immer mit Bild (`.tab.bild` + `.tab-bild`, gemeinsam.css), das Wort klein daneben für die Eltern – Kinder erkennen das Bild, nicht das Wort.
+  `data-t` dabei auf einem inneren `<span>`, sonst überschreibt `uebersetzen()` das Bild.
 - Ela lobt freundlich, nie gruselig. Falsche Antworten nur sanft („Almost! Try again.“), nie bestrafen.
