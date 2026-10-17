@@ -254,6 +254,24 @@ function elaVideo(src, ersatz){
   const p = v.play(); if (p && p.catch) p.catch(fehler);
 }
 
+/* Ela spricht im runden Kreis (statt im großen Video-Fenster): das runde Ela-Bild wird kurz zum Video
+   und ist danach wieder das Bild. Antippen beendet. Klappt das Abspielen nicht, liest die Geräte-Stimme "ersatz" vor. */
+function elaKreisVideo(img, src, ersatz){
+  if (!img) return elaVideo(src, ersatz);
+  try { if ("speechSynthesis" in window) speechSynthesis.cancel(); } catch(e){}
+  if (elaTon) elaTon.pause();
+  const alt = document.querySelector("video.ela-kreis"); if (alt) alt.zurueck();
+  const r = img.getBoundingClientRect(), v = document.createElement("video");
+  v.className = "ela-kreis"; v.playsInline = true; v.setAttribute("playsinline", ""); v.poster = src.replace(/\.mp4$/, ".jpg");
+  v.style.width = v.style.height = Math.round(r.width) + "px";
+  let fertig = false;
+  v.zurueck = () => { if (fertig) return; fertig = true; v.pause(); v.replaceWith(img); };
+  v.onended = v.zurueck; v.onclick = v.zurueck;
+  v.onerror = () => { v.zurueck(); if (ersatz) speak(ersatz, "en-US"); };
+  img.replaceWith(v); v.src = src;
+  const p = v.play(); if (p && p.catch) p.catch(v.onerror);
+}
+
 /* Bild von Ela antippbar machen: spielt die Videos der Reihe nach (leere Liste = nichts) */
 function elaTippen(img, videos){
   if (!img || !videos || !videos.length) return;
