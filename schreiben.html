@@ -6,7 +6,7 @@
 <title>Tracing – Ela's Magic World</title>
 <link rel="icon" href="bilder/ela-rund.png">
 <link rel="stylesheet" href="schriften/schriften.css">
-<link rel="stylesheet" href="gemeinsam.css?v=59">
+<link rel="stylesheet" href="gemeinsam.css?v=60">
 <style>
 /* Nachspuren: links die Schreibfläche (Buchstabe mit Startpunkt, Nummern, Pfeilen), rechts der Bilderrahmen,
    in den nach dem Nachspuren das Bild hüpft (A: Apfel). Darunter Stifte, unten die ABC-Leiste. */
@@ -89,9 +89,10 @@
     <div class="stars" data-t-label="stars"><svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .8-5.2 4.8 1.5 7L12 17.6 5.7 21l1.5-7L2 9.3l7-.8z"/></svg><span id="stars-n">0</span></div>
   </header>
 
-  <div class="tabs">
-    <button class="tab" id="tab-abc" type="button" style="--c:var(--pink)" aria-pressed="true">ABC</button>
-    <button class="tab" id="tab-123" type="button" style="--c:var(--green)" aria-pressed="false">123</button>
+  <!-- Nur bei Zahlen (?nur=zahl, von der Seite "Numbers"): Tabs Zählen | Nachspuren -->
+  <div class="tabs" id="zahl-tabs" hidden>
+    <a class="tab" href="zahlen.html" style="--c:var(--green);text-decoration:none" aria-pressed="false" data-t="n_tab_count"></a>
+    <button class="tab" type="button" style="--c:var(--orange)" aria-pressed="true" data-t="n_tab_trace"></button>
   </div>
 
   <div class="main">
@@ -127,8 +128,8 @@
 </div>
 <svg id="mess" aria-hidden="true"><path id="mess-pfad"/></svg>
 
-<script src="gemeinsam.js?v=59"></script>
-<script src="daten.js?v=59"></script>
+<script src="gemeinsam.js?v=60"></script>
+<script src="daten.js?v=60"></script>
 <script>
 const elaBild = document.getElementById("ela-tipp");   // fest merken: beim Kreis-Video ist das Bild kurz nicht im DOM
 elaTippen(elaBild, ELA_VIDEOS.seite.abc);
@@ -231,7 +232,14 @@ function aufgabe(z){
 let L = "A", form = 0, A = null, stift = store.get("ela-stift") || "regenbogen";
 if (!STIFTE.includes(stift)) stift = "regenbogen";
 let geschafft = (store.get("ela-spur-fertig") || "").split("").filter(x => LETTERS.includes(x));
-let modus = store.get("ela-spur-modus") === "zahl" ? "zahl" : "abc", Z = 1;   // ABC oder Zahlen 1–10
+/* Schreiben und Rechnen getrennt: die Kachel "Tracing" = nur Buchstaben; "Numbers" → Tab "Trace" = schreiben.html?nur=zahl */
+const NUR_ZAHL = new URLSearchParams(location.search).get("nur") === "zahl";
+let modus = NUR_ZAHL ? "zahl" : "abc", Z = 1;
+if (NUR_ZAHL) {
+  document.getElementById("zahl-tabs").hidden = false;
+  const h1 = document.querySelector(".top h1"); h1.dataset.t = "t_zahlen"; h1.textContent = tm("t_zahlen"); h1.style.color = "var(--green)";
+  document.title = "Numbers – Ela's Magic World";
+}
 let zahlenGeschafft = (store.get("ela-spur-zahlen") || "").split(",").map(Number).filter(n => n >= 1 && n <= 10);
 const ZAHLWORT = ["", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
 /* Dinge zum Zählen (wie auf der Zahlen-Seite) */
@@ -558,16 +566,11 @@ function naechster(){
   const i = LETTERS.indexOf(L);
   waehle(LETTERS[(i + 1) % LETTERS.length], true);
 }
-/* Tabs ABC / 123 */
 function setzeModus(m, laut){
-  modus = m; store.set("ela-spur-modus", m);
-  document.getElementById("tab-abc").setAttribute("aria-pressed", m === "abc");
-  document.getElementById("tab-123").setAttribute("aria-pressed", m === "zahl");
+  modus = m;
   document.getElementById("leiste").innerHTML = "";
   if (m === "zahl") waehleZahl(Z, laut); else waehle(L, laut);
 }
-document.getElementById("tab-abc").onclick = () => setzeModus("abc", true);
-document.getElementById("tab-123").onclick = () => setzeModus("zahl", true);
 
 /* ---------- Knöpfe ---------- */
 document.getElementById("nochmal").onclick = () => { if (form === 1 && A.fertig) form = 1; neu(); };
