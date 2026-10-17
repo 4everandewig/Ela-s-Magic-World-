@@ -171,9 +171,12 @@ function frauenStimme(lang){
 }
 try { speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices(); } catch(e){}
 
+/* Läuft gerade ein Ela-Kreis-Video, wird es beendet (jede neue Ansage hat Vorrang) */
+function kreisStopp(){ const v = document.querySelector("video.ela-kreis"); if (v && v.zurueck) v.zurueck(); }
+
 /* Vorlesen mit der Stimme des Geräts. Ohne lang = aktuelle Sprache. */
 function speak(text, lang){
-  kettenNr++;
+  kettenNr++; kreisStopp();
   lang = lang || SPRACHEN[LANG].stimme;
   try {
     if (elaTon) elaTon.pause();
@@ -194,7 +197,7 @@ let elaTon = null;
 /* Mehrere Sätze nacheinander: jeder Teil { datei, text } – mit Elas Aufnahme, fehlt sie, liest die Geräte-Stimme "text" vor.
    So passt es schon jetzt und wird automatisch Elas Stimme, sobald die Aufnahme in STIMMEN eingetragen ist. */
 function elaKette(teile, lang = "en-US"){
-  const nr = ++kettenNr;
+  const nr = ++kettenNr; kreisStopp();
   try { if ("speechSynthesis" in window) speechSynthesis.cancel(); } catch(e){}
   if (elaTon) elaTon.pause();
   let i = 0;
@@ -220,7 +223,7 @@ function elaKette(teile, lang = "en-US"){
   weiter();
 }
 function elaSagt(dateien, ersatz, danach, lang = "en-US"){
-  kettenNr++;
+  kettenNr++; kreisStopp();
   try { if ("speechSynthesis" in window) speechSynthesis.cancel(); } catch(e){}
   if (elaTon) elaTon.pause();
   let i = 0;
@@ -238,6 +241,7 @@ function elaSagt(dateien, ersatz, danach, lang = "en-US"){
 /* Ela-Video in einem Fenster mit Ton abspielen (Videos in videos/, siehe ELA_VIDEOS in daten.js).
    Schließt sich am Ende von selbst. Klappt das Abspielen nicht, liest die Geräte-Stimme "ersatz" vor. */
 function elaVideo(src, ersatz){
+  kreisStopp();
   try { if ("speechSynthesis" in window) speechSynthesis.cancel(); } catch(e){}
   if (elaTon) elaTon.pause();
   const alt = document.querySelector(".ela-video"); if (alt) alt.remove();

@@ -6,7 +6,7 @@
 <title>Tracing – Ela's Magic World</title>
 <link rel="icon" href="bilder/ela-rund.png">
 <link rel="stylesheet" href="schriften/schriften.css">
-<link rel="stylesheet" href="gemeinsam.css?v=57">
+<link rel="stylesheet" href="gemeinsam.css?v=58">
 <style>
 /* Nachspuren: links die Schreibfläche (Buchstabe mit Startpunkt, Nummern, Pfeilen), rechts der Bilderrahmen,
    in den nach dem Nachspuren das Bild hüpft (A: Apfel). Darunter Stifte, unten die ABC-Leiste. */
@@ -127,10 +127,11 @@
 </div>
 <svg id="mess" aria-hidden="true"><path id="mess-pfad"/></svg>
 
-<script src="gemeinsam.js?v=57"></script>
-<script src="daten.js?v=57"></script>
+<script src="gemeinsam.js?v=58"></script>
+<script src="daten.js?v=58"></script>
 <script>
-elaTippen(document.getElementById("ela-tipp"), ELA_VIDEOS.seite.abc);
+const elaBild = document.getElementById("ela-tipp");   // fest merken: beim Kreis-Video ist das Bild kurz nicht im DOM
+elaTippen(elaBild, ELA_VIDEOS.seite.abc);
 
 /* ===== Schrift: jeder Buchstabe als Liste von Strichen (SVG-Pfade) in Schreib-Reihenfolge =====
    Koordinaten: 0 = obere Linie, 50 = Mittellinie, 100 = Grundlinie, 140 = Unterlänge.
@@ -430,7 +431,7 @@ function formFertig(){
     // Ela sagt nur das Wort ("Apple!") – kein Lob, sonst lobt sie bei jedem Buchstaben zweimal
     say(`${en}! ${t("tr_small", { l: L.toLowerCase() })}`);
     if (STIMMEN.wort[L] && k.wort === ABC_WOERTER[L]) elaSagt([STIMMEN.wort[L]], `${en}!`);
-    else speak(`${en}!`, "en-US");
+    else if (!ELA_VIDEOS.abc[en]) speak(`${en}!`, "en-US");   // gibt es Elas Video ("W is for Witch"), keine Geräte-Stimme dazwischen
     setTimeout(() => { form = 1; neu(); }, 2200);
   } else {
     // Kleiner Buchstabe geschafft: "Yes! A is for Apple", Bild tanzt, Stern
@@ -440,14 +441,16 @@ function formFertig(){
     const mitLob = ++buchstabenFertig % 3 === 0, satz = `${L} is for ${en}!`;
     say(mitLob ? `${lob()} ${t("a_is", { L, w: en })}` : t("a_is", { L, w: en }));
     const abc = STIMMEN.abc[L] && k.wort === ABC_WOERTER[L] ? STIMMEN.abc[L] : "";
-    if (mitLob) elaKette([{ datei: zufall(STIMMEN.lob), text: lob() }, { datei: abc, text: satz }]);
+    const video = ELA_VIDEOS.abc[en];
+    if (video) elaKreisVideo(elaBild, video, satz);   // Ela sagt es im Kreis ("Woo-hoo! W is for Witch!")
+    else if (mitLob) elaKette([{ datei: zufall(STIMMEN.lob), text: lob() }, { datei: abc, text: satz }]);
     else if (abc) elaSagt([abc], satz);
     else speak(satz, "en-US");
     sternDazu(); sternRegen();
     if (!geschafft.includes(L)) { geschafft.push(L); store.set("ela-spur-fertig", geschafft.join("")); }
     leiste();
     document.getElementById("weiter").classList.add("lockt");
-    clearTimeout(weiterTimer); weiterTimer = setTimeout(naechster, 6000);
+    clearTimeout(weiterTimer); weiterTimer = setTimeout(naechster, video ? 9000 : 6000);   // Video ausreden lassen
   }
 }
 /* Zahl geschafft: die Dinge hüpfen einzeln in den Rahmen, Ela zählt mit ("One", "Two", …), dann ein Stern */
@@ -531,6 +534,7 @@ function waehle(Lx, laut){
   if (laut) sagBuchstabe();
 }
 function sagBuchstabe(){
+  if (ELA_VIDEOS.spuren && ELA_VIDEOS.spuren[L]) return elaKreisVideo(elaBild, ELA_VIDEOS.spuren[L], `Let's trace ${L}!`);   // Ela malt das W in die Luft
   // "Let's trace … A" – "Let's trace" nur mit Elas Aufnahme (STIMMEN.spuren), damit keine zwei Stimmen gemischt werden
   const teile = [];
   if (STIMMEN.spuren) teile.push({ datei: STIMMEN.spuren, text: "Let's trace" });

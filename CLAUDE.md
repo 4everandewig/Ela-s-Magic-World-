@@ -10,7 +10,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   Maus über der Malbuch-Kachel (nur PC, Oktober, einmal pro Besuch): Hexen-Ela fragt im Kreis „Do you want to color with me?“ (`ELA_VIDEOS.thema.halloween`;
   ohne vorheriges Klicken erlaubt der Browser keinen Ton → stumm + Sprechblase).
   Kürbis (Malbuch), Bär (Memory), Apfel (Tracing) und der mittlere Sticker hüpfen sanft auf ihren Kacheln (`.hupf`, versetzt) – nicht mehr, sonst zu unruhig.
-  Unten Fußzeile mit Versionsnummer (`v57`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
+  Unten Fußzeile mit Versionsnummer (`v58`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
 - `malbuch.html` – Malbuch mit **Themen** (Halloween aktiv; Christmas, Animals, Sweets, Ocean sind vorbereitet, aber ausgeblendet, bis sie Bilder haben).
   Bilder-Liste zum Aufklappen: zu = nur gewähltes Bild + Knopf „Alle Bilder“ (4 Mini-Bilder + Anzahl), auf = alle als Raster; Bild wählen klappt zu.
   Thema + zugeklappte Bilder stehen in einer Zeile (`.leiste`), die Malfläche ist auf die Bildschirmhöhe begrenzt → am PC passt das ganze Bild ohne Scrollen.
@@ -45,6 +45,8 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   hüpft in den Rahmen; kleines a fertig → Bild tanzt, Elas Lob + „A is for Apple“, 1 Stern, nach 6 s nächster Buchstabe.
   Stimme: Start = Elas Buchstabe („A“, davor „Let's trace!“ sobald `STIMMEN.spuren` aufgenommen ist), großer Buchstabe fertig = nur das Wort („Apple!“),
   kleiner fertig = „A is for Apple!“; Lob nur bei jedem 3. Buchstaben (sonst zu viel).
+  Videos im Ela-Kreis: Buchstabe gewählt → `ELA_VIDEOS.spuren[L]` (W: Ela malt das W in die Luft); kleiner Buchstabe fertig → `ELA_VIDEOS.abc[Wort]`
+  („Woo-hoo! W is for Witch!“, dann 9 s bis zum nächsten). Jede neue Ansage beendet ein laufendes Kreis-Video (`kreisStopp()`).
   Tab „123“: Ziffern 1–10 (10 = „1“ + „0“), danach hüpfen n Dinge (`DINGE`: Äpfel, Eis, Drachen, Enten, Bären) einzeln in den Rahmen,
   Ela zählt mit `STIMMEN.zahl` mit, dann Stern. Geschaffte Zahlen in `ela-spur-zahlen`, Tab in `ela-spur-modus`.
   Geschaffte Buchstaben in `ela-spur-fertig` (Sternchen in der ABC-Leiste: PC Kacheln, Handy ABC-Band). Aufwärm-Linien bewusst weggelassen.

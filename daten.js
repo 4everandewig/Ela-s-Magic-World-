@@ -115,7 +115,8 @@ function karten(L){
    thema: Video, wenn man im Malbuch auf Ela tippt (pro Thema)
    seite: Videos, wenn man im ABC / bei den Farben auf Ela tippt (der Reihe nach)
    gespeichert: Video nach "Save picture" im Malbuch (pro Thema)
-   zuschauen: kleines Ela-Fenster oben rechts an der Malfläche nach der 4. Fläche, einmal pro Bild (pro Thema) */
+   zuschauen: kleines Ela-Fenster oben rechts an der Malfläche nach der 4. Fläche, einmal pro Bild (pro Thema)
+   spuren: Nachspuren, Ela malt den Buchstaben in die Luft (im Kreis); beim Nachspuren spielt außerdem abc[Wort] im Kreis, wenn der kleine Buchstabe fertig ist */
 const ELA_VIDEOS = {
   abc:  { Pumpkin: "videos/P-is-for-Pumpkin.mp4", Hat: "videos/H-is-for-Hat.mp4", Bat: "videos/B-is-for-Bat.mp4", Witch: "videos/W-is-for-Witch.mp4" },
   bild: { "halloween-P": ["videos/P-is-for-Pumpkin.mp4", "videos/P-Wave-to-the-Pumpkin.mp4", "videos/P-Ela-and-Pumpkin.mp4"],
@@ -123,6 +124,7 @@ const ELA_VIDEOS = {
           "halloween-B": ["videos/B-is-for-Bat.mp4", "videos/B-Cute-little-bat.mp4"],
           "halloween-W": ["videos/W-is-for-Witch.mp4", "videos/W-Little-witch-like-me.mp4", "videos/W-Pumpkin-and-bats.mp4", "videos/W-Abracadabra.mp4"] },
   thema: { halloween: "videos/Color-with-me.mp4" },
+  spuren: { W: "videos/W-Tracing.mp4" },   // Nachspuren: Ela malt den Buchstaben in die Luft, wenn er gewählt wird (im Kreis)
   seite: { abc:    ["videos/Think-think-think.mp4", "videos/What-is-it.mp4", "videos/Something-is-happening.mp4", "videos/Peekaboo.mp4"],
            farben: ["videos/Which-color-is-next.mp4", "videos/Say-the-colours.mp4"] },
   gespeichert: { halloween: "videos/Its-alive.mp4" },
