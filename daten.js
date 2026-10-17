@@ -100,11 +100,12 @@ const STIMMEN = {
         "stimme/Great-job.mp3", "stimme/Yes-you-got-it.mp3", "stimme/Wow-superstar.mp3", "stimme/You-are-so-smart.mp3",
         "stimme/Wow-you-are-so-smart.mp3"]
 };
-/* Alle Karten zu einem Buchstaben: erst das ABC-Wort (mit Foto), dann die Ausmalbilder. Jede Karte: { wort, bild } */
+/* Alle Karten zu einem Buchstaben: erst das ABC-Wort (mit Foto), dann die Ausmalbilder (bunt, wenn vorhanden). Jede Karte: { wort, bild } */
 function karten(L){
   const w = ABC_WOERTER[L], out = [];
   if (w.foto) out.push({ wort: w, bild: w.foto });
-  for (const t of THEMEN) for (const b of t.bilder) if (b.L === L) out.push({ wort: b.wort, bild: b.datei });
+  // Gibt es Elas bunt ausgemaltes Bild, zeigen ABC und Nachspuren das bunte statt des schwarz-weißen Ausmalbilds
+  for (const t of THEMEN) for (const b of t.bilder) if (b.L === L) out.push({ wort: b.wort, bild: b.bunt || b.datei });
   if (!out.length) out.push({ wort: w, bild: null });
   return out;
 }
