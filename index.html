@@ -184,19 +184,6 @@ document.getElementById("ela-friend").onclick = e => {
   Object.assign(elaClip, { src: "bilder/ela-hexe-hallo.mp4", muted: false, loop: false });
   const p = elaClip.play(); if (p && p.catch) p.catch(() => speak(t(HALLO)));
 };
-/* Maus über der Malbuch-Kachel (nur PC, einmal pro Besuch): Ela fragt im Kreis "Do you want to color with me?"
-   Ohne vorheriges Klicken erlaubt der Browser keinen Ton – dann spricht Ela stumm im Kreis und die Frage steht in der Sprechblase. */
-const MAL_VIDEO = HALLOWEEN ? ELA_VIDEOS.thema.halloween : null;
-let malGefragt = false;
-document.querySelector('.tile[href="malbuch.html"]').addEventListener("pointerenter", e => {
-  if (e.pointerType !== "mouse" || malGefragt || !MAL_VIDEO || !elaClip) return;
-  malGefragt = true;
-  hop(document.getElementById("ela-friend")); say("Do you want to color with me?");
-  try { speechSynthesis.cancel(); } catch(err){}
-  Object.assign(elaClip, { src: MAL_VIDEO, muted: false, loop: false });
-  const p = elaClip.play();
-  if (p && p.catch) p.catch(() => { elaClip.muted = true; elaClip.play().catch(() => {}); });
-});
 let byeNr = 0;
 /* Abschied: "Bye-bye, Magic World! See you next time!" mit Elas Stimme, Ela winkt */
 document.getElementById("bye").onclick = () => {
