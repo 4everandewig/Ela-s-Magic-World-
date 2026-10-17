@@ -113,3 +113,12 @@ html.halloween body::before{background-image:linear-gradient(rgba(255,242,248,.4
 .eltern .falsch{color:var(--red);font-weight:800;margin:8px 0 0}
 .eltern .offen{margin-top:4px;background:#ff0033;color:#fff;text-decoration:none;font-size:18px}
 .eltern .zu{position:absolute;top:10px;right:10px;width:40px;height:40px;border:0;border-radius:50%;background:var(--bg);font-size:18px;font-weight:800;cursor:pointer;color:var(--ink)}
+
+/* Tabs mit Bild (Kinder können noch nicht lesen): großes Bild im weißen Kästchen, das Wort klein daneben für die Eltern */
+.tab.bild{display:inline-flex;align-items:center;gap:10px;padding:6px 18px 6px 6px;font-size:16px}
+.tab-bild{display:grid;place-items:center;width:58px;height:52px;border-radius:14px;background:#fff;box-shadow:0 0 0 2px var(--line)}
+.tab-bild svg{width:40px;height:46px}
+.tab-bild.enten3{display:flex;gap:0;padding:0 3px}
+.tab-bild.enten3 img{width:22px;height:22px;object-fit:contain;margin:0 -2px}
+.tab-bild.enten3 img:nth-child(2){transform:translateY(-7px)}
+.tab.bild[aria-pressed="true"] .tab-bild{box-shadow:none}

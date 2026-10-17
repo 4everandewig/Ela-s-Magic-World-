@@ -6,7 +6,7 @@
 <title>Numbers – Ela's Magic World</title>
 <link rel="icon" href="bilder/ela-rund.png">
 <link rel="stylesheet" href="schriften/schriften.css">
-<link rel="stylesheet" href="gemeinsam.css?v=62">
+<link rel="stylesheet" href="gemeinsam.css?v=63">
 <style>
 /* Zahlen: 2–10 gleiche Dinge (Äpfel, Eis, Drachen, Enten, Sterne) antippen und mit Ela zählen ("One, two, three"), dann die richtige Zahl wählen. */
 .top h1{color:var(--green)}
@@ -43,8 +43,8 @@
 
   <!-- Rechnen: Zählen (diese Seite) und Zahlen nachspuren (schreiben.html?nur=zahl) -->
   <div class="tabs">
-    <button class="tab" type="button" style="--c:var(--green)" aria-pressed="true" data-t="n_tab_count"></button>
-    <a class="tab" href="schreiben.html?nur=zahl" style="--c:var(--orange);text-decoration:none" aria-pressed="false" data-t="n_tab_trace"></a>
+    <button class="tab bild" type="button" style="--c:var(--green)" aria-pressed="true"><span class="tab-bild enten3" aria-hidden="true"><img src="bilder/zahlen/ente.jpg" alt=""><img src="bilder/zahlen/ente.jpg" alt=""><img src="bilder/zahlen/ente.jpg" alt=""></span><span data-t="n_tab_count"></span></button>
+    <a class="tab bild" href="schreiben.html?nur=zahl" style="--c:var(--orange);text-decoration:none" aria-pressed="false"><span class="tab-bild" aria-hidden="true"><svg viewBox="-8 -12 86 124"><path d="M8 25 C10 -6 62 -6 62 26 C62 50 30 70 8 100 L64 100" fill="none" stroke="#efe6f7" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 100 L64 100" fill="none" stroke="#a48fbc" stroke-width="4" stroke-dasharray="6 6" stroke-linecap="round"/><path d="M8 25 C10 -6 62 -6 62 26 C62 50 30 70 8 100" fill="none" stroke="#f7882f" stroke-width="12" stroke-linecap="round"/><circle cx="8" cy="25" r="10" fill="#4cbb5c" stroke="#fff" stroke-width="3"/></svg></span><span data-t="n_tab_trace"></span></a>
   </div>
 
   <div class="main">
@@ -61,8 +61,8 @@
   </div>
 </div>
 
-<script src="gemeinsam.js?v=62"></script>
-<script src="daten.js?v=62"></script>
+<script src="gemeinsam.js?v=63"></script>
+<script src="daten.js?v=63"></script>
 <script>
 const FARBEN_Z = ["#f05252","#f7882f","#e5a50a","#4cbb5c","#3d8ef0","#8b5cf6","#e8459b","#14b8a6","#f97316","#6366f1"];
 const ZAHLWORT = ["", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
