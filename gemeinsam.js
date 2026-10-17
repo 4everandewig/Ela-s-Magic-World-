@@ -41,6 +41,7 @@ const TEXTE = {
     m_star: "A star for you, because you color so nicely!", m_lets: "Let's color the {w}!", m_new: "A fresh new picture for you!",
     m_saved: "Your picture is saved. Great job!", m_soon: "{x} pictures are coming soon!",
     print: "Print", m_print: "Print it out and color it with your crayons!",
+    m_yt: "Drawing video", m_yt_s: "for parents", e_frage: "For parents: what is {a} × {b}?", e_falsch: "Not quite – please try again.", e_info: "Opens Ela's step-by-step drawing video on YouTube in a new window.", e_open: "Open YouTube",
     explore: "Explore", play: "Play", bl_tab: "Bubbles", hear: "Hear again", hear_q: "Hear question",
     a_tap: "Tap a letter!", a_is: "{L} is for {w}!", a_nopic: "{L} is for {w}! I'm still drawing the picture.",
     a_q1: "Which letter does this start with?", a_q2: "Which picture starts with {L}?", a_q3: "Find the letter {L}!", a_play: "Let's guess! You get a star for every right answer.",
@@ -71,6 +72,7 @@ const TEXTE = {
     m_star: "Ein Stern für dich, weil du so fleißig malst!", m_lets: "Lass uns {w} ausmalen!", m_new: "Ein neues leeres Bild für dich!",
     m_saved: "Dein Bild ist gespeichert. Toll gemacht!", m_soon: "{x}-Bilder kommen bald!",
     print: "Ausdrucken", m_print: "Druck es aus und mal es mit deinen Stiften an!",
+    m_yt: "Mal-Video", m_yt_s: "für Eltern", e_frage: "Für Eltern: Wie viel ist {a} × {b}?", e_falsch: "Nicht ganz – bitte nochmal.", e_info: "Öffnet Elas Mal-Video Schritt für Schritt auf YouTube in einem neuen Fenster.", e_open: "YouTube öffnen",
     explore: "Entdecken", play: "Spielen", bl_tab: "Blasen", hear: "Nochmal hören", hear_q: "Frage hören",
     a_tap: "Tipp auf einen Buchstaben!", a_is: "{L} wie {w}!", a_nopic: "{L} wie {w}! Das Bild male ich noch.",
     a_q1: "Mit welchem Buchstaben beginnt das?", a_q2: "Welches Bild beginnt mit {L}?", a_q3: "Finde den Buchstaben {L}!", a_play: "Rate mal! Für jede richtige Antwort bekommst du einen Stern.",
@@ -101,6 +103,7 @@ const TEXTE = {
     m_star: "Bu yıldız senin, çok güzel boyuyorsun!", m_lets: "Hadi {w} boyayalım!", m_new: "Senin için yepyeni bir resim!",
     m_saved: "Resmin kaydedildi. Harika!", m_soon: "{x} resimleri yakında geliyor!",
     print: "Yazdır", m_print: "Yazdır ve boya kalemlerinle boya!",
+    m_yt: "Çizim videosu", m_yt_s: "ebeveynler için", e_frage: "Ebeveynler için: {a} × {b} kaç eder?", e_falsch: "Tam değil – lütfen tekrar deneyin.", e_info: "Ela'nın adım adım çizim videosunu YouTube'da yeni bir pencerede açar.", e_open: "YouTube'u aç",
     explore: "Keşfet", play: "Oyna", bl_tab: "Baloncuklar", hear: "Tekrar dinle", hear_q: "Soruyu dinle",
     a_tap: "Bir harfe dokun!", a_is: "{L}: {w}!", a_nopic: "{L}: {w}! Resmi hâlâ çiziyorum.",
     a_q1: "Bu hangi harfle başlıyor?", a_q2: "Hangi resim {L} ile başlıyor?", a_q3: "{L} harfini bul!", a_play: "Hadi tahmin et! Her doğru cevaba bir yıldız.",
@@ -274,6 +277,44 @@ function elaKreisVideo(img, src, ersatz){
   v.onerror = () => { v.zurueck(); if (ersatz) speak(ersatz, "en-US"); };
   img.replaceWith(v); v.src = src;
   const p = v.play(); if (p && p.catch) p.catch(v.onerror);
+}
+
+/* Eltern-Sperre vor YouTube: Rechenaufgabe (zweistellig × einstellig), die kleine Kinder noch nicht lösen.
+   Richtig → YouTube öffnet sich in einem neuen Fenster (nie eingebettet, nichts von Google auf unserer Seite).
+   Es werden nur Links zu youtube.com / youtu.be geöffnet. Texte in der Menü-Sprache (für Eltern). */
+function elternSperre(url){
+  if (!/^https:\/\/(www\.)?(youtube\.com|youtu\.be)\//.test(url)) return;
+  const alt = document.querySelector(".eltern"); if (alt) alt.remove();
+  const a = 11 + Math.floor(Math.random() * 8), b = 3 + Math.floor(Math.random() * 6);
+  const box = document.createElement("div"); box.className = "eltern";
+  box.innerHTML = `<div class="karte" role="dialog" aria-modal="true">
+      <button class="zu" type="button">✕</button>
+      <p class="titel">🎬 ${tm("m_yt")}</p>
+      <p class="info"></p>
+      <label class="frage" for="e-antwort"></label>
+      <div class="zeile"><input id="e-antwort" inputmode="numeric" autocomplete="off"><button class="btn ok" type="button">OK</button></div>
+      <p class="falsch" hidden></p>
+      <a class="btn offen" hidden target="_blank" rel="noopener noreferrer"></a>
+    </div>`;
+  box.querySelector(".info").textContent = tm("e_info");
+  box.querySelector(".frage").textContent = tm("e_frage", { a, b });
+  box.querySelector(".falsch").textContent = tm("e_falsch");
+  const offen = box.querySelector(".offen"); offen.href = url; offen.textContent = "▶ " + tm("e_open");
+  const zu = () => box.remove();
+  box.querySelector(".zu").setAttribute("aria-label", tm("close"));
+  box.querySelector(".zu").onclick = zu; offen.addEventListener("click", () => setTimeout(zu, 300));
+  box.onclick = e => { if (e.target === box) zu(); };
+  const eingabe = box.querySelector("input");
+  const pruefen = () => {
+    const ok = parseInt(eingabe.value, 10) === a * b;
+    box.querySelector(".falsch").hidden = ok;
+    if (!ok) return;
+    box.querySelector(".zeile").hidden = true; box.querySelector(".frage").hidden = true;
+    offen.hidden = false; offen.click();   // öffnet sofort; bleibt sichtbar, falls der Browser das Fenster blockiert
+  };
+  box.querySelector(".ok").onclick = pruefen;
+  eingabe.addEventListener("keydown", e => { if (e.key === "Enter") pruefen(); });
+  document.body.appendChild(box); eingabe.focus();
 }
 
 /* Bild von Ela antippbar machen: spielt die Videos der Reihe nach (leere Liste = nichts) */

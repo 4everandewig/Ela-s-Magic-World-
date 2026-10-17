@@ -100,3 +100,16 @@ html.halloween body::before{background-image:linear-gradient(rgba(255,242,248,.4
 .sticker-neu.weg img{transform:translate(38vw,-42vh) scale(.1);transition:transform .6s ease-in}
 @keyframes sticker-rein{0%{transform:scale(0) rotate(-200deg)}100%{transform:scale(1) rotate(0)}}
 @media (prefers-reduced-motion:reduce){.sticker-neu img{animation:none}}
+
+/* Eltern-Sperre vor YouTube (elternSperre() in gemeinsam.js) */
+.eltern{position:fixed;inset:0;z-index:90;display:grid;place-items:center;padding:16px;background:rgba(58,36,64,.55)}
+.eltern .karte{position:relative;width:min(420px,100%);background:#fff;border-radius:24px;padding:22px 20px 20px;box-shadow:0 20px 40px -12px rgba(0,0,0,.45)}
+.eltern .titel{font-family:var(--display);font-weight:800;font-size:24px;margin:0 36px 6px 0;color:var(--ink)}
+.eltern .info{margin:0 0 14px;color:var(--muted);font-weight:700;font-size:15px}
+.eltern .frage{display:block;font-weight:800;font-size:18px;margin-bottom:8px}
+.eltern .zeile{display:flex;gap:8px}
+.eltern input{font:inherit;font-weight:800;font-size:20px;width:110px;padding:8px 10px;border:3px solid var(--line);border-radius:14px}
+.eltern .ok{background:var(--pink);color:#fff}
+.eltern .falsch{color:var(--red);font-weight:800;margin:8px 0 0}
+.eltern .offen{margin-top:4px;background:#ff0033;color:#fff;text-decoration:none;font-size:18px}
+.eltern .zu{position:absolute;top:10px;right:10px;width:40px;height:40px;border:0;border-radius:50%;background:var(--bg);font-size:18px;font-weight:800;cursor:pointer;color:var(--ink)}

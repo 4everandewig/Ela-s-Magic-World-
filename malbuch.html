@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Coloring Book – Ela's Magic World</title>
 <link rel="stylesheet" href="schriften/schriften.css">
-<link rel="stylesheet" href="gemeinsam.css?v=58">
+<link rel="stylesheet" href="gemeinsam.css?v=59">
 <style>
 /* Thema + Bilder in einer Zeile (zugeklappt), damit das ganze Ausmalbild auch am PC ohne Scrollen auf den Bildschirm passt */
 .leiste{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin-bottom:6px}
@@ -96,6 +96,9 @@ canvas{display:block;max-width:100%;max-height:max(300px,calc(100vh - 330px));ma
 @media (prefers-reduced-motion:reduce){.word .bunt,.bunt-show img{animation:none}}
 .word .watch{align-self:center;font-family:var(--body);font-size:15px;padding:8px 14px;background:var(--purple);color:#fff;border-radius:999px}
 .word .watch svg{width:18px;height:18px}
+/* Link zu Elas Mal-Video auf YouTube – für Eltern, unauffällig, hinter der Eltern-Sperre */
+.word .yt{align-self:center;font-family:var(--body);font-size:14px;padding:7px 12px;background:#fff;color:var(--ink);border-radius:999px;box-shadow:inset 0 0 0 2px var(--line)}
+.word .yt small{color:var(--muted);font-weight:700}
 /* Ela schaut oben rechts zu (sie blickt im Video nach unten rechts aufs Bild) */
 .stage{position:relative}
 .ela-ecke{position:absolute;top:clamp(46px,9vw,64px);right:-14px;z-index:5;width:clamp(96px,22%,150px);aspect-ratio:1;object-fit:cover;border-radius:50%;
@@ -151,7 +154,8 @@ canvas{display:block;max-width:100%;max-height:max(300px,calc(100vh - 330px));ma
       <video class="ela-ecke" id="ela-ecke" playsinline hidden></video>
       <div class="word"><span class="L" id="bigL">P</span><span id="word">Pumpkin</span><span class="de" id="de"></span>
         <button class="bunt" id="bunt" type="button" hidden aria-label="Ela's picture"><img alt=""></button>
-        <button class="btn watch" id="watch" type="button" hidden><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span data-t="watch"></span></button></div>
+        <button class="btn watch" id="watch" type="button" hidden><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span data-t="watch"></span></button>
+        <button class="btn yt" id="yt" type="button" hidden>🎬 <span data-t="m_yt"></span> <small data-t="m_yt_s"></small></button></div>
       <canvas id="cv" aria-label="Canvas"></canvas>
     </section></div>
 
@@ -199,8 +203,8 @@ canvas{display:block;max-width:100%;max-height:max(300px,calc(100vh - 330px));ma
   <div class="d-fuss"><img src="bilder/logo.png" alt=""><span>Ela's Magic World · youtube.com/@ElasMagicPhonics</span></div>
 </div>
 
-<script src="gemeinsam.js?v=58"></script>
-<script src="daten.js?v=58"></script>
+<script src="gemeinsam.js?v=59"></script>
+<script src="daten.js?v=59"></script>
 <script>
 let thema = THEMEN[0], BILDER = thema.bilder;
 
@@ -317,6 +321,10 @@ function open(i){
   let vNr = 0;
   watch.hidden = !vids.length;
   watch.onclick = () => elaVideo(vids[vNr++ % vids.length]);
+  // Elas Mal-Video auf YouTube (Feld "youtube" in daten.js) – nur über die Eltern-Sperre, neues Fenster
+  const yt = document.getElementById("yt");
+  yt.hidden = !current.youtube;
+  yt.onclick = () => elternSperre(current.youtube);
   // Elas fertig ausgemaltes Bild als Vorschau (Feld "bunt" in daten.js), antippen = groß, nochmal tippen = zu
   const bunt = document.getElementById("bunt");
   bunt.hidden = !current.bunt;

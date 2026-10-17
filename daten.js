@@ -2,10 +2,11 @@
    Neues Thema: einen Block in THEMEN ergänzen und die PNGs in den Ordner bilder/<id>/ legen.
    Ein Thema ohne Bilder wird im Malbuch als "Soon!" angezeigt.
    Optional: ela = eigenes Ela-Bild für dieses Thema (z. B. Hexen-Ela bei Halloween), sonst die normale Ela.
-   Namen und Wörter immer in allen Sprachen angeben: en (Hauptsprache), de, tr. */
+   Namen und Wörter immer in allen Sprachen angeben: en (Hauptsprache), de, tr.
+   Optional youtube = Link zu Elas Mal-Video auf YouTube (Knopf im Malbuch, nur nach der Eltern-Sperre, öffnet ein neues Fenster – nie einbetten). */
 const THEMEN = [
   { id: "halloween", name: { en: "Halloween", de: "Halloween", tr: "Cadılar Bayramı" }, farbe: "#f7882f", ela: "bilder/ela-hexe.png", bilder: [
-    { L: "B", wort: { en: "Bat",          de: "Fledermaus",   tr: "Yarasa" },         datei: "bilder/halloween/B-Bat.png", bunt: "bilder/halloween/bunt/B-Bat.jpg" },
+    { L: "B", wort: { en: "Bat",          de: "Fledermaus",   tr: "Yarasa" },         datei: "bilder/halloween/B-Bat.png", bunt: "bilder/halloween/bunt/B-Bat.jpg", youtube: "https://youtu.be/mmuDUIkiYyM" },
     { L: "C", wort: { en: "Cat",          de: "Katze",        tr: "Kedi" },           datei: "bilder/halloween/C-Cat.png" },
     { L: "D", wort: { en: "Devil",        de: "Teufelchen",   tr: "Küçük şeytan" },   datei: "bilder/halloween/D-Devil.png" },
     { L: "F", wort: { en: "Frankenstein", de: "Frankenstein", tr: "Frankenstein" },   datei: "bilder/halloween/F-Frankenstein.png", bunt: "bilder/halloween/bunt/F-Frankenstein.jpg" },
@@ -16,7 +17,7 @@ const THEMEN = [
     { L: "M", wort: { en: "Mummy",        de: "Mumie",        tr: "Mumya" },          datei: "bilder/halloween/M-Mummy.png" },
     { L: "N", wort: { en: "Night",        de: "Nacht",        tr: "Gece" },           datei: "bilder/halloween/N-Night.png" },
     { L: "O", wort: { en: "Owl",          de: "Eule",         tr: "Baykuş" },         datei: "bilder/halloween/O-Owl.png" },
-    { L: "P", wort: { en: "Pumpkin",      de: "Kürbis",       tr: "Balkabağı" },      datei: "bilder/halloween/P-Pumpkin.png", bunt: "bilder/halloween/bunt/P-Pumpkin.jpg" },
+    { L: "P", wort: { en: "Pumpkin",      de: "Kürbis",       tr: "Balkabağı" },      datei: "bilder/halloween/P-Pumpkin.png", bunt: "bilder/halloween/bunt/P-Pumpkin.jpg", youtube: "https://youtu.be/UYOjYvgAhgQ" },
     { L: "S", wort: { en: "Spider",       de: "Spinne",       tr: "Örümcek" },        datei: "bilder/halloween/S-Spider.png" },
     { L: "T", wort: { en: "Treat",        de: "Süßigkeiten",  tr: "Şeker" },          datei: "bilder/halloween/T-Treat.png" },
     { L: "V", wort: { en: "Vampire",      de: "Vampir",       tr: "Vampir" },         datei: "bilder/halloween/V-Vampire.png" },
