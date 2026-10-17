@@ -10,7 +10,7 @@ const THEMEN = [
     { L: "C", wort: { en: "Cat",          de: "Katze",        tr: "Kedi" },           datei: "bilder/halloween/C-Cat.png" },
     { L: "D", wort: { en: "Devil",        de: "Teufelchen",   tr: "Küçük şeytan" },   datei: "bilder/halloween/D-Devil.png" },
     { L: "F", wort: { en: "Frankenstein", de: "Frankenstein", tr: "Frankenstein" },   datei: "bilder/halloween/F-Frankenstein.png", bunt: "bilder/halloween/bunt/F-Frankenstein.jpg" },
-    { L: "G", wort: { en: "Ghost",        de: "Gespenst",     tr: "Hayalet" },        datei: "bilder/halloween/G-Ghost.png" },
+    { L: "G", wort: { en: "Ghost",        de: "Gespenst",     tr: "Hayalet" },        datei: "bilder/halloween/G-Ghost.png", bunt: "bilder/halloween/bunt/G-Ghost.jpg" },
     { L: "H", wort: { en: "Hat",          de: "Hexenhut",     tr: "Cadı şapkası" },   datei: "bilder/halloween/H-Hat.png", bunt: "bilder/halloween/bunt/H-Hat.jpg" },
     { L: "I", wort: { en: "Ice cream",    de: "Eis",          tr: "Dondurma" },       datei: "bilder/halloween/I-Ice-cream.png" },
     { L: "L", wort: { en: "Lollipop",     de: "Lutscher",     tr: "Lolipop" },        datei: "bilder/halloween/L-Lollipop.png" },

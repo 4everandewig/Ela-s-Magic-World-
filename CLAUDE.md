@@ -9,7 +9,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   KEIN sprechendes Kätzchen im Kreis mehr (auf Wunsch entfernt), darunter große Kacheln zu den Bereichen (Zahlen vorerst ausgeblendet).
   KEIN Ela-Video beim Drüberfahren über Kacheln (auf Wunsch wieder entfernt – wird zu unruhig, wenn Kinder schnell über die Kacheln fahren).
   Kürbis (Malbuch), Bär (Memory), Apfel (Tracing) und der mittlere Sticker hüpfen sanft auf ihren Kacheln (`.hupf`, versetzt) – nicht mehr, sonst zu unruhig.
-  Unten Fußzeile mit Versionsnummer (`v64`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
+  Unten Fußzeile mit Versionsnummer (`v65`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
 - `malbuch.html` – Malbuch mit **Themen** (Halloween aktiv; Christmas, Animals, Sweets, Ocean sind vorbereitet, aber ausgeblendet, bis sie Bilder haben).
   Bilder-Liste zum Aufklappen: zu = nur gewähltes Bild + Knopf „Alle Bilder“ (4 Mini-Bilder + Anzahl), auf = alle als Raster; Bild wählen klappt zu.
   Thema + zugeklappte Bilder stehen in einer Zeile (`.leiste`), die Malfläche ist auf die Bildschirmhöhe begrenzt → am PC passt das ganze Bild ohne Scrollen.
@@ -44,7 +44,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   erreichbar über die Seite „Numbers“ (Tabs „Count“ | „Trace“ auf beiden Seiten, Überschrift dann „Numbers“). Buchstaben A–Z mit dem Finger nachspuren, erst groß, dann klein. Striche in `SCHRIFT`
   (SVG-Pfade, 0 = obere Linie, 50 = Mittellinie, 100 = Grundlinie, 140 = Unterlänge; Strich < 3 Einheiten = Punkt zum Antippen).
   Grüner Startpunkt mit Nummer, Pfeile, Glitzerstern fährt den Weg immer wieder vor (kein „Show me“-Knopf – auf Wunsch weg). Ein Strich zählt nur ab dem grünen Punkt und in Schreibrichtung
-  (falsch = zählt einfach nicht, keine Strafe). Stift: Regenbogen oder Farbe (`ela-stift`). Großes A fertig → Bild (`karten(L)`, A: Apfel)
+  (falsch = zählt einfach nicht, keine Strafe). Stift: Regenbogen oder Farbe (`ela-stift`). Großes A fertig → Bild (`karte(L)`: im Oktober zuerst die Halloween-Bilder (bunt, sonst Ausmalbild) – H: Hut, G: Gespenst, B: Fledermaus –, sonst 3D-Bild; A: Apfel)
   hüpft in den Rahmen; kleines a fertig → Bild tanzt, Elas Lob + „A is for Apple“, 1 Stern, nach 6 s nächster Buchstabe.
   Stimme: Start = Elas Buchstabe („A“, davor „Let's trace!“ sobald `STIMMEN.spuren` aufgenommen ist), großer Buchstabe fertig = nur das Wort („Apple!“),
   kleiner fertig = „A is for Apple!“; Lob nur bei jedem 3. Buchstaben (sonst zu viel).
