@@ -6,7 +6,7 @@
 <title>Tracing – Ela's Magic World</title>
 <link rel="icon" href="bilder/ela-rund.png">
 <link rel="stylesheet" href="schriften/schriften.css">
-<link rel="stylesheet" href="gemeinsam.css?v=72">
+<link rel="stylesheet" href="gemeinsam.css?v=73">
 <style>
 /* Nachspuren: links die Schreibfläche (Buchstabe mit Startpunkt, Nummern, Pfeilen), rechts der Bilderrahmen,
    in den nach dem Nachspuren das Bild hüpft (A: Apfel). Darunter Stifte, unten die ABC-Leiste. */
@@ -158,8 +158,8 @@
 <svg id="mess" aria-hidden="true"><path id="mess-pfad"/></svg>
 <div id="druckblatt" aria-hidden="true"></div>
 
-<script src="gemeinsam.js?v=72"></script>
-<script src="daten.js?v=72"></script>
+<script src="gemeinsam.js?v=73"></script>
+<script src="daten.js?v=73"></script>
 <script>
 const elaBild = document.getElementById("ela-tipp");   // fest merken: beim Kreis-Video ist das Bild kurz nicht im DOM
 elaTippen(elaBild, ELA_VIDEOS.seite.abc);
@@ -671,8 +671,14 @@ function vorbildSvg(zeichen){
         inhalt += `<path d="M-4 -4 L3 0 L-4 4" transform="translate(${x + p.x} ${p.y}) rotate(${w.toFixed(0)})" fill="none" stroke="#000" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>`;
       }
     });
+    const belegt = [];
     t.striche.forEach(st => {
-      const p = st.pts[0];
+      // Startpunkte am selben Ort (z. B. A: Strich 1 und 2 oben) leicht auseinanderrücken, damit beide Nummern lesbar sind
+      let p = { x: st.pts[0].x, y: st.pts[0].y };
+      const nah = belegt.filter(q => Math.hypot(q.x - p.x, q.y - p.y) < 14).length;
+      belegt.push({ ...p });
+      if (nah) p = { x: p.x + (nah % 2 ? 1 : -1) * 15 * Math.ceil(nah / 2), y: p.y };
+      if (nah === 0 && t.striche.some(o => o !== st && Math.hypot(o.pts[0].x - p.x, o.pts[0].y - p.y) < 14)) p.x -= 8;
       inhalt += `<circle cx="${x + p.x}" cy="${p.y}" r="7.5" fill="#4cbb5c" stroke="#fff" stroke-width="2"/><text x="${x + p.x}" y="${p.y + 3.4}" text-anchor="middle" font-size="10" font-family="Baloo 2,Nunito,sans-serif" font-weight="800" fill="#fff">${st.nr}</text>`;
     });
     x += t.breite + 26;
@@ -718,7 +724,9 @@ function druckblattBauen(){
     satz = `${n} ${ZAHLWORT[n]}`;
     reihen = [zeichen, zeichen, zeichen, zeichen, null];
   } else {
-    const linie = THEMEN.flatMap(t => t.bilder).find(b => b.L === L);   // Ausmalbild (schwarz-weiß), sonst Feld zum Selbermalen
+    // Ausmalbild (schwarz-weiß): Halloween-Bild, sonst ABC_WOERTER[L].malbild (z. B. Apfel), sonst Feld zum Selbermalen
+    const halloween = THEMEN.flatMap(t => t.bilder).find(b => b.L === L);
+    const linie = halloween || (ABC_WOERTER[L].malbild ? { datei: ABC_WOERTER[L].malbild, wort: ABC_WOERTER[L] } : null);
     const wort = linie ? linie.wort.en : ABC_WOERTER[L].en;
     titel = `Trace the letter ${L}`;
     oben = vorbildSvg([L, L.toLowerCase()]) +

@@ -31,10 +31,10 @@ const THEMEN = [
 ];
 
 /* Englisches ABC wie in Elas ABC-Videos: ein Hauptwort pro Buchstabe (en) mit Übersetzung (de, tr),
-   optional foto = 3D-Bild aus den Videos (bilder/abc/). Dazu kommen automatisch alle Ausmalbilder
+   optional foto = 3D-Bild aus den Videos (bilder/abc/). Optional malbild = schwarz-weißes Ausmalbild fürs Nachspur-Blatt zum Ausdrucken (bilder/abc/malen/). Dazu kommen automatisch alle Ausmalbilder
    mit diesem Buchstaben aus THEMEN (z. B. B: Bear + Bat). Siehe karten(L). */
 const ABC_WOERTER = {
-  A:{en:"Apple",de:"Apfel",tr:"Elma",foto:"bilder/abc/A-Apple.jpg"}, B:{en:"Bear",de:"Bär",tr:"Ayı",foto:"bilder/abc/B-Bear.jpg"},
+  A:{en:"Apple",de:"Apfel",tr:"Elma",foto:"bilder/abc/A-Apple.jpg",malbild:"bilder/abc/malen/A-Apple.png"}, B:{en:"Bear",de:"Bär",tr:"Ayı",foto:"bilder/abc/B-Bear.jpg"},
   C:{en:"Cat",de:"Katze",tr:"Kedi",foto:"bilder/abc/C-Cat.jpg"}, D:{en:"Dog",de:"Hund",tr:"Köpek",foto:"bilder/abc/D-Dog.jpg"},
   E:{en:"Elephant",de:"Elefant",tr:"Fil",foto:"bilder/abc/E-Elephant.jpg"}, F:{en:"Frog",de:"Frosch",tr:"Kurbağa",foto:"bilder/abc/F-Frog.jpg"},
   G:{en:"Giraffe",de:"Giraffe",tr:"Zürafa",foto:"bilder/abc/G-Giraffe.jpg"}, H:{en:"Horse",de:"Pferd",tr:"At",foto:"bilder/abc/H-Horse.jpg"},
