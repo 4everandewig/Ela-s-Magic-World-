@@ -9,7 +9,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   KEIN sprechendes Kätzchen im Kreis mehr (auf Wunsch entfernt), darunter große Kacheln zu den Bereichen (Zahlen vorerst ausgeblendet).
   KEIN Ela-Video beim Drüberfahren über Kacheln (auf Wunsch wieder entfernt – wird zu unruhig, wenn Kinder schnell über die Kacheln fahren).
   Kürbis (Malbuch), Bär (Memory), Apfel (Tracing) und der mittlere Sticker hüpfen sanft auf ihren Kacheln (`.hupf`, versetzt) – nicht mehr, sonst zu unruhig.
-  Unten Fußzeile mit Versionsnummer (`v73`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
+  Unten Fußzeile mit Versionsnummer (`v74`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
 - `malbuch.html` – Malbuch mit **Themen** (Halloween aktiv; Christmas, Animals, Sweets, Ocean sind vorbereitet, aber ausgeblendet, bis sie Bilder haben).
   Bilder-Liste zum Aufklappen: zu = nur gewähltes Bild + Knopf „Alle Bilder“ (4 Mini-Bilder + Anzahl), auf = alle als Raster; Bild wählen klappt zu.
   Thema + zugeklappte Bilder stehen in einer Zeile (`.leiste`), die Malfläche ist auf die Bildschirmhöhe begrenzt → am PC passt das ganze Bild ohne Scrollen.
@@ -53,6 +53,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   („Woo-hoo! W is for Witch!“, dann 9 s bis zum nächsten). Jede neue Ansage beendet ein laufendes Kreis-Video (`kreisStopp()`).
   Zahlen (`?nur=zahl`): Ziffern 1–10 (10 = „1“ + „0“), danach hüpfen n Dinge (`DINGE`: Äpfel, Eis, Drachen, Enten, Bären) einzeln in den Rahmen,
   Ela zählt mit `STIMMEN.zahl` mit, dann Stern. Geschaffte Zahlen in `ela-spur-zahlen`.
+  Im Oktober zeigt die Leiste erst einmal nur Halloween-Buchstaben mit Bild + Elas „… is for …“-Video (B F G H P W); neue Videos in `ELA_VIDEOS.abc` → Buchstabe kommt von selbst dazu.
   Geschaffte Buchstaben in `ela-spur-fertig` (Sternchen in der ABC-Leiste: PC Kacheln, Handy ABC-Band). Aufwärm-Linien bewusst weggelassen.
   Knopf „Print“ (Halloween-Drucker): A4-Nachspur-Blatt aus `SCHRIFT` (`druckblattBauen()`, #druckblatt nur beim Drucken sichtbar, „Als PDF speichern“ = Download):
   Titel „Trace the letter A“, großes Aa mit grünen Nummern-Startpunkten + Pfeilen, schwarz-weißes Ausmalbild (Halloween-Bild, sonst `ABC_WOERTER[L].malbild` in `bilder/abc/malen/`, z. B. A: Apfel; sonst Feld „Draw a kite!“ – nie die bunten 3D-Bilder drucken),

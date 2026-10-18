@@ -6,7 +6,7 @@
 <title>Tracing – Ela's Magic World</title>
 <link rel="icon" href="bilder/ela-rund.png">
 <link rel="stylesheet" href="schriften/schriften.css">
-<link rel="stylesheet" href="gemeinsam.css?v=73">
+<link rel="stylesheet" href="gemeinsam.css?v=74">
 <style>
 /* Nachspuren: links die Schreibfläche (Buchstabe mit Startpunkt, Nummern, Pfeilen), rechts der Bilderrahmen,
    in den nach dem Nachspuren das Bild hüpft (A: Apfel). Darunter Stifte, unten die ABC-Leiste. */
@@ -16,7 +16,7 @@
 .spur{display:grid;grid-template-columns:1fr minmax(150px,34%);gap:14px;align-items:center}
 .flaeche{position:relative;background:#fffdf7;border-radius:20px;box-shadow:inset 0 0 0 3px var(--line)}
 #cv{display:block;width:100%;height:clamp(280px,56vh,520px);touch-action:none;cursor:crosshair;border-radius:20px}
-.formen{position:absolute;top:10px;left:12px;display:flex;gap:6px}
+.formen{position:absolute;top:10px;left:12px;display:flex;gap:6px;pointer-events:none}   /* darf den grünen Startpunkt nie verdecken (Handy!) */
 .formen i{font-style:normal;font-family:var(--display);font-weight:800;font-size:20px;line-height:1;min-width:38px;text-align:center;
   padding:6px 8px;border-radius:12px;background:#fff;color:var(--muted);box-shadow:inset 0 0 0 2px var(--line)}
 .formen i.jetzt{background:var(--c);color:#fff;box-shadow:none}
@@ -158,8 +158,8 @@
 <svg id="mess" aria-hidden="true"><path id="mess-pfad"/></svg>
 <div id="druckblatt" aria-hidden="true"></div>
 
-<script src="gemeinsam.js?v=73"></script>
-<script src="daten.js?v=73"></script>
+<script src="gemeinsam.js?v=74"></script>
+<script src="daten.js?v=74"></script>
 <script>
 const elaBild = document.getElementById("ela-tipp");   // fest merken: beim Kreis-Video ist das Bild kurz nicht im DOM
 elaTippen(elaBild, ELA_VIDEOS.seite.abc);
@@ -235,7 +235,7 @@ const SCHRIFT = {
 
 const BUNT = ["#f05252","#f7882f","#e5a50a","#4cbb5c","#3d8ef0","#8b5cf6","#e8459b"];
 const farbe = L => BUNT[(L.charCodeAt(0) - 65) % BUNT.length];
-const LETTERS = Object.keys(ABC_WOERTER);
+let LETTERS = Object.keys(ABC_WOERTER);
 const STIFTE = ["regenbogen", "#f05252", "#f7882f", "#fbbd23", "#4cbb5c", "#3d8ef0", "#8b5cf6", "#e8459b"];
 
 /* ---------- Strich-Pfade vermessen: Punkte im Abstand von ca. 1,5 Einheiten ---------- */
@@ -464,6 +464,12 @@ const karte = Lx => {
   const alle = karten(Lx);
   return (HALLOWEEN && alle.find(k => k.bild && k.bild.includes("bilder/halloween/"))) || alle.find(k => k.bild) || alle[0];
 };
+/* Im Oktober erst einmal nur die Halloween-Buchstaben, zu denen es schon Elas Video gibt (Bild + "… is for …"-Video):
+   B Bat, F Frankenstein, G Ghost, H Hat, P Pumpkin, W Witch. Neue Videos in ELA_VIDEOS.abc → Buchstabe erscheint von selbst. */
+if (HALLOWEEN) {
+  const fertig = LETTERS.filter(Lx => { const k = karte(Lx); return k.bild && k.bild.includes("bilder/halloween/") && ELA_VIDEOS.abc[k.wort.en]; });
+  if (fertig.length >= 3) LETTERS = fertig;
+}
 function formFertig(){
   A.fertig = true; ton(2);
   if (modus === "zahl") return zahlFertig();
@@ -635,6 +641,9 @@ function leiste(){
     });
     return;
   }
+  // Wenige Buchstaben (Oktober: nur die mit Video) → große Felder, mittig
+  box.style.gridTemplateColumns = LETTERS.length < 13 ? `repeat(${LETTERS.length}, minmax(0, 92px))` : "";
+  box.style.justifyContent = LETTERS.length < 13 ? "center" : "";
   if (!box.children.length) LETTERS.forEach(Lx => {
     const b = document.createElement("button"); b.type = "button"; b.textContent = Lx; b.dataset.l = Lx;
     b.style.setProperty("--c", farbe(Lx)); b.setAttribute("aria-label", Lx);
@@ -751,7 +760,7 @@ document.getElementById("drucken").onclick = () => {
 new ResizeObserver(() => groesse()).observe(cv);
 
 const start = store.get("ela-spur-L"), startZ = parseInt(store.get("ela-spur-Z"), 10);
-L = LETTERS.includes(start) ? start : "A";
+L = LETTERS.includes(start) ? start : LETTERS[0];
 Z = startZ >= 1 && startZ <= 10 ? startZ : 1;
 setzeModus(modus, false);
 requestAnimationFrame(schleife);
