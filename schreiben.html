@@ -6,7 +6,7 @@
 <title>Tracing – Ela's Magic World</title>
 <link rel="icon" href="bilder/ela-rund.png">
 <link rel="stylesheet" href="schriften/schriften.css">
-<link rel="stylesheet" href="gemeinsam.css?v=76">
+<link rel="stylesheet" href="gemeinsam.css?v=77">
 <style>
 /* Nachspuren: links die Schreibfläche (Buchstabe mit Startpunkt, Nummern, Pfeilen), rechts der Bilderrahmen,
    in den nach dem Nachspuren das Bild hüpft (A: Apfel). Darunter Stifte, unten die ABC-Leiste. */
@@ -31,6 +31,9 @@
 @keyframes wackel{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg) scale(1.06)}}
 .rahmen .wort{font-family:var(--display);font-weight:800;font-size:clamp(20px,3.4vw,30px);line-height:1.05;color:var(--purple);min-height:1.1em}
 .rahmen .wort b{color:var(--c)}
+.rahmen .yt{font-family:var(--body);font-size:13px;padding:6px 11px;background:#fff;color:var(--ink);border-radius:999px;box-shadow:inset 0 0 0 2px var(--line)}
+.rahmen .yt small{color:var(--muted);font-weight:700}
+.rahmen .yt[hidden]{display:none}
 .rahmen .de{color:var(--muted);font-weight:800;font-size:15px;min-height:1.1em;margin-top:-4px}
 .feld.tanz img{animation:tanz .9s ease 2}
 @keyframes tanz{0%,100%{transform:rotate(0) scale(1)}25%{transform:rotate(-12deg) scale(1.12)}75%{transform:rotate(12deg) scale(1.12)}}
@@ -52,11 +55,13 @@
 .leiste button{position:relative;font-family:var(--display);font-weight:800;font-size:clamp(18px,2.6vw,26px);line-height:1;aspect-ratio:1;border:0;border-radius:14px;cursor:pointer;color:#fff;
   background:var(--c);box-shadow:inset 0 -4px 0 rgba(0,0,0,.15);padding:0}
 .leiste button[aria-pressed="true"]{outline:4px solid var(--ink);outline-offset:2px}
+.leiste button.kuerbis::before{content:"🎃";position:absolute;top:-9px;left:-6px;font-size:15px;line-height:1}
 .leiste button.geschafft::after{content:"★";position:absolute;top:-8px;right:-6px;font-size:16px;color:var(--yellow);text-shadow:0 0 2px #b88400,0 1px 0 #b88400}
 @media (max-width:560px){
   .leiste{gap:0;row-gap:8px}
   .leiste button{background:none;box-shadow:none;color:var(--c);border-radius:50%;font-size:21px;display:grid;place-items:center}
   .leiste button[aria-pressed="true"]{outline:0;background:var(--c);color:#fff;transform:scale(1.15);box-shadow:0 4px 10px -4px rgba(58,36,64,.5)}
+  .leiste button.kuerbis::before{top:-6px;left:50%;transform:translateX(-50%);font-size:10px}
   .leiste button.geschafft::after{top:auto;right:auto;bottom:-9px;left:50%;transform:translateX(-50%);font-size:12px}
 }
 /* Zahlen: die gezählten Dinge hüpfen einzeln in den Rahmen */
@@ -71,6 +76,10 @@
 /* Print-Knopf (wie im Malbuch, mit Elas Halloween-Drucker) */
 .btn.druck{background:#fff3e3;color:var(--ink);padding:6px 12px 6px 6px;box-shadow:inset 0 -4px 0 var(--orange)}
 .btn.druck img{width:46px;height:auto}
+/* Mini-Blatt: zeigt den Eltern, dass ein Schreibblatt mit Linien herauskommt */
+.btn.druck .mini-blatt{width:30px;height:42px;background:#fff;border-radius:3px;box-shadow:0 0 0 1.5px #cfc3d9,1px 2px 4px rgba(58,36,64,.25);display:flex;flex-direction:column;align-items:center;padding:3px 3px 0;gap:3px;transform:rotate(4deg);margin-left:-6px}
+.btn.druck .mini-blatt img{width:18px;height:15px;object-fit:contain}
+.btn.druck .mini-blatt i{display:block;width:100%;height:0;border-top:1.5px dashed #a48fbc}
 /* "Color it": dasselbe Bild im Malbuch ausmalen */
 .btn.malen{background:#fff;color:var(--ink);padding:6px 12px 6px 6px;box-shadow:inset 0 -4px 0 var(--pink);text-decoration:none}
 .btn.malen img{width:46px;height:46px;object-fit:contain;background:#fff;border-radius:10px}
@@ -108,6 +117,8 @@
   .rahmen .feld{grid-row:span 2;width:96px;border-radius:16px;box-shadow:0 0 0 4px #fff,0 0 0 7px var(--c,var(--orange))}
   .rahmen .feld .frage{font-size:52px}
   .rahmen .de{margin-top:0}
+  .rahmen .feld{grid-row:span 3}
+  .rahmen .yt{grid-column:2;justify-self:start;white-space:nowrap}
   #cv{height:clamp(300px,52vh,460px)}
 }
 </style>
@@ -139,13 +150,14 @@
           <div class="feld" id="feld"><span class="frage" id="frage">?</span></div>
           <div class="wort" id="wort"></div>
           <div class="de" id="de"></div>
+          <button class="btn yt" id="yt" type="button" hidden>🎬 <span data-t="m_yt"></span> <small data-t="m_yt_s"></small></button>
         </div>
       </div>
       <div class="werkzeug">
         <div class="stifte" id="stifte" data-t-label="tr_pen"></div>
         <div class="knoepfe">
         <a class="btn malen" id="malen" href="malbuch.html" hidden><img id="malen-bild" alt=""><span>🖍️</span><span data-t="tr_color"></span></a>
-        <button class="btn druck" id="drucken" type="button"><img src="bilder/drucker.png" alt=""><span data-t="print"></span></button>
+        <button class="btn druck" id="drucken" type="button"><img src="bilder/drucker.png" alt=""><span class="mini-blatt" aria-hidden="true"><img id="mini-bild" alt=""><i></i><i></i><i></i></span><span data-t="print"></span></button>
         <button class="btn" id="nochmal" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 3v6h6"/></svg><span data-t="tr_again"></span></button>
         <button class="btn weiter" id="weiter" type="button"><span data-t="tr_next"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button>
         </div>
@@ -164,8 +176,8 @@
 <svg id="mess" aria-hidden="true"><path id="mess-pfad"/></svg>
 <div id="druckblatt" aria-hidden="true"></div>
 
-<script src="gemeinsam.js?v=76"></script>
-<script src="daten.js?v=76"></script>
+<script src="gemeinsam.js?v=77"></script>
+<script src="daten.js?v=77"></script>
 <script>
 const elaBild = document.getElementById("ela-tipp");   // fest merken: beim Kreis-Video ist das Bild kurz nicht im DOM
 elaTippen(elaBild, ELA_VIDEOS.seite.abc);
@@ -472,10 +484,8 @@ const karte = Lx => {
 };
 /* Im Oktober erst einmal nur die Halloween-Buchstaben, zu denen es schon Elas Video gibt (Bild + "… is for …"-Video):
    B Bat, F Frankenstein, G Ghost, H Hat, P Pumpkin, W Witch. Neue Videos in ELA_VIDEOS.abc → Buchstabe erscheint von selbst. */
-if (HALLOWEEN) {
-  const fertig = LETTERS.filter(Lx => { const k = karte(Lx); return k.bild && k.bild.includes("bilder/halloween/") && ELA_VIDEOS.abc[k.wort.en]; });
-  if (fertig.length >= 3) LETTERS = fertig;
-}
+// Immer das ganze ABC. Im Oktober tragen die Halloween-Buchstaben (Bild + Elas Video) ein kleines 🎃 in der Leiste.
+const KUERBIS = HALLOWEEN ? LETTERS.filter(Lx => { const k = karte(Lx); return k.bild && k.bild.includes("bilder/halloween/") && ELA_VIDEOS.abc[k.wort.en]; }) : [];
 function formFertig(){
   A.fertig = true; ton(2);
   if (modus === "zahl") return zahlFertig();
@@ -592,13 +602,19 @@ function waehle(Lx, laut){
 }
 // Knopf "Color it": gibt es im Malbuch ein Bild zu diesem Buchstaben? (im Oktober zuerst Halloween)
 function malKnopf(){
-  const k = document.getElementById("malen");
+  const k = document.getElementById("malen"), mini = document.getElementById("mini-bild");
+  const kk = modus === "zahl" ? null : karte(L);   // auf dem Mini-Blatt das Bild, das auch gedruckt wird
+  mini.hidden = !kk || !kk.bild; if (kk && kk.bild) mini.src = kk.bild;
   const themen = THEMEN.filter(x => x.bilder.length).sort((a, b) => (HALLOWEEN && b.id === "halloween") - (HALLOWEEN && a.id === "halloween"));
   let treffer = null;
   for (const th of themen) { const b = th.bilder.find(x => x.L === L); if (b) { treffer = { th, b }; break; } }
   k.hidden = !treffer || modus === "zahl";
-  if (!treffer) return;
+  if (!treffer) { document.getElementById("yt").hidden = true; return; }
   document.getElementById("malen-bild").src = treffer.b.bunt || treffer.b.datei;
+  // Elas Mal-Video auf YouTube zu diesem Bild – nur über die Eltern-Sperre, neues Fenster
+  const yt = document.getElementById("yt");
+  yt.hidden = !treffer.b.youtube || modus === "zahl";
+  yt.onclick = () => elternSperre(treffer.b.youtube);
   k.href = "malbuch.html?thema=" + treffer.th.id + "&L=" + L + "&v=" + ((document.querySelector("script[src*=\"gemeinsam.js\"]").src.match(/v=(\d+)/) || [])[1] || "");
 }
 function sagBuchstabe(){
@@ -613,6 +629,7 @@ function waehleZahl(n, laut){
   farbeSetzen(zahlFarbe(n));
   rahmenLeer(); neu(); leiste();
   say(t("tr_num", { n }));
+  malKnopf();
   if (laut) {
     const teile = [];
     if (STIMMEN.spuren) teile.push({ datei: STIMMEN.spuren, text: "Let's trace" });
@@ -666,6 +683,7 @@ function leiste(){
     const b = document.createElement("button"); b.type = "button"; b.textContent = Lx; b.dataset.l = Lx;
     b.style.setProperty("--c", farbe(Lx)); b.setAttribute("aria-label", Lx);
     b.onclick = () => waehle(Lx, true);
+    if (KUERBIS.includes(Lx)) b.classList.add("kuerbis");
     box.appendChild(b);
   });
   [...box.children].forEach(b => {
