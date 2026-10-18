@@ -9,7 +9,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   KEIN sprechendes Kätzchen im Kreis mehr (auf Wunsch entfernt), darunter große Kacheln zu den Bereichen (Zahlen vorerst ausgeblendet).
   KEIN Ela-Video beim Drüberfahren über Kacheln (auf Wunsch wieder entfernt – wird zu unruhig, wenn Kinder schnell über die Kacheln fahren).
   Kürbis (Malbuch), Bär (Memory), Apfel (Tracing) und der mittlere Sticker hüpfen sanft auf ihren Kacheln (`.hupf`, versetzt) – nicht mehr, sonst zu unruhig.
-  Unten Fußzeile mit Versionsnummer (`v70`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
+  Unten Fußzeile mit Versionsnummer (`v71`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
 - `malbuch.html` – Malbuch mit **Themen** (Halloween aktiv; Christmas, Animals, Sweets, Ocean sind vorbereitet, aber ausgeblendet, bis sie Bilder haben).
   Bilder-Liste zum Aufklappen: zu = nur gewähltes Bild + Knopf „Alle Bilder“ (4 Mini-Bilder + Anzahl), auf = alle als Raster; Bild wählen klappt zu.
   Thema + zugeklappte Bilder stehen in einer Zeile (`.leiste`), die Malfläche ist auf die Bildschirmhöhe begrenzt → am PC passt das ganze Bild ohne Scrollen.
@@ -96,6 +96,8 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   `bild` (Schlüssel `<thema-id>-<Buchstabe>`, Knopf „Watch Ela“ im Malbuch, mehrere der Reihe nach).
 - Im Kreis (ABC/Nachspuren) nur Videos mit Elas eigener Stimme: `F-is-for-Frankenstein.mp4` hat eine tiefe Männer-/Monsterstimme → nur bei „Watch Ela“,
   im Kreis läuft `F-Hello-Frankenstein.mp4`. Vorher prüfbar per Tonhöhe (Ela ≈ 300–400 Hz, Männerstimme < 180 Hz).
+  Die KI-Videos haben am Ende oft ein kurzes Lachen mit fremder (Männer-)Stimme → Kreis-Videos enden vor dem letzten kurzen Laut nach Elas Satz
+  (mit `silencedetect` die letzte Pause suchen, dort mit `-t` abschneiden, 0,3 s ausblenden). Bei neuen Videos gleich mitmachen.
 - Abspielen über `elaVideo(src, ersatz)` in `gemeinsam.js` (Fenster mit ✕, schließt am Ende selbst).
   Im ABC spielen die „… is for …“-Videos im runden Ela-Kreis statt im großen Fenster: `elaKreisVideo(img, src, ersatz)` (Bild wird kurz zum Video, Antippen beendet).
 - Im Oktober tauscht `elaImOktober()` (gemeinsam.js) auf allen Seiten `ela-rund.png` gegen `ela-hexe-rund.jpg`.
