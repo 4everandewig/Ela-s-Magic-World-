@@ -98,6 +98,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   im Kreis läuft `F-Hello-Frankenstein.mp4`. Vorher prüfbar per Tonhöhe (Ela ≈ 300–400 Hz, Männerstimme < 180 Hz).
   Die KI-Videos haben am Ende oft ein kurzes Lachen mit fremder (Männer-)Stimme → Kreis-Videos enden vor dem letzten kurzen Laut nach Elas Satz
   (mit `silencedetect` die letzte Pause suchen, dort mit `-t` abschneiden, 0,3 s ausblenden). Bei neuen Videos gleich mitmachen.
+  Auch `stimme/Yay.mp3` hatte hinten einen tiefen Laut → nach dem „Yay“ (0,97 s) abgeschnitten. Neue Aufnahmen ebenso prüfen.
 - Abspielen über `elaVideo(src, ersatz)` in `gemeinsam.js` (Fenster mit ✕, schließt am Ende selbst).
   Im ABC spielen die „… is for …“-Videos im runden Ela-Kreis statt im großen Fenster: `elaKreisVideo(img, src, ersatz)` (Bild wird kurz zum Video, Antippen beendet).
 - Im Oktober tauscht `elaImOktober()` (gemeinsam.js) auf allen Seiten `ela-rund.png` gegen `ela-hexe-rund.jpg`.
