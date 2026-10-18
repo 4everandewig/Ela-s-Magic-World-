@@ -9,7 +9,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   KEIN sprechendes Kätzchen im Kreis mehr (auf Wunsch entfernt), darunter große Kacheln zu den Bereichen (Zahlen vorerst ausgeblendet).
   KEIN Ela-Video beim Drüberfahren über Kacheln (auf Wunsch wieder entfernt – wird zu unruhig, wenn Kinder schnell über die Kacheln fahren).
   Kürbis (Malbuch), Bär (Memory), Apfel (Tracing) und der mittlere Sticker hüpfen sanft auf ihren Kacheln (`.hupf`, versetzt) – nicht mehr, sonst zu unruhig.
-  Unten Fußzeile mit Versionsnummer (`v78`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
+  Unten Fußzeile mit Versionsnummer (`v79`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
 - `malbuch.html` – Malbuch mit **Themen** (Halloween aktiv; Christmas, Animals, Sweets, Ocean sind vorbereitet, aber ausgeblendet, bis sie Bilder haben).
   Bilder-Liste zum Aufklappen: zu = nur gewähltes Bild + Knopf „Alle Bilder“ (4 Mini-Bilder + Anzahl), auf = alle als Raster; Bild wählen klappt zu.
   Thema + zugeklappte Bilder stehen in einer Zeile (`.leiste`), die Malfläche ist auf die Bildschirmhöhe begrenzt → am PC passt das ganze Bild ohne Scrollen.
@@ -32,7 +32,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   („Bb“ ↔ Bear), Modus „Pictures“: zwei gleiche Bilder. Umdrehen liest Wort/Buchstabe englisch vor, Paar = Elas Lob + „B is for Bear“,
   alle Paare = 3 Sterne. Neue Tierbilder mit `foto` erscheinen automatisch im Memory.
   Modus „🎃 Halloween“: zwei gleiche bunte Halloween-Bilder (alle Malbuch-Bilder mit `bunt`), bis zu 6 Paare; Tab erst ab 3 bunten Bildern.
-- `info.html` – „For parents“: wer macht die Seite + Kontakt-E-Mail, Datenschutz (EN/DE/TR), YouTube-Link hinter Elternsperre
+- `info.html` – „For parents“: wer macht die Seite + Kontakt-E-Mail, Datenschutz, Schreibblätter-Hinweis, YouTube-Link hinter Elternsperre
   (Rechenaufgabe). Verlinkt in der Fußzeile der Startseite. Betreiberin lebt in der Türkei, Projekt nicht kommerziell.
   Datenschutz-Versprechen: keine Werbung, kein Tracking, keine Cookies, keine Anmeldung, nichts von Dritten nachladen.
   → Keine externen Dienste einbauen (kein Google Fonts, kein YouTube-Embed, keine Analytics). Schriften liegen lokal in `schriften/`.
@@ -56,7 +56,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   Ela zählt mit `STIMMEN.zahl` mit, dann Stern. Geschaffte Zahlen in `ela-spur-zahlen`.
   Leiste immer A–Z (auf Wunsch wieder das ganze ABC). Im Oktober tragen Halloween-Buchstaben mit Bild + Elas „… is for …“-Video ein kleines 🎃 (`KUERBIS`, B F G H P W); neue Videos in `ELA_VIDEOS.abc` → 🎃 kommt von selbst dazu.
   Knopf „🎬 Drawing video · for parents“ unter dem Bild-Rahmen, wenn das Malbuch-Bild zum Buchstaben einen `youtube`-Link hat (über `elternSperre`).
-  Drucker-Knopf mit Mini-Blatt (Bild + gestrichelte Linien), damit Eltern sehen, dass ein Schreibblatt herauskommt. Hinweis dazu auch auf `info.html` („Worksheets to print“, nur in der gewählten Menü-Sprache `ela-sprache`, `data-sp`).
+  Drucker-Knopf mit Mini-Blatt (Bild + gestrichelte Linien), damit Eltern sehen, dass ein Schreibblatt herauskommt. Hinweis dazu auch auf `info.html` („Worksheets to print“).
   Geschaffte Buchstaben in `ela-spur-fertig` (Sternchen in der ABC-Leiste: PC Kacheln, Handy ABC-Band). Aufwärm-Linien bewusst weggelassen.
   Knopf „Print“ (Halloween-Drucker): A4-Nachspur-Blatt aus `SCHRIFT` (`druckblattBauen()`, #druckblatt nur beim Drucken sichtbar, „Als PDF speichern“ = Download):
   Titel „Trace the letter A“, großes Aa mit grünen Nummern-Startpunkten + Pfeilen, schwarz-weißes Ausmalbild (Halloween-Bild, sonst `ABC_WOERTER[L].malbild` in `bilder/abc/malen/`, z. B. A: Apfel; sonst Feld „Draw a kite!“ – nie die bunten 3D-Bilder drucken),
@@ -85,7 +85,8 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
 - **Menü in 3 Sprachen, Inhalt immer Englisch** (Wunsch: deutsche/türkische Kinder können mitspielen, aber Buchstaben, Wörter,
   Bilder und alle Audios bleiben Englisch). `MENU` = gewählte Menü-Sprache (Umschalter „EN DE TR“, `ela-sprache`) für Überschriften,
   Kacheln, Knöpfe, Tabs: `tm()`/`txm()`. `LANG` ist fest `"en"` für Inhalt, Elas Sprechblasen und Stimme: `t()`/`tx()`.
-  `uebersetzen()`: `data-t` innerhalb von `.bubble`, `.q`, `.ela` → Englisch, sonst Menü-Sprache. `info.html` (Eltern) bleibt dreisprachig.
+  `uebersetzen()`: `data-t` innerhalb von `.bubble`, `.q`, `.ela` → Englisch, sonst Menü-Sprache.
+  `info.html` (Eltern): jede Sprache vollständig in `<div data-sp="en|de|tr">`, angezeigt wird NUR die gewählte (`ela-sprache`, eigener Umschalter oben) – nie Sprachen mischen. Änderungen immer in allen drei Blöcken.
 - Feste Texte im HTML: `data-t="schlüssel"` bzw. `data-t-label="schlüssel"`. Texte im Skript: `t("schlüssel", {var})`.
 - Neue Texte immer in **allen** Sprachblöcken von `TEXTE` ergänzen. Namen/Wörter in Daten als `{ en, de, tr }`.
 - Neue Sprache: in `SPRACHEN` (Name + Stimme, z. B. `fr-FR`) und `TEXTE` ergänzen, Daten um den Code erweitern.
