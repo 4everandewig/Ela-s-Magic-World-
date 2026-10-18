@@ -119,11 +119,12 @@ function karten(L){
    zuschauen: kleines Ela-Fenster oben rechts an der Malfläche nach der 4. Fläche, einmal pro Bild (pro Thema)
    spuren: Nachspuren, Ela malt den Buchstaben in die Luft (im Kreis); beim Nachspuren spielt außerdem abc[Wort] im Kreis, wenn der kleine Buchstabe fertig ist */
 const ELA_VIDEOS = {
-  abc:  { Pumpkin: "videos/P-is-for-Pumpkin.mp4", Hat: "videos/H-is-for-Hat.mp4", Bat: "videos/B-is-for-Bat.mp4", Witch: "videos/W-is-for-Witch.mp4", Frankenstein: "videos/F-is-for-Frankenstein.mp4" },
+  abc:  { Pumpkin: "videos/P-is-for-Pumpkin.mp4", Hat: "videos/H-is-for-Hat.mp4", Bat: "videos/B-is-for-Bat.mp4", Witch: "videos/W-is-for-Witch.mp4", Frankenstein: "videos/F-is-for-Frankenstein.mp4", Ghost: "videos/G-is-for-Ghost.mp4" },
   bild: { "halloween-P": ["videos/P-is-for-Pumpkin.mp4", "videos/P-Wave-to-the-Pumpkin.mp4", "videos/P-Ela-and-Pumpkin.mp4"],
           "halloween-H": ["videos/H-is-for-Hat.mp4", "videos/H-Witch-hat-like-mine.mp4", "videos/H-Hat-is-smiling.mp4"],
           "halloween-B": ["videos/B-is-for-Bat.mp4", "videos/B-Cute-little-bat.mp4"],
           "halloween-F": ["videos/F-is-for-Frankenstein.mp4", "videos/F-Hello-Frankenstein.mp4", "videos/F-He-is-so-happy.mp4", "videos/F-Green-drawing.mp4", "videos/F-Draw-together.mp4"],
+          "halloween-G": ["videos/G-is-for-Ghost.mp4", "videos/G-Oh-look-little-ghost.mp4", "videos/G-Hello-little-ghost.mp4", "videos/G-Say-boo-with-me.mp4", "videos/G-Witch-says-boo.mp4"],
           "halloween-W": ["videos/W-is-for-Witch.mp4", "videos/W-Little-witch-like-me.mp4", "videos/W-Pumpkin-and-bats.mp4", "videos/W-Abracadabra.mp4"] },
   thema: { halloween: "videos/Color-with-me.mp4" },
   spuren: { W: ["videos/W-Today-we-learn.mp4", "videos/W-Tracing.mp4"] },   // mehrere = nacheinander: "Today we learn the letter W!", dann malt Ela das W in die Luft   // Nachspuren: Ela malt den Buchstaben in die Luft, wenn er gewählt wird (im Kreis)
