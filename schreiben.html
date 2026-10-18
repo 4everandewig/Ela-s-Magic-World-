@@ -6,7 +6,7 @@
 <title>Tracing – Ela's Magic World</title>
 <link rel="icon" href="bilder/ela-rund.png">
 <link rel="stylesheet" href="schriften/schriften.css">
-<link rel="stylesheet" href="gemeinsam.css?v=74">
+<link rel="stylesheet" href="gemeinsam.css?v=75">
 <style>
 /* Nachspuren: links die Schreibfläche (Buchstabe mit Startpunkt, Nummern, Pfeilen), rechts der Bilderrahmen,
    in den nach dem Nachspuren das Bild hüpft (A: Apfel). Darunter Stifte, unten die ABC-Leiste. */
@@ -87,7 +87,8 @@
   #druckblatt .d-sterne svg{width:var(--g);height:var(--g)}
   #druckblatt .d-bild{width:100%;height:74mm;object-fit:contain}
   #druckblatt .d-malen{height:72mm;border:3px dashed #999;border-radius:6mm;display:grid;place-items:center;text-align:center;font-size:24px;color:#777}
-  #druckblatt .d-satz{align-self:center;font-size:40px;color:#fff;-webkit-text-stroke:5px #000;paint-order:stroke fill;line-height:1}
+  #druckblatt .d-satz{align-self:center;font-size:40px;line-height:1;color:#8a8a8a;font-weight:700}   /* klare Schrift wie auf den Arbeitsblättern: Buchstabe dunkel, Rest grau */
+  #druckblatt .d-satz b{color:#222;font-weight:800}
   #druckblatt .d-reihen{flex:1;width:100%}
   #druckblatt .d-name{display:flex;align-items:flex-end;gap:10px;font-family:var(--body);font-size:17px}
   #druckblatt .d-name i{flex:1;border-bottom:2px solid #000}
@@ -158,8 +159,8 @@
 <svg id="mess" aria-hidden="true"><path id="mess-pfad"/></svg>
 <div id="druckblatt" aria-hidden="true"></div>
 
-<script src="gemeinsam.js?v=74"></script>
-<script src="daten.js?v=74"></script>
+<script src="gemeinsam.js?v=75"></script>
+<script src="daten.js?v=75"></script>
 <script>
 const elaBild = document.getElementById("ela-tipp");   // fest merken: beim Kreis-Video ist das Bild kurz nicht im DOM
 elaTippen(elaBild, ELA_VIDEOS.seite.abc);
@@ -730,7 +731,7 @@ function druckblattBauen(){
     titel = `Trace the number ${n}`;
     const sterne = Array.from({ length: n }, () => `<svg viewBox="0 0 24 24"><path d="${STERN_PFAD}" fill="#fff" stroke="#000" stroke-width="1.4" stroke-linejoin="round"/></svg>`).join("");
     oben = vorbildSvg(zeichen === "10" ? ["10"] : [zeichen]) + `<div class="d-malen d-sterne" style="--g:${n > 6 ? 17 : n > 3 ? 22 : 28}mm;border-style:solid;border-color:#ddd;display:flex;flex-wrap:wrap;gap:3mm;align-content:center;justify-content:center;padding:4mm">${sterne}</div>`;
-    satz = `${n} ${ZAHLWORT[n]}`;
+    satz = [String(n), " ", ZAHLWORT[n]];
     reihen = [zeichen, zeichen, zeichen, zeichen, null];
   } else {
     // Ausmalbild (schwarz-weiß): Halloween-Bild, sonst ABC_WOERTER[L].malbild (z. B. Apfel), sonst Feld zum Selbermalen
@@ -740,14 +741,15 @@ function druckblattBauen(){
     titel = `Trace the letter ${L}`;
     oben = vorbildSvg([L, L.toLowerCase()]) +
       (linie ? `<img class="d-bild" src="${linie.datei}" alt="">` : `<div class="d-malen">Draw ${/^[AEIOU]/.test(wort) ? "an" : "a"} ${wort.toLowerCase()}!</div>`);
-    satz = `${L} is for ${wort}`;
+    satz = [L, " is for ", wort];
     reihen = [L, L, L.toLowerCase(), L.toLowerCase(), null];
   }
   blatt.innerHTML = `<div class="d-titel"></div><div class="d-oben">${oben}</div><div class="d-satz"></div>${reihenSvg(reihen)}
     <div class="d-name">My name: <i></i></div>
     <div class="d-fuss"><img src="bilder/logo.png" alt=""><span>Ela's Magic World · youtube.com/@ElasMagicPhonics</span></div>`;
   blatt.querySelector(".d-titel").textContent = titel;
-  blatt.querySelector(".d-satz").textContent = satz;
+  const sz = blatt.querySelector(".d-satz");   // [Buchstabe, Mitte, Wort] – Buchstabe kräftig, Wort grau
+  sz.innerHTML = ""; const b = document.createElement("b"); b.textContent = satz[0]; sz.append(b, satz[1] + satz[2]);
   return blatt;
 }
 document.getElementById("drucken").onclick = () => {
