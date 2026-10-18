@@ -22,6 +22,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   Knopf „🎬 Drawing video · for parents“ bei Bildern mit `youtube`-Link (daten.js; bisher Bat, Pumpkin, Witch, Ghost, Hat): öffnet `elternSperre(url)` (gemeinsam.js,
   Rechenaufgabe), erst dann YouTube in einem NEUEN Fenster. Nie einbetten (kein YouTube-Player, nichts von Google auf der Seite),
   nur youtube.com/youtu.be-Links, Hinweis richtet sich an Eltern – Kinder nie zum Abonnieren auffordern.
+  Knopf „Bb ✏️ Trace“ neben dem Wort → `schreiben.html?L=B` (gleicher Buchstabe zum Nachspuren). Öffnen mit `?thema=halloween&L=B` zeigt genau dieses Bild.
 - `abc.html` – ABC: „Explore“ (Buchstabe antippen → Ela liest „B is for Bat“ vor) und „Play“ (Bild → Buchstabe raten oder Buchstabe → Bild finden).
   Tab „Bubbles“: Ela „Find the letter G!“ (nur A–L mit `STIMMEN.finde`), 5 Blasen mit G/g + 9 andere (gern ähnliche, `AEHNLICH`) schweben;
   richtige antippen = platzt (Plopp-Ton im Browser erzeugt), falsche wackelt nur. Großes I / kleines l nie als falsche Blasen (sehen gleich aus).
@@ -59,6 +60,10 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   Titel „Trace the letter A“, großes Aa mit grünen Nummern-Startpunkten + Pfeilen, schwarz-weißes Ausmalbild (Halloween-Bild, sonst `ABC_WOERTER[L].malbild` in `bilder/abc/malen/`, z. B. A: Apfel; sonst Feld „Draw a kite!“ – nie die bunten 3D-Bilder drucken),
   „A is for Apple“, 2 Reihen groß + 2 Reihen klein gestrichelt mit Linien (oben/Mitte gestrichelt/unten), 1 leere Reihe, „My name“, Logo + Kanal.
   Zahlen: großes 3, drei Sterne zum Ausmalen, „3 three“, 4 Reihen 3er.
+  Satz auf dem Blatt in klarer Schrift: Buchstabe dunkel, Rest grau (keine hohle Umriss-Schrift – Kleinbuchstaben wurden klobig).
+  Knopf „🖍️ Color it“ (mit Bild): öffnet dasselbe Bild im Malbuch (`malKnopf()`, im Oktober zuerst Halloween); nur wenn es ein Malbuch-Bild zum Buchstaben gibt.
+  `?L=B` startet diesen Buchstaben (im Oktober wird er bei Bedarf in die Leiste aufgenommen).
+  → Video, Malvorlage und Schreibblatt zu einem Buchstaben hängen zusammen (Wunsch).
 - `sticker.html` – My Stickers: alle 5 Sterne (`STICKER_ALLE`) ein neuer Sticker aus `STICKER` (daten.js: zuerst 12 Sternen-Sticker mit Gesicht `bilder/sterne/*.webp`, selten zuletzt: Rainbow, Star King; dann bunte Halloween-Bilder, 3D-ABC-Tiere, Ente –
   neue Bilder hängen sich automatisch an). Oben 5 Sternchen-Plätze bis zum nächsten Sticker, leere Plätze mit „?“. Noch nicht gesammelte Sterne als graue Silhouette. Neue Sticker hüpfen
   (`ela-sticker-gesehen`). `sternDazu()` zeigt beim Erreichen eines neuen Stickers `stickerNeu()` groß. Sternchen-Feld oben rechts führt überall hierher.

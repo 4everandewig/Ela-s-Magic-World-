@@ -6,7 +6,7 @@
 <title>Tracing – Ela's Magic World</title>
 <link rel="icon" href="bilder/ela-rund.png">
 <link rel="stylesheet" href="schriften/schriften.css">
-<link rel="stylesheet" href="gemeinsam.css?v=75">
+<link rel="stylesheet" href="gemeinsam.css?v=76">
 <style>
 /* Nachspuren: links die Schreibfläche (Buchstabe mit Startpunkt, Nummern, Pfeilen), rechts der Bilderrahmen,
    in den nach dem Nachspuren das Bild hüpft (A: Apfel). Darunter Stifte, unten die ABC-Leiste. */
@@ -71,6 +71,10 @@
 /* Print-Knopf (wie im Malbuch, mit Elas Halloween-Drucker) */
 .btn.druck{background:#fff3e3;color:var(--ink);padding:6px 12px 6px 6px;box-shadow:inset 0 -4px 0 var(--orange)}
 .btn.druck img{width:46px;height:auto}
+/* "Color it": dasselbe Bild im Malbuch ausmalen */
+.btn.malen{background:#fff;color:var(--ink);padding:6px 12px 6px 6px;box-shadow:inset 0 -4px 0 var(--pink);text-decoration:none}
+.btn.malen img{width:46px;height:46px;object-fit:contain;background:#fff;border-radius:10px}
+.btn.malen[hidden]{display:none}
 /* Nachspur-Blatt zum Ausdrucken (A4): großer Buchstabe mit Nummern + Pfeilen, Bild zum Ausmalen (oder Feld zum Selbermalen),
    "A is for Apple", Reihen zum Nachspuren, Name, Logo + Kanal. Immer Englisch. Nur beim Drucken sichtbar. */
 #druckblatt{display:none}
@@ -140,6 +144,7 @@
       <div class="werkzeug">
         <div class="stifte" id="stifte" data-t-label="tr_pen"></div>
         <div class="knoepfe">
+        <a class="btn malen" id="malen" href="malbuch.html" hidden><img id="malen-bild" alt=""><span>🖍️</span><span data-t="tr_color"></span></a>
         <button class="btn druck" id="drucken" type="button"><img src="bilder/drucker.png" alt=""><span data-t="print"></span></button>
         <button class="btn" id="nochmal" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 3v6h6"/></svg><span data-t="tr_again"></span></button>
         <button class="btn weiter" id="weiter" type="button"><span data-t="tr_next"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button>
@@ -159,8 +164,8 @@
 <svg id="mess" aria-hidden="true"><path id="mess-pfad"/></svg>
 <div id="druckblatt" aria-hidden="true"></div>
 
-<script src="gemeinsam.js?v=75"></script>
-<script src="daten.js?v=75"></script>
+<script src="gemeinsam.js?v=76"></script>
+<script src="daten.js?v=76"></script>
 <script>
 const elaBild = document.getElementById("ela-tipp");   // fest merken: beim Kreis-Video ist das Bild kurz nicht im DOM
 elaTippen(elaBild, ELA_VIDEOS.seite.abc);
@@ -582,7 +587,19 @@ function waehle(Lx, laut){
   farbeSetzen(farbe(L));
   rahmenLeer(); neu(); leiste();
   say(t("tr_big", { L }));
+  malKnopf();
   if (laut) sagBuchstabe();
+}
+// Knopf "Color it": gibt es im Malbuch ein Bild zu diesem Buchstaben? (im Oktober zuerst Halloween)
+function malKnopf(){
+  const k = document.getElementById("malen");
+  const themen = THEMEN.filter(x => x.bilder.length).sort((a, b) => (HALLOWEEN && b.id === "halloween") - (HALLOWEEN && a.id === "halloween"));
+  let treffer = null;
+  for (const th of themen) { const b = th.bilder.find(x => x.L === L); if (b) { treffer = { th, b }; break; } }
+  k.hidden = !treffer || modus === "zahl";
+  if (!treffer) return;
+  document.getElementById("malen-bild").src = treffer.b.bunt || treffer.b.datei;
+  k.href = "malbuch.html?thema=" + treffer.th.id + "&L=" + L + "&v=" + ((document.querySelector("script[src*=\"gemeinsam.js\"]").src.match(/v=(\d+)/) || [])[1] || "");
 }
 function sagBuchstabe(){
   if (ELA_VIDEOS.spuren && ELA_VIDEOS.spuren[L]) return elaKreisVideo(elaBild, ELA_VIDEOS.spuren[L], `Let's trace ${L}!`);   // Ela malt das W in die Luft
@@ -761,6 +778,9 @@ document.getElementById("drucken").onclick = () => {
 };
 new ResizeObserver(() => groesse()).observe(cv);
 
+// ?L=B (Knopf "Trace" im Malbuch) startet genau diesen Buchstaben – auch wenn er im Oktober sonst nicht in der Leiste ist
+const qL = (new URLSearchParams(location.search).get("L") || "").toUpperCase();
+if (/^[A-Z]$/.test(qL) && SCHRIFT[qL]) { if (!LETTERS.includes(qL)) LETTERS = [...LETTERS, qL].sort(); store.set("ela-spur-L", qL); }
 const start = store.get("ela-spur-L"), startZ = parseInt(store.get("ela-spur-Z"), 10);
 L = LETTERS.includes(start) ? start : LETTERS[0];
 Z = startZ >= 1 && startZ <= 10 ? startZ : 1;
