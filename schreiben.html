@@ -6,7 +6,7 @@
 <title>Tracing – Ela's Magic World</title>
 <link rel="icon" href="bilder/ela-rund.png">
 <link rel="stylesheet" href="schriften/schriften.css">
-<link rel="stylesheet" href="gemeinsam.css?v=71">
+<link rel="stylesheet" href="gemeinsam.css?v=72">
 <style>
 /* Nachspuren: links die Schreibfläche (Buchstabe mit Startpunkt, Nummern, Pfeilen), rechts der Bilderrahmen,
    in den nach dem Nachspuren das Bild hüpft (A: Apfel). Darunter Stifte, unten die ABC-Leiste. */
@@ -66,6 +66,34 @@
 @keyframes rein{0%{transform:translateY(-60px) scale(.2);opacity:0}100%{transform:none;opacity:1}}
 .leiste.zahlen{grid-template-columns:repeat(10,minmax(0,78px));justify-content:center}
 @media (max-width:560px){.leiste.zahlen{grid-template-columns:repeat(10,1fr)}}
+.druck-show{position:fixed;inset:0;z-index:60;display:grid;place-items:center;background:rgba(58,36,64,.35)}
+.druck-show img{width:min(380px,74vw);height:auto;filter:drop-shadow(0 18px 24px rgba(58,36,64,.45));animation:pop .5s ease}
+/* Print-Knopf (wie im Malbuch, mit Elas Halloween-Drucker) */
+.btn.druck{background:#fff3e3;color:var(--ink);padding:6px 12px 6px 6px;box-shadow:inset 0 -4px 0 var(--orange)}
+.btn.druck img{width:46px;height:auto}
+/* Nachspur-Blatt zum Ausdrucken (A4): großer Buchstabe mit Nummern + Pfeilen, Bild zum Ausmalen (oder Feld zum Selbermalen),
+   "A is for Apple", Reihen zum Nachspuren, Name, Logo + Kanal. Immer Englisch. Nur beim Drucken sichtbar. */
+#druckblatt{display:none}
+@page{size:A4 portrait;margin:11mm}
+@media print{
+  body{background:#fff!important;padding:0}
+  body::before{display:none}
+  .app,.confetti,.ela-video,.eltern,.sticker-neu{display:none!important}
+  #druckblatt{display:flex;flex-direction:column;gap:3mm;height:272mm;color:#000;font-family:var(--display);font-weight:800;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #druckblatt .d-titel{align-self:center;font-size:20px;border:2px solid #000;border-radius:999px;padding:1mm 7mm}
+  #druckblatt .d-oben{display:grid;grid-template-columns:1fr 1fr;gap:6mm;align-items:center;height:78mm}
+  #druckblatt .d-oben > svg{width:100%;height:78mm}
+  #druckblatt .d-sterne svg{width:var(--g);height:var(--g)}
+  #druckblatt .d-bild{width:100%;height:74mm;object-fit:contain}
+  #druckblatt .d-malen{height:72mm;border:3px dashed #999;border-radius:6mm;display:grid;place-items:center;text-align:center;font-size:24px;color:#777}
+  #druckblatt .d-satz{align-self:center;font-size:40px;color:#fff;-webkit-text-stroke:5px #000;paint-order:stroke fill;line-height:1}
+  #druckblatt .d-reihen{flex:1;width:100%}
+  #druckblatt .d-name{display:flex;align-items:flex-end;gap:10px;font-family:var(--body);font-size:17px}
+  #druckblatt .d-name i{flex:1;border-bottom:2px solid #000}
+  #druckblatt .d-fuss{align-self:center;display:flex;align-items:center;gap:10px;font-family:var(--body);font-size:13px;color:#8b5cf6}
+  #druckblatt .d-fuss img{height:30px;width:auto}
+}
 /* Unsichtbares SVG zum Vermessen der Strich-Pfade */
 #mess{position:absolute;width:0;height:0;overflow:hidden}
 /* Handy: Bilderrahmen klein oben (Bild links, Wort rechts daneben), darunter die Schreibfläche in voller Breite */
@@ -111,6 +139,7 @@
       <div class="werkzeug">
         <div class="stifte" id="stifte" data-t-label="tr_pen"></div>
         <div class="knoepfe">
+        <button class="btn druck" id="drucken" type="button"><img src="bilder/drucker.png" alt=""><span data-t="print"></span></button>
         <button class="btn" id="nochmal" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 3v6h6"/></svg><span data-t="tr_again"></span></button>
         <button class="btn weiter" id="weiter" type="button"><span data-t="tr_next"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button>
         </div>
@@ -127,9 +156,10 @@
   </section>
 </div>
 <svg id="mess" aria-hidden="true"><path id="mess-pfad"/></svg>
+<div id="druckblatt" aria-hidden="true"></div>
 
-<script src="gemeinsam.js?v=71"></script>
-<script src="daten.js?v=71"></script>
+<script src="gemeinsam.js?v=72"></script>
+<script src="daten.js?v=72"></script>
 <script>
 const elaBild = document.getElementById("ela-tipp");   // fest merken: beim Kreis-Video ist das Bild kurz nicht im DOM
 elaTippen(elaBild, ELA_VIDEOS.seite.abc);
@@ -616,6 +646,100 @@ function leiste(){
     b.classList.toggle("geschafft", geschafft.includes(b.dataset.l));
   });
 }
+/* ---------- Nachspur-Blatt zum Ausdrucken ----------
+   Wird aus SCHRIFT gebaut, also automatisch für jeden Buchstaben und jede Zahl. Bild: das schwarz-weiße Ausmalbild (Halloween),
+   gibt es keins, ein Feld "Draw a …" zum Selbermalen (die bunten 3D-Bilder werden nie gedruckt – zu viel Tinte, nicht ausmalbar).
+   Zahlen: n Sterne zum Ausmalen und Zählen. Im Druckfenster kann man auch "Als PDF speichern" wählen. */
+const SVGNS = "http://www.w3.org/2000/svg";
+function striche(z){   // wie aufgabe(), aber ohne Zustand: Punkte + Breite, waagerecht ab x=0
+  const t = aufgabe(z), min = Math.min(...t.striche.flatMap(s => s.pts.map(p => p.x)));
+  t.striche.forEach(s => s.pts.forEach(p => p.x -= min));
+  return t;
+}
+const pfad = pts => "M" + pts.map(p => p.x.toFixed(1) + " " + p.y.toFixed(1)).join(" L");
+/* Großes Vorbild: graue Buchstaben, grüne Startpunkte mit Nummer, kleine Pfeile in Schreibrichtung */
+function vorbildSvg(zeichen){
+  let x = 0, inhalt = "";
+  zeichen.forEach(z => {
+    const t = striche(z);
+    t.striche.forEach(st => {
+      inhalt += st.punkt ? `<circle cx="${x + st.pts[0].x}" cy="${st.pts[0].y}" r="7" fill="#bbb"/>`
+                         : `<path d="${pfad(st.pts)}" transform="translate(${x} 0)" fill="none" stroke="#c8c8c8" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>`;
+      if (!st.punkt) for (const f of [.45]) {   // Pfeil in der Mitte des Strichs
+        const i = Math.round(f * (st.pts.length - 1)), a = st.pts[Math.max(0, i - 3)], b = st.pts[Math.min(st.pts.length - 1, i + 3)];
+        const w = Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI, p = st.pts[i];
+        inhalt += `<path d="M-4 -4 L3 0 L-4 4" transform="translate(${x + p.x} ${p.y}) rotate(${w.toFixed(0)})" fill="none" stroke="#000" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>`;
+      }
+    });
+    t.striche.forEach(st => {
+      const p = st.pts[0];
+      inhalt += `<circle cx="${x + p.x}" cy="${p.y}" r="7.5" fill="#4cbb5c" stroke="#fff" stroke-width="2"/><text x="${x + p.x}" y="${p.y + 3.4}" text-anchor="middle" font-size="10" font-family="Baloo 2,Nunito,sans-serif" font-weight="800" fill="#fff">${st.nr}</text>`;
+    });
+    x += t.breite + 26;
+  });
+  const breite = x - 26;
+  return `<svg viewBox="-14 -16 ${breite + 28} 170" preserveAspectRatio="xMidYMid meet" xmlns="${SVGNS}">
+    <line x1="-14" x2="${breite + 14}" y1="0" y2="0" stroke="#999" stroke-width="1.5"/>
+    <line x1="-14" x2="${breite + 14}" y1="50" y2="50" stroke="#bbb" stroke-width="1.2" stroke-dasharray="5 5"/>
+    <line x1="-14" x2="${breite + 14}" y1="100" y2="100" stroke="#999" stroke-width="1.5"/>${inhalt}</svg>`;
+}
+/* Reihen zum Nachspuren: Hilfslinien + gestrichelte Buchstaben, so viele wie in eine Reihe passen; letzte Reihe leer zum Selberschreiben */
+function reihenSvg(reihen){
+  const B = 1000, H = 150, k = .82;
+  let inhalt = "";
+  reihen.forEach((z, r) => {
+    const y = 18 + r * H;
+    inhalt += `<line x1="0" x2="${B}" y1="${y}" y2="${y}" stroke="#999" stroke-width="1.6"/>
+      <line x1="0" x2="${B}" y1="${y + 50 * k}" y2="${y + 50 * k}" stroke="#bbb" stroke-width="1.3" stroke-dasharray="10 8"/>
+      <line x1="0" x2="${B}" y1="${y + 100 * k}" y2="${y + 100 * k}" stroke="#999" stroke-width="1.6"/>`;
+    if (!z) return;
+    const t = striche(z), w = t.breite * k, abstand = Math.max(w + 46, 92), n = Math.floor((B - 20) / abstand);
+    for (let i = 0; i < n; i++) {
+      const x = 22 + i * abstand + (abstand - 46 - w) / 2;
+      t.striche.forEach(st => {
+        inhalt += st.punkt ? `<circle cx="${x + st.pts[0].x * k}" cy="${y + st.pts[0].y * k}" r="3" fill="#777"/>`
+          : `<path d="${pfad(st.pts)}" transform="translate(${x} ${y}) scale(${k})" fill="none" stroke="#666" stroke-width="2.6" stroke-dasharray="7 7" stroke-linecap="round" vector-effect="non-scaling-stroke"/>`;
+      });
+      const p = t.striche[0].pts[0];
+      inhalt += `<circle cx="${x + p.x * k}" cy="${y + p.y * k}" r="4" fill="#4cbb5c"/>`;
+    }
+  });
+  return `<svg class="d-reihen" viewBox="0 0 ${B} ${18 + reihen.length * H}" preserveAspectRatio="xMidYMin meet" xmlns="${SVGNS}">${inhalt}</svg>`;
+}
+const STERN_PFAD = "M12 2l3 6.5 7 .8-5.2 4.8 1.5 7L12 17.6 5.7 21l1.5-7L2 9.3l7-.8z";
+function druckblattBauen(){
+  const blatt = document.getElementById("druckblatt");
+  let titel, oben, satz, reihen;
+  if (modus === "zahl") {
+    const n = Z, zeichen = String(n);
+    titel = `Trace the number ${n}`;
+    const sterne = Array.from({ length: n }, () => `<svg viewBox="0 0 24 24"><path d="${STERN_PFAD}" fill="#fff" stroke="#000" stroke-width="1.4" stroke-linejoin="round"/></svg>`).join("");
+    oben = vorbildSvg(zeichen === "10" ? ["10"] : [zeichen]) + `<div class="d-malen d-sterne" style="--g:${n > 6 ? 17 : n > 3 ? 22 : 28}mm;border-style:solid;border-color:#ddd;display:flex;flex-wrap:wrap;gap:3mm;align-content:center;justify-content:center;padding:4mm">${sterne}</div>`;
+    satz = `${n} ${ZAHLWORT[n]}`;
+    reihen = [zeichen, zeichen, zeichen, zeichen, null];
+  } else {
+    const linie = THEMEN.flatMap(t => t.bilder).find(b => b.L === L);   // Ausmalbild (schwarz-weiß), sonst Feld zum Selbermalen
+    const wort = linie ? linie.wort.en : ABC_WOERTER[L].en;
+    titel = `Trace the letter ${L}`;
+    oben = vorbildSvg([L, L.toLowerCase()]) +
+      (linie ? `<img class="d-bild" src="${linie.datei}" alt="">` : `<div class="d-malen">Draw ${/^[AEIOU]/.test(wort) ? "an" : "a"} ${wort.toLowerCase()}!</div>`);
+    satz = `${L} is for ${wort}`;
+    reihen = [L, L, L.toLowerCase(), L.toLowerCase(), null];
+  }
+  blatt.innerHTML = `<div class="d-titel"></div><div class="d-oben">${oben}</div><div class="d-satz"></div>${reihenSvg(reihen)}
+    <div class="d-name">My name: <i></i></div>
+    <div class="d-fuss"><img src="bilder/logo.png" alt=""><span>Ela's Magic World · youtube.com/@ElasMagicPhonics</span></div>`;
+  blatt.querySelector(".d-titel").textContent = titel;
+  blatt.querySelector(".d-satz").textContent = satz;
+  return blatt;
+}
+document.getElementById("drucken").onclick = () => {
+  const blatt = druckblattBauen();
+  const show = document.createElement("div"); show.className = "druck-show"; show.innerHTML = `<img src="bilder/drucker.png" alt="">`;
+  document.body.appendChild(show); show.onclick = () => show.remove();
+  const bilder = [...blatt.querySelectorAll("img")].map(img => img.complete ? null : new Promise(r => { img.onload = img.onerror = r; })).filter(Boolean);
+  Promise.all(bilder).then(() => setTimeout(() => { show.remove(); window.print(); }, 1200));
+};
 new ResizeObserver(() => groesse()).observe(cv);
 
 const start = store.get("ela-spur-L"), startZ = parseInt(store.get("ela-spur-Z"), 10);

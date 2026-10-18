@@ -9,7 +9,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   KEIN sprechendes Kätzchen im Kreis mehr (auf Wunsch entfernt), darunter große Kacheln zu den Bereichen (Zahlen vorerst ausgeblendet).
   KEIN Ela-Video beim Drüberfahren über Kacheln (auf Wunsch wieder entfernt – wird zu unruhig, wenn Kinder schnell über die Kacheln fahren).
   Kürbis (Malbuch), Bär (Memory), Apfel (Tracing) und der mittlere Sticker hüpfen sanft auf ihren Kacheln (`.hupf`, versetzt) – nicht mehr, sonst zu unruhig.
-  Unten Fußzeile mit Versionsnummer (`v71`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
+  Unten Fußzeile mit Versionsnummer (`v72`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
 - `malbuch.html` – Malbuch mit **Themen** (Halloween aktiv; Christmas, Animals, Sweets, Ocean sind vorbereitet, aber ausgeblendet, bis sie Bilder haben).
   Bilder-Liste zum Aufklappen: zu = nur gewähltes Bild + Knopf „Alle Bilder“ (4 Mini-Bilder + Anzahl), auf = alle als Raster; Bild wählen klappt zu.
   Thema + zugeklappte Bilder stehen in einer Zeile (`.leiste`), die Malfläche ist auf die Bildschirmhöhe begrenzt → am PC passt das ganze Bild ohne Scrollen.
@@ -19,7 +19,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   Das Blatt (`#druckblatt`) entsteht automatisch für jedes Bild – für neue Bilder kein eigenes PDF nötig.
   Drucker-Bilder, die genau ein Bild drucken: `bilder/drucker/drucker-<L>.webp` (Halloween: B, G, H, P, in `DRUCKER` in malbuch.html) –
   erscheinen im „Print“-Knopf und beim Drucken kurz groß in der Mitte (1,6 s), dann das Druckfenster.
-  Knopf „🎬 Drawing video · for parents“ bei Bildern mit `youtube`-Link (daten.js; bisher Bat, Pumpkin, Witch): öffnet `elternSperre(url)` (gemeinsam.js,
+  Knopf „🎬 Drawing video · for parents“ bei Bildern mit `youtube`-Link (daten.js; bisher Bat, Pumpkin, Witch, Ghost, Hat): öffnet `elternSperre(url)` (gemeinsam.js,
   Rechenaufgabe), erst dann YouTube in einem NEUEN Fenster. Nie einbetten (kein YouTube-Player, nichts von Google auf der Seite),
   nur youtube.com/youtu.be-Links, Hinweis richtet sich an Eltern – Kinder nie zum Abonnieren auffordern.
 - `abc.html` – ABC: „Explore“ (Buchstabe antippen → Ela liest „B is for Bat“ vor) und „Play“ (Bild → Buchstabe raten oder Buchstabe → Bild finden).
@@ -54,6 +54,10 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   Zahlen (`?nur=zahl`): Ziffern 1–10 (10 = „1“ + „0“), danach hüpfen n Dinge (`DINGE`: Äpfel, Eis, Drachen, Enten, Bären) einzeln in den Rahmen,
   Ela zählt mit `STIMMEN.zahl` mit, dann Stern. Geschaffte Zahlen in `ela-spur-zahlen`.
   Geschaffte Buchstaben in `ela-spur-fertig` (Sternchen in der ABC-Leiste: PC Kacheln, Handy ABC-Band). Aufwärm-Linien bewusst weggelassen.
+  Knopf „Print“ (Halloween-Drucker): A4-Nachspur-Blatt aus `SCHRIFT` (`druckblattBauen()`, #druckblatt nur beim Drucken sichtbar, „Als PDF speichern“ = Download):
+  Titel „Trace the letter A“, großes Aa mit grünen Nummern-Startpunkten + Pfeilen, schwarz-weißes Ausmalbild (sonst Feld „Draw an apple!“ – nie die bunten 3D-Bilder drucken),
+  „A is for Apple“, 2 Reihen groß + 2 Reihen klein gestrichelt mit Linien (oben/Mitte gestrichelt/unten), 1 leere Reihe, „My name“, Logo + Kanal.
+  Zahlen: großes 3, drei Sterne zum Ausmalen, „3 three“, 4 Reihen 3er.
 - `sticker.html` – My Stickers: alle 5 Sterne (`STICKER_ALLE`) ein neuer Sticker aus `STICKER` (daten.js: zuerst 12 Sternen-Sticker mit Gesicht `bilder/sterne/*.webp`, selten zuletzt: Rainbow, Star King; dann bunte Halloween-Bilder, 3D-ABC-Tiere, Ente –
   neue Bilder hängen sich automatisch an). Oben 5 Sternchen-Plätze bis zum nächsten Sticker, leere Plätze mit „?“. Noch nicht gesammelte Sterne als graue Silhouette. Neue Sticker hüpfen
   (`ela-sticker-gesehen`). `sternDazu()` zeigt beim Erreichen eines neuen Stickers `stickerNeu()` groß. Sternchen-Feld oben rechts führt überall hierher.
