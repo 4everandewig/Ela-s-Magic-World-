@@ -6,7 +6,7 @@
 <title>Tracing – Ela's Magic World</title>
 <link rel="icon" href="bilder/ela-rund.png">
 <link rel="stylesheet" href="schriften/schriften.css">
-<link rel="stylesheet" href="gemeinsam.css?v=79">
+<link rel="stylesheet" href="gemeinsam.css?v=80">
 <style>
 /* Nachspuren: links die Schreibfläche (Buchstabe mit Startpunkt, Nummern, Pfeilen), rechts der Bilderrahmen,
    in den nach dem Nachspuren das Bild hüpft (A: Apfel). Darunter Stifte, unten die ABC-Leiste. */
@@ -72,14 +72,17 @@
 .leiste.zahlen{grid-template-columns:repeat(10,minmax(0,78px));justify-content:center}
 @media (max-width:560px){.leiste.zahlen{grid-template-columns:repeat(10,1fr)}}
 .druck-show{position:fixed;inset:0;z-index:60;display:grid;place-items:center;background:rgba(58,36,64,.35)}
-.druck-show img{width:min(380px,74vw);height:auto;filter:drop-shadow(0 18px 24px rgba(58,36,64,.45));animation:pop .5s ease}
+.druck-show .gross{filter:drop-shadow(0 18px 24px rgba(58,36,64,.45))}
 /* Print-Knopf (wie im Malbuch, mit Elas Halloween-Drucker) */
 .btn.druck{background:#fff3e3;color:var(--ink);padding:6px 12px 6px 6px;box-shadow:inset 0 -4px 0 var(--orange)}
 .btn.druck img{width:46px;height:auto}
-/* Mini-Blatt: zeigt den Eltern, dass ein Schreibblatt mit Linien herauskommt */
-.btn.druck .mini-blatt{width:30px;height:42px;background:#fff;border-radius:3px;box-shadow:0 0 0 1.5px #cfc3d9,1px 2px 4px rgba(58,36,64,.25);display:flex;flex-direction:column;align-items:center;padding:3px 3px 0;gap:3px;transform:rotate(4deg);margin-left:-6px}
-.btn.druck .mini-blatt img{width:18px;height:15px;object-fit:contain}
-.btn.druck .mini-blatt i{display:block;width:100%;height:0;border-top:1.5px dashed #a48fbc}
+/* Neutraler Drucker (ohne Kürbis), oben schaut das Schreibblatt mit dem Bild des Buchstabens heraus */
+.btn.druck .drucker-ico{display:block;width:50px;height:46px}
+.btn.druck .drucker-ico svg,.druck-show svg{display:block;width:100%;height:100%;overflow:visible}
+.druck-show .gross{width:min(320px,70vw);aspect-ratio:120/110;animation:pop .45s ease}
+.druck-show .gross .blatt{animation:blattRaus 1.1s .25s ease-out both}
+@keyframes blattRaus{from{transform:translateY(38px)}to{transform:translateY(0)}}
+@media (prefers-reduced-motion:reduce){.druck-show .gross,.druck-show .gross .blatt{animation:none}}
 /* "Color it": dasselbe Bild im Malbuch ausmalen */
 .btn.malen{background:#fff;color:var(--ink);padding:6px 12px 6px 6px;box-shadow:inset 0 -4px 0 var(--pink);text-decoration:none}
 .btn.malen img{width:46px;height:46px;object-fit:contain;background:#fff;border-radius:10px}
@@ -157,7 +160,7 @@
         <div class="stifte" id="stifte" data-t-label="tr_pen"></div>
         <div class="knoepfe">
         <a class="btn malen" id="malen" href="malbuch.html" hidden><img id="malen-bild" alt=""><span>🖍️</span><span data-t="tr_color"></span></a>
-        <button class="btn druck" id="drucken" type="button"><img src="bilder/drucker.png" alt=""><span class="mini-blatt" aria-hidden="true"><img id="mini-bild" alt=""><i></i><i></i><i></i></span><span data-t="print"></span></button>
+        <button class="btn druck" id="drucken" type="button"><span class="drucker-ico" id="drucker-ico" aria-hidden="true"></span><span data-t="print"></span></button>
         <button class="btn" id="nochmal" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 3v6h6"/></svg><span data-t="tr_again"></span></button>
         <button class="btn weiter" id="weiter" type="button"><span data-t="tr_next"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button>
         </div>
@@ -176,8 +179,8 @@
 <svg id="mess" aria-hidden="true"><path id="mess-pfad"/></svg>
 <div id="druckblatt" aria-hidden="true"></div>
 
-<script src="gemeinsam.js?v=79"></script>
-<script src="daten.js?v=79"></script>
+<script src="gemeinsam.js?v=80"></script>
+<script src="daten.js?v=80"></script>
 <script>
 const elaBild = document.getElementById("ela-tipp");   // fest merken: beim Kreis-Video ist das Bild kurz nicht im DOM
 elaTippen(elaBild, ELA_VIDEOS.seite.abc);
@@ -601,10 +604,21 @@ function waehle(Lx, laut){
   if (laut) sagBuchstabe();
 }
 // Knopf "Color it": gibt es im Malbuch ein Bild zu diesem Buchstaben? (im Oktober zuerst Halloween)
+// Bild auf dem Blatt im Drucker: Buchstabe → sein Bild, Zahl → Sterne
+function blattBild(){ if (modus === "zahl") return ""; const kk = karte(L); return kk && kk.bild ? kk.bild : ""; }
+function druckerSvg(bild){
+  const inhalt = bild ? `<image href="${bild}" x="44" y="6" width="32" height="26" preserveAspectRatio="xMidYMid meet"/>`
+                      : `<path d="M60 9l3 6.5 7 .8-5.2 4.8 1.5 7-6.3-3.6-6.3 3.6 1.5-7-5.2-4.8 7-.8z" fill="#fbbd23"/>`;
+  return `<svg viewBox="0 0 120 110"><g class="blatt"><rect x="36" y="0" width="48" height="62" rx="3" fill="#fff" stroke="#cfc3d9" stroke-width="2"/>${inhalt}
+    <path d="M42 38h36M42 46h36M42 54h36" stroke="#a48fbc" stroke-width="2" stroke-dasharray="4 3"/></g>
+    <rect x="14" y="44" width="92" height="46" rx="14" fill="#f8a5c8"/><rect x="14" y="44" width="92" height="16" rx="8" fill="#fcc6dc"/>
+    <rect x="30" y="50" width="60" height="6" rx="3" fill="#7a4a8a"/>
+    <rect x="28" y="78" width="64" height="26" rx="5" fill="#fff" stroke="#cfc3d9" stroke-width="2"/>
+    <circle cx="94" cy="70" r="4" fill="#4cbb5c"/><circle cx="26" cy="70" r="3" fill="#fff" opacity=".8"/></svg>`;
+}
 function malKnopf(){
-  const k = document.getElementById("malen"), mini = document.getElementById("mini-bild");
-  const kk = modus === "zahl" ? null : karte(L);   // auf dem Mini-Blatt das Bild, das auch gedruckt wird
-  mini.hidden = !kk || !kk.bild; if (kk && kk.bild) mini.src = kk.bild;
+  const k = document.getElementById("malen");
+  document.getElementById("drucker-ico").innerHTML = druckerSvg(blattBild());
   const themen = THEMEN.filter(x => x.bilder.length).sort((a, b) => (HALLOWEEN && b.id === "halloween") - (HALLOWEEN && a.id === "halloween"));
   let treffer = null;
   for (const th of themen) { const b = th.bilder.find(x => x.L === L); if (b) { treffer = { th, b }; break; } }
@@ -789,7 +803,7 @@ function druckblattBauen(){
 }
 document.getElementById("drucken").onclick = () => {
   const blatt = druckblattBauen();
-  const show = document.createElement("div"); show.className = "druck-show"; show.innerHTML = `<img src="bilder/drucker.png" alt="">`;
+  const show = document.createElement("div"); show.className = "druck-show"; show.innerHTML = `<div class="gross">${druckerSvg(blattBild())}</div>`;
   document.body.appendChild(show); show.onclick = () => show.remove();
   const bilder = [...blatt.querySelectorAll("img")].map(img => img.complete ? null : new Promise(r => { img.onload = img.onerror = r; })).filter(Boolean);
   Promise.all(bilder).then(() => setTimeout(() => { show.remove(); window.print(); }, 1200));
