@@ -57,7 +57,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   Leiste immer A–Z (auf Wunsch wieder das ganze ABC). Im Oktober tragen Halloween-Buchstaben mit Bild + Elas „… is for …“-Video ein kleines 🎃 (`KUERBIS`, B F G H P W); neue Videos in `ELA_VIDEOS.abc` → 🎃 kommt von selbst dazu.
   Knopf „🎬 Drawing video · for parents“ unter dem Bild-Rahmen, wenn das Malbuch-Bild zum Buchstaben einen `youtube`-Link hat (über `elternSperre`).
   Drucker-Knopf = rosa Drucker im Stil der Videos (`bilder/drucker-rosa.webp`, Vorlage der Betreiberin; KEIN Kürbis-Drucker – passte nicht zu jedem Buchstaben):
-  Ablage von Grün auf Logo-Lila umgefärbt, Zeichnung auf dem Blatt entfernt, Hintergrund durchsichtig. `druckerSvg()` legt das Bild des Buchstabens (`blattBild()`, Zahlen: Stern) aufs Blatt.
+  Ablage (grün) und Deckel (blau) auf Logo-Lila umgefärbt, Zeichnung auf dem Blatt entfernt, Hintergrund durchsichtig. `druckerSvg()` legt das Bild des Buchstabens (`blattBild()`, Zahlen: Stern) aufs Blatt.
   Beim Antippen erscheint der Drucker groß, das Bild hüpft aufs Blatt (ca. 1,2 s), dann Druckfenster. Hinweis dazu auch auf `info.html` („Worksheets to print“).
   Geschaffte Buchstaben in `ela-spur-fertig` (Sternchen in der ABC-Leiste: PC Kacheln, Handy ABC-Band). Aufwärm-Linien bewusst weggelassen.
   Knopf „Print“: A4-Nachspur-Blatt aus `SCHRIFT` (`druckblattBauen()`, #druckblatt nur beim Drucken sichtbar, „Als PDF speichern“ = Download):
