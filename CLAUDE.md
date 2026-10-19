@@ -56,9 +56,9 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   Ela zählt mit `STIMMEN.zahl` mit, dann Stern. Geschaffte Zahlen in `ela-spur-zahlen`.
   Leiste immer A–Z (auf Wunsch wieder das ganze ABC). Im Oktober tragen Halloween-Buchstaben mit Bild + Elas „… is for …“-Video ein kleines 🎃 (`KUERBIS`, B F G H P W); neue Videos in `ELA_VIDEOS.abc` → 🎃 kommt von selbst dazu.
   Knopf „🎬 Drawing video · for parents“ unter dem Bild-Rahmen, wenn das Malbuch-Bild zum Buchstaben einen `youtube`-Link hat (über `elternSperre`).
-  Drucker-Knopf = eigener lustiger rosa Drucker als SVG (`druckerSvg()`, KEIN Kürbis-Drucker – passte nicht zu jedem Buchstaben): Stil wie der Halloween-Drucker aus den Videos,
-  aber ganzjährig – 3D-Seitenwand mit Lämpchen, Glanz, magische Augen (Iris-Ring, 2 Glanzpunkte, Glitzerstern), Wimpern, Augenbrauen, Lachen (keine Bäckchen), Schleife mit Bändern, Glitzersterne; vorne kommt das Blatt mit dem Bild des Buchstabens (`blattBild()`, Zahlen: Stern) auf die mintgrüne Ablage.
-  Beim Antippen gleitet das Blatt groß aus dem Drucker (ca. 1,2 s), dann Druckfenster. Hinweis dazu auch auf `info.html` („Worksheets to print“).
+  Drucker-Knopf = rosa Drucker im Stil der Videos (`bilder/drucker-rosa.webp`, Vorlage der Betreiberin; KEIN Kürbis-Drucker – passte nicht zu jedem Buchstaben):
+  Ablage von Grün auf Logo-Lila umgefärbt, Zeichnung auf dem Blatt entfernt, Hintergrund durchsichtig. `druckerSvg()` legt das Bild des Buchstabens (`blattBild()`, Zahlen: Stern) aufs Blatt.
+  Beim Antippen erscheint der Drucker groß, das Bild hüpft aufs Blatt (ca. 1,2 s), dann Druckfenster. Hinweis dazu auch auf `info.html` („Worksheets to print“).
   Geschaffte Buchstaben in `ela-spur-fertig` (Sternchen in der ABC-Leiste: PC Kacheln, Handy ABC-Band). Aufwärm-Linien bewusst weggelassen.
   Knopf „Print“: A4-Nachspur-Blatt aus `SCHRIFT` (`druckblattBauen()`, #druckblatt nur beim Drucken sichtbar, „Als PDF speichern“ = Download):
   Titel „Trace the letter A“, großes Aa mit grünen Nummern-Startpunkten + Pfeilen, schwarz-weißes Ausmalbild (Halloween-Bild, sonst `ABC_WOERTER[L].malbild` in `bilder/abc/malen/`, z. B. A: Apfel; sonst Feld „Draw a kite!“ – nie die bunten 3D-Bilder drucken),
