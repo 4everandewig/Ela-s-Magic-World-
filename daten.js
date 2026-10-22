@@ -58,7 +58,8 @@ const ABC_WOERTER = {
 const STIMMEN = {
   abc:       { A: "stimme/A-is-for-Apple.mp3", B: "stimme/B-is-for-Bear.mp3", C: "stimme/C-is-for-Cat.mp3", F: "stimme/F-is-for-Frog.mp3", D: "stimme/D-is-for-Dog.mp3", E: "stimme/E-is-for-Elephant.mp3",
                G: "stimme/G-is-for-Giraffe.mp3", H: "stimme/H-is-for-Horse.mp3", I: "stimme/I-is-for-Ice-cream.mp3",
-               J: "stimme/J-is-for-Jellyfish.mp3", K: "stimme/K-is-for-Kite.mp3", L: "stimme/L-is-for-Lamb.mp3" },
+               J: "stimme/J-is-for-Jellyfish.mp3", K: "stimme/K-is-for-Kite.mp3", L: "stimme/L-is-for-Lamb.mp3",
+               M: "stimme/M-is-for-Monkey.mp3", N: "stimme/N-is-for-Nest.mp3", O: "stimme/O-is-for-Owl.mp3", P: "stimme/P-is-for-Penguin.mp3", Q: "stimme/Q-is-for-Queen.mp3" },
   wort:      { A: "stimme/Apple.mp3", B: "stimme/Bear.mp3", C: "stimme/Cat.mp3", F: "stimme/Frog.mp3", D: "stimme/Dog.mp3", E: "stimme/Elephant.mp3",
                G: "stimme/Giraffe.mp3", H: "stimme/Horse.mp3", I: "stimme/Ice-cream.mp3",
                J: "stimme/Jellyfish.mp3", K: "stimme/Kite.mp3", L: "stimme/Lamb.mp3" },
@@ -119,7 +120,8 @@ function karten(L){
    zuschauen: kleines Ela-Fenster oben rechts an der Malfläche nach der 4. Fläche, einmal pro Bild (pro Thema)
    spuren: Nachspuren, Ela malt den Buchstaben in die Luft (im Kreis); beim Nachspuren spielt außerdem abc[Wort] im Kreis, wenn der kleine Buchstabe fertig ist */
 const ELA_VIDEOS = {
-  abc:  { Pumpkin: "videos/P-is-for-Pumpkin.mp4", Hat: "videos/H-is-for-Hat.mp4", Bat: "videos/B-is-for-Bat.mp4", Witch: "videos/W-is-for-Witch.mp4", Frankenstein: "videos/F-Hello-Frankenstein.mp4", Ghost: "videos/G-is-for-Ghost.mp4" },
+  abc:  { Pumpkin: "videos/P-is-for-Pumpkin.mp4", Hat: "videos/H-is-for-Hat.mp4", Bat: "videos/B-is-for-Bat.mp4", Witch: "videos/W-is-for-Witch.mp4", Frankenstein: "videos/F-Hello-Frankenstein.mp4", Ghost: "videos/G-is-for-Ghost.mp4",
+          Monkey: "videos/M-is-for-Monkey.mp4", Nest: "videos/N-is-for-Nest.mp4", Owl: "videos/O-is-for-Owl.mp4", Penguin: "videos/P-is-for-Penguin.mp4", Queen: "videos/Q-is-for-Queen.mp4" },
   bild: { "halloween-P": ["videos/P-is-for-Pumpkin.mp4", "videos/P-Wave-to-the-Pumpkin.mp4", "videos/P-Ela-and-Pumpkin.mp4"],
           "halloween-H": ["videos/H-is-for-Hat.mp4", "videos/H-Witch-hat-like-mine.mp4", "videos/H-Hat-is-smiling.mp4"],
           "halloween-B": ["videos/B-is-for-Bat.mp4", "videos/B-Cute-little-bat.mp4"],
