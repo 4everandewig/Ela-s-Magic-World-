@@ -40,8 +40,8 @@ const ABC_WOERTER = {
   G:{en:"Giraffe",de:"Giraffe",tr:"Zürafa",foto:"bilder/abc/G-Giraffe.jpg"}, H:{en:"Horse",de:"Pferd",tr:"At",foto:"bilder/abc/H-Horse.jpg"},
   I:{en:"Ice cream",de:"Eis",tr:"Dondurma",foto:"bilder/abc/I-Ice-cream.jpg"}, J:{en:"Jellyfish",de:"Qualle",tr:"Denizanası",foto:"bilder/abc/J-Jellyfish.jpg"},
   K:{en:"Kite",de:"Drachen",tr:"Uçurtma",foto:"bilder/abc/K-Kite.jpg"}, L:{en:"Lamb",de:"Lamm",tr:"Kuzu",foto:"bilder/abc/L-Lamb.jpg"},
-  M:{en:"Mummy",de:"Mumie",tr:"Mumya"}, N:{en:"Night",de:"Nacht",tr:"Gece"}, O:{en:"Owl",de:"Eule",tr:"Baykuş"},
-  P:{en:"Pumpkin",de:"Kürbis",tr:"Balkabağı"}, Q:{en:"Queen",de:"Königin",tr:"Kraliçe"}, R:{en:"Raven",de:"Rabe",tr:"Kuzgun"},
+  M:{en:"Monkey",de:"Affe",tr:"Maymun",foto:"bilder/abc/M-Monkey.jpg"}, N:{en:"Nest",de:"Nest",tr:"Yuva",foto:"bilder/abc/N-Nest.jpg"}, O:{en:"Owl",de:"Eule",tr:"Baykuş",foto:"bilder/abc/O-Owl.jpg"},
+  P:{en:"Penguin",de:"Pinguin",tr:"Penguen",foto:"bilder/abc/P-Penguin.jpg"}, Q:{en:"Queen",de:"Königin",tr:"Kraliçe",foto:"bilder/abc/Q-Queen.jpg"}, R:{en:"Raven",de:"Rabe",tr:"Kuzgun"},
   S:{en:"Spider",de:"Spinne",tr:"Örümcek"}, T:{en:"Treat",de:"Süßigkeit",tr:"Şeker"}, U:{en:"Unicorn",de:"Einhorn",tr:"Tek boynuzlu at"},
   V:{en:"Vampire",de:"Vampir",tr:"Vampir"}, W:{en:"Witch",de:"Hexe",tr:"Cadı"}, X:{en:"X-ray",de:"Röntgenbild",tr:"Röntgen"},
   Y:{en:"Yummy",de:"Lecker",tr:"Lezzetli"}, Z:{en:"Zombie",de:"Zombie",tr:"Zombi"}
