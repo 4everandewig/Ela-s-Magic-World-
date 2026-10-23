@@ -9,7 +9,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   KEIN sprechendes Kätzchen im Kreis mehr (auf Wunsch entfernt), darunter große Kacheln zu den Bereichen (Zahlen vorerst ausgeblendet).
   KEIN Ela-Video beim Drüberfahren über Kacheln (auf Wunsch wieder entfernt – wird zu unruhig, wenn Kinder schnell über die Kacheln fahren).
   Kürbis (Malbuch), Bär (Memory), Apfel (Tracing) und der mittlere Sticker hüpfen sanft auf ihren Kacheln (`.hupf`, versetzt) – nicht mehr, sonst zu unruhig.
-  Unten Fußzeile mit Versionsnummer (`v83`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
+  Unten Fußzeile mit Versionsnummer (`v84`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
 - `malbuch.html` – Malbuch mit **Themen** (Halloween aktiv; Christmas, Animals, Sweets, Ocean sind vorbereitet, aber ausgeblendet, bis sie Bilder haben).
   Bilder-Liste zum Aufklappen: zu = nur gewähltes Bild + Knopf „Alle Bilder“ (4 Mini-Bilder + Anzahl), auf = alle als Raster; Bild wählen klappt zu.
   Thema + zugeklappte Bilder stehen in einer Zeile (`.leiste`), die Malfläche ist auf die Bildschirmhöhe begrenzt → am PC passt das ganze Bild ohne Scrollen.
@@ -116,7 +116,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   Die KI-Videos haben am Ende oft ein kurzes Lachen mit fremder (Männer-)Stimme → Kreis-Videos enden vor dem letzten kurzen Laut nach Elas Satz
   (mit `silencedetect` die letzte Pause suchen, dort mit `-t` abschneiden, 0,3 s ausblenden). Bei neuen Videos gleich mitmachen.
   Auch `stimme/Yay.mp3` hatte hinten einen tiefen Laut → nach dem „Yay“ (0,97 s) abgeschnitten. Neue Aufnahmen ebenso prüfen.
-- M–Q (Garten-Clips „A monkey!“ – „M is for Monkey!“): Kreis-Video = Clip bis 0,45 s nach Elas letztem Wort (ausgeblendet), dazu nur der Satz „M is for Monkey“ als `stimme/M-is-for-Monkey.mp3` (`STIMMEN.abc`).
+- M–Q und S (Garten-Clips „A monkey!“ – „M is for Monkey!“): Kreis-Video = Clip bis 0,45 s nach Elas letztem Wort (ausgeblendet), dazu nur der Satz „M is for Monkey“ als `stimme/M-is-for-Monkey.mp3` (`STIMMEN.abc`).
   Tiefe Stellen am Satzende waren Elas eigene fallende Stimme (fließend, ohne Pause) – kein fremdes Lachen. ffmpeg in Schleifen immer mit `-nostdin`.
 - Abspielen über `elaVideo(src, ersatz)` in `gemeinsam.js` (Fenster mit ✕, schließt am Ende selbst).
   Im ABC spielen die „… is for …“-Videos im runden Ela-Kreis statt im großen Fenster: `elaKreisVideo(img, src, ersatz)` (Bild wird kurz zum Video, Antippen beendet).
@@ -161,7 +161,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
 - Maskottchen: Ela mit Schürze (`bilder/ela-rund.png`); Hexen-Ela (`bilder/ela-hexe.png`) nur bei Halloween.
   Den Regenbogen-Pinsel mit Gesicht NICHT mehr verwenden (auf Wunsch entfernt).
   der Halloween-Drucker (`bilder/drucker.png`, „Print“-Knopf). ABC-Bilder im 3D-Stil der Videos: `bilder/abc/<L>-<Word>.jpg` (600×600), das ganze Tier mit etwas Rand (nichts abgeschnitten).
-  3D-Bilder gibt es für A–Q (M Monkey, N Nest, O Owl, P Penguin, Q Queen = Krone; aus den Vorlagen der Betreiberin, auf 600×600 zugeschnitten). Neue Wörter mit `foto` → automatisch in ABC, Memory, Türen, Stickern.
+  3D-Bilder gibt es für A–Q (M Monkey, N Nest, O Owl, P Penguin, Q Queen = Krone; aus den Vorlagen der Betreiberin, auf 600×600 zugeschnitten). S Star = Sternen-Sticker `bilder/sterne/sunny.webp` (STICKER per Set ohne Doppelte); Türen: „Find the star!“. Neue Wörter mit `foto` → automatisch in ABC, Memory, Türen, Stickern.
   Quelle z. B. die Shorts „Can you guess the letter?“: Bild aus Sekunde 0.3, `crop=680:700:200:540,pad=760:760:40:30:color=0xf8f8f8,scale=600:600`.
 - Keine Fotos von echten Kindern auf der Webseite (nur die gezeichnete Ela).
 - Schriften: "Baloo 2" (Überschriften), "Nunito" (Text). Große Knöpfe für Finger, kein horizontales Scrollen.

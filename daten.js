@@ -42,7 +42,7 @@ const ABC_WOERTER = {
   K:{en:"Kite",de:"Drachen",tr:"Uçurtma",foto:"bilder/abc/K-Kite.jpg"}, L:{en:"Lamb",de:"Lamm",tr:"Kuzu",foto:"bilder/abc/L-Lamb.jpg"},
   M:{en:"Monkey",de:"Affe",tr:"Maymun",foto:"bilder/abc/M-Monkey.jpg"}, N:{en:"Nest",de:"Nest",tr:"Yuva",foto:"bilder/abc/N-Nest.jpg"}, O:{en:"Owl",de:"Eule",tr:"Baykuş",foto:"bilder/abc/O-Owl.jpg"},
   P:{en:"Penguin",de:"Pinguin",tr:"Penguen",foto:"bilder/abc/P-Penguin.jpg"}, Q:{en:"Queen",de:"Königin",tr:"Kraliçe",foto:"bilder/abc/Q-Queen.jpg"}, R:{en:"Raven",de:"Rabe",tr:"Kuzgun"},
-  S:{en:"Spider",de:"Spinne",tr:"Örümcek"}, T:{en:"Treat",de:"Süßigkeit",tr:"Şeker"}, U:{en:"Unicorn",de:"Einhorn",tr:"Tek boynuzlu at"},
+  S:{en:"Star",de:"Stern",tr:"Yıldız",foto:"bilder/sterne/sunny.webp"}, T:{en:"Treat",de:"Süßigkeit",tr:"Şeker"}, U:{en:"Unicorn",de:"Einhorn",tr:"Tek boynuzlu at"},
   V:{en:"Vampire",de:"Vampir",tr:"Vampir"}, W:{en:"Witch",de:"Hexe",tr:"Cadı"}, X:{en:"X-ray",de:"Röntgenbild",tr:"Röntgen"},
   Y:{en:"Yummy",de:"Lecker",tr:"Lezzetli"}, Z:{en:"Zombie",de:"Zombie",tr:"Zombi"}
 };
@@ -59,7 +59,7 @@ const STIMMEN = {
   abc:       { A: "stimme/A-is-for-Apple.mp3", B: "stimme/B-is-for-Bear.mp3", C: "stimme/C-is-for-Cat.mp3", F: "stimme/F-is-for-Frog.mp3", D: "stimme/D-is-for-Dog.mp3", E: "stimme/E-is-for-Elephant.mp3",
                G: "stimme/G-is-for-Giraffe.mp3", H: "stimme/H-is-for-Horse.mp3", I: "stimme/I-is-for-Ice-cream.mp3",
                J: "stimme/J-is-for-Jellyfish.mp3", K: "stimme/K-is-for-Kite.mp3", L: "stimme/L-is-for-Lamb.mp3",
-               M: "stimme/M-is-for-Monkey.mp3", N: "stimme/N-is-for-Nest.mp3", O: "stimme/O-is-for-Owl.mp3", P: "stimme/P-is-for-Penguin.mp3", Q: "stimme/Q-is-for-Queen.mp3" },
+               M: "stimme/M-is-for-Monkey.mp3", N: "stimme/N-is-for-Nest.mp3", O: "stimme/O-is-for-Owl.mp3", P: "stimme/P-is-for-Penguin.mp3", Q: "stimme/Q-is-for-Queen.mp3", S: "stimme/S-is-for-Star.mp3" },
   wort:      { A: "stimme/Apple.mp3", B: "stimme/Bear.mp3", C: "stimme/Cat.mp3", F: "stimme/Frog.mp3", D: "stimme/Dog.mp3", E: "stimme/Elephant.mp3",
                G: "stimme/Giraffe.mp3", H: "stimme/Horse.mp3", I: "stimme/Ice-cream.mp3",
                J: "stimme/Jellyfish.mp3", K: "stimme/Kite.mp3", L: "stimme/Lamb.mp3" },
@@ -83,7 +83,7 @@ const STIMMEN = {
                // "Find the Bear!" … (noch aufzunehmen: T4 für G, H, I)
                tier: { A: "stimme/Find-the-Apple.mp3", B: "stimme/Find-the-Bear.mp3", C: "stimme/Find-the-Cat.mp3",
                        D: "stimme/Find-the-Dog.mp3", E: "stimme/Find-the-Elephant.mp3", F: "stimme/Find-the-Frog.mp3",
-                       J: "stimme/Find-the-Jellyfish.mp3", K: "stimme/Find-the-Kite.mp3", L: "stimme/Find-the-Lamb.mp3" } },
+                       J: "stimme/Find-the-Jellyfish.mp3", K: "stimme/Find-the-Kite.mp3", L: "stimme/Find-the-Lamb.mp3", S: "stimme/Find-the-star.mp3" } },
   // "How many apples?" – Schlüssel wie DINGE in zahlen.html
   wieviele: { apples: "stimme/How-many-apples.mp3", icecreams: "stimme/How-many-ice-creams.mp3", kites: "stimme/How-many-kites.mp3",
               stars: "stimme/How-many-stars.mp3", ducks: "stimme/How-many-ducks.mp3" },
@@ -121,7 +121,7 @@ function karten(L){
    spuren: Nachspuren, Ela malt den Buchstaben in die Luft (im Kreis); beim Nachspuren spielt außerdem abc[Wort] im Kreis, wenn der kleine Buchstabe fertig ist */
 const ELA_VIDEOS = {
   abc:  { Pumpkin: "videos/P-is-for-Pumpkin.mp4", Hat: "videos/H-is-for-Hat.mp4", Bat: "videos/B-is-for-Bat.mp4", Witch: "videos/W-is-for-Witch.mp4", Frankenstein: "videos/F-Hello-Frankenstein.mp4", Ghost: "videos/G-is-for-Ghost.mp4",
-          Monkey: "videos/M-is-for-Monkey.mp4", Nest: "videos/N-is-for-Nest.mp4", Owl: "videos/O-is-for-Owl.mp4", Penguin: "videos/P-is-for-Penguin.mp4", Queen: "videos/Q-is-for-Queen.mp4" },
+          Monkey: "videos/M-is-for-Monkey.mp4", Nest: "videos/N-is-for-Nest.mp4", Owl: "videos/O-is-for-Owl.mp4", Penguin: "videos/P-is-for-Penguin.mp4", Queen: "videos/Q-is-for-Queen.mp4", Star: "videos/S-is-for-Star.mp4" },
   bild: { "halloween-P": ["videos/P-is-for-Pumpkin.mp4", "videos/P-Wave-to-the-Pumpkin.mp4", "videos/P-Ela-and-Pumpkin.mp4"],
           "halloween-H": ["videos/H-is-for-Hat.mp4", "videos/H-Witch-hat-like-mine.mp4", "videos/H-Hat-is-smiling.mp4"],
           "halloween-B": ["videos/B-is-for-Bat.mp4", "videos/B-Cute-little-bat.mp4"],
@@ -158,9 +158,9 @@ const LERNFARBEN = [
    Neue Bilder hängen sich automatisch an. */
 const STICKER_ALLE = 5;
 const STERN_STICKER = ["sunny", "rosie", "minty", "skye", "cool", "party", "artist", "smarty", "dreamy", "spooky", "rainbow", "king"];
-const STICKER = [
+const STICKER = [...new Set([   // Set: der Stern bei S ist zugleich ein Sternen-Sticker → nicht doppelt
   ...STERN_STICKER.map(n => "bilder/sterne/" + n + ".webp"),
   ...THEMEN.flatMap(th => th.bilder.filter(b => b.bunt).map(b => b.bunt)),
   ...Object.keys(ABC_WOERTER).filter(L => ABC_WOERTER[L].foto).map(L => ABC_WOERTER[L].foto),
   "bilder/zahlen/ente.jpg",
-];
+])];
