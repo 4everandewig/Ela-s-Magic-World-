@@ -9,7 +9,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   KEIN sprechendes Kätzchen im Kreis mehr (auf Wunsch entfernt), darunter große Kacheln zu den Bereichen (Zahlen vorerst ausgeblendet).
   KEIN Ela-Video beim Drüberfahren über Kacheln (auf Wunsch wieder entfernt – wird zu unruhig, wenn Kinder schnell über die Kacheln fahren).
   Kürbis (Malbuch), Bär (Memory), Apfel (Tracing) und der mittlere Sticker hüpfen sanft auf ihren Kacheln (`.hupf`, versetzt) – nicht mehr, sonst zu unruhig.
-  Unten Fußzeile mit Versionsnummer (`v82`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
+  Unten Fußzeile mit Versionsnummer (`v83`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
 - `malbuch.html` – Malbuch mit **Themen** (Halloween aktiv; Christmas, Animals, Sweets, Ocean sind vorbereitet, aber ausgeblendet, bis sie Bilder haben).
   Bilder-Liste zum Aufklappen: zu = nur gewähltes Bild + Knopf „Alle Bilder“ (4 Mini-Bilder + Anzahl), auf = alle als Raster; Bild wählen klappt zu.
   Thema + zugeklappte Bilder stehen in einer Zeile (`.leiste`), die Malfläche ist auf die Bildschirmhöhe begrenzt → am PC passt das ganze Bild ohne Scrollen.
@@ -24,6 +24,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   nur youtube.com/youtu.be-Links, Hinweis richtet sich an Eltern – Kinder nie zum Abonnieren auffordern.
   Knopf „Bb ✏️ Trace“ neben dem Wort → `schreiben.html?L=B` (gleicher Buchstabe zum Nachspuren). Öffnen mit `?thema=halloween&L=B` zeigt genau dieses Bild.
 - `abc.html` – ABC: „Explore“ (Buchstabe antippen → Ela liest „B is for Bat“ vor) und „Play“ (Bild → Buchstabe raten oder Buchstabe → Bild finden).
+  Play: nächste Frage erst, wenn Ela ausgesprochen hat (`elaSagt(…, fertig)`), dann 1,5 s Pause – nie feste Zeiten, sonst sprechen Sätze übereinander.
   Tab „Bubbles“: Ela „Find the letter G!“ (nur A–L mit `STIMMEN.finde`), 5 Blasen mit G/g + 9 andere (gern ähnliche, `AEHNLICH`) schweben;
   richtige antippen = platzt (Plopp-Ton im Browser erzeugt), falsche wackelt nur. Großes I / kleines l nie als falsche Blasen (sehen gleich aus).
   Alle 5 = Stern, Lob nur jede 2. Runde, sonst sagt Ela nur den Buchstaben.
@@ -99,6 +100,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   `abc` („K is for Kite“), `wort` („Kite“), `buchstabe` („Letter G“), `frage` („What starts with G?“), `mitsprechen`, `lob` („Yes!“, „You did it!“).
 - Geräte-Stimme: `frauenStimme()` sucht eine Frauen-/Mädchenstimme (Ela ist ein Mädchen), sonst irgendeine der Sprache.
 - `elaSagt([dateien], ersatz, danach)` in `gemeinsam.js` spielt sie nacheinander; klappt es nicht, liest die Geräte-Stimme `ersatz` vor.
+- `elaSagt` und `elaKette` beenden beim Start jede laufende Kette ganz (`kettenNr`) – nie zwei Stimmen gleichzeitig. Optional 5. Parameter `fertig` (Callback nach dem letzten Satz).
 - `elaKette([{datei, text}, …])`: Sätze nacheinander, jeder mit eigener Ersatz-Stimme – fehlt eine Aufnahme (`datei` leer), liest die Geräte-Stimme nur diesen Teil.
 - Wo keine Aufnahme eingetragen ist, liest automatisch die Geräte-Stimme (`speak`) vor.
 - Neue Aufnahme: MP3 nach `stimme/` (Name wie `What-starts-with-G.mp3`), in `STIMMEN` eintragen. Wörter in `ABC_WOERTER` müssen zur Aufnahme passen.

@@ -225,15 +225,18 @@ function elaKette(teile, lang = "en-US"){
   };
   weiter();
 }
-function elaSagt(dateien, ersatz, danach, lang = "en-US"){
-  kettenNr++; kreisStopp();
+// fertig (optional): wird aufgerufen, wenn Ela ausgesprochen hat (für "nächste Frage erst danach")
+function elaSagt(dateien, ersatz, danach, lang = "en-US", fertig){
+  const nr = ++kettenNr; kreisStopp();   // eine neue Ansage beendet die alte Kette ganz (sonst sprechen zwei gleichzeitig)
   try { if ("speechSynthesis" in window) speechSynthesis.cancel(); } catch(e){}
   if (elaTon) elaTon.pause();
-  let i = 0;
+  let i = 0, ende = false;
+  const aus = () => { if (!ende) { ende = true; if (fertig) fertig(); } };
   const weiter = () => {
-    if (i >= dateien.length) { if (danach) speak(danach, lang); return; }
+    if (nr !== kettenNr) return;
+    if (i >= dateien.length) { if (danach) speak(danach, lang); aus(); return; }
     const erste = i === 0, a = new Audio(dateien[i++]); elaTon = a;
-    const fehler = () => { if (erste && ersatz) speak(ersatz, lang); };
+    const fehler = () => { if (nr !== kettenNr) return; if (erste && ersatz) speak(ersatz, lang); setTimeout(aus, 1500); };
     a.onended = () => setTimeout(weiter, 300);
     a.onerror = fehler;
     const p = a.play(); if (p && p.catch) p.catch(fehler);
