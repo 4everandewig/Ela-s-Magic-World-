@@ -6,7 +6,7 @@
 <title>ABC – Ela's Magic World</title>
 <link rel="icon" href="bilder/ela-rund.png">
 <link rel="stylesheet" href="schriften/schriften.css">
-<link rel="stylesheet" href="gemeinsam.css?v=85">
+<link rel="stylesheet" href="gemeinsam.css?v=86">
 <style>
 /* ABC: Tabs Entdecken/Spielen; links die große Buchstabenkarte bzw. das Rätsel, rechts Ela; darunter das Buchstaben-Raster */
 .top h1{color:var(--purple)}
@@ -112,8 +112,8 @@
   </section>
 </div>
 
-<script src="gemeinsam.js?v=85"></script>
-<script src="daten.js?v=85"></script>
+<script src="gemeinsam.js?v=86"></script>
+<script src="daten.js?v=86"></script>
 <script>
 /* Auf Ela tippen: ihre Videos der Reihe nach */
 const elaBild = document.getElementById("ela-tipp");   // fest merken: beim Kreis-Video ist das Bild kurz nicht im DOM
@@ -241,7 +241,7 @@ document.getElementById("s-say").onclick = frageVorlesen;
    Ela: "Find the letter G!" – 5 Blasen tragen G oder g, die anderen andere Buchstaben. Richtige Blase antippen = sie platzt.
    Nur Buchstaben mit Elas Aufnahme (STIMMEN.finde, A–L), damit keine Geräte-Stimme dazwischen spricht. Falsch = Blase wackelt nur. */
 const BL_ZIELE = LETTERS.filter(L => STIMMEN.finde[L]);
-const AEHNLICH = { B: "DPR", D: "BOP", E: "FB", F: "ET", C: "OGE", G: "CQO", I: "LJT", J: "IL", K: "XH", L: "IJT", A: "HV", H: "AK" };
+const AEHNLICH = { B: "DPR", D: "BOP", E: "FB", F: "ET", C: "OGE", G: "CQO", I: "LJT", J: "IL", K: "XH", L: "IJT", A: "HV", H: "AK", M: "NW", N: "MH", O: "QCD", P: "BRD", Q: "OG", R: "PBK", S: "Z" };
 let blZiel = null, blGefunden = 0, blRunden = 0, audioBl = null;
 const BL_ANZAHL = 5;
 function plopp(){
