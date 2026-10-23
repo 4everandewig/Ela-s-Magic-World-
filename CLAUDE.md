@@ -9,7 +9,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   KEIN sprechendes Kätzchen im Kreis mehr (auf Wunsch entfernt), darunter große Kacheln zu den Bereichen (Zahlen vorerst ausgeblendet).
   KEIN Ela-Video beim Drüberfahren über Kacheln (auf Wunsch wieder entfernt – wird zu unruhig, wenn Kinder schnell über die Kacheln fahren).
   Kürbis (Malbuch), Bär (Memory), Apfel (Tracing) und der mittlere Sticker hüpfen sanft auf ihren Kacheln (`.hupf`, versetzt) – nicht mehr, sonst zu unruhig.
-  Unten Fußzeile mit Versionsnummer (`v86`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
+  Unten Fußzeile mit Versionsnummer (`v87`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
 - `malbuch.html` – Malbuch mit **Themen** (Halloween aktiv; Christmas, Animals, Sweets, Ocean sind vorbereitet, aber ausgeblendet, bis sie Bilder haben).
   Bilder-Liste zum Aufklappen: zu = nur gewähltes Bild + Knopf „Alle Bilder“ (4 Mini-Bilder + Anzahl), auf = alle als Raster; Bild wählen klappt zu.
   Thema + zugeklappte Bilder stehen in einer Zeile (`.leiste`), die Malfläche ist auf die Bildschirmhöhe begrenzt → am PC passt das ganze Bild ohne Scrollen.
@@ -46,7 +46,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   erreichbar über die Seite „Numbers“ (Tabs „Count“ | „Trace“ auf beiden Seiten, Überschrift dann „Numbers“). Buchstaben A–Z mit dem Finger nachspuren, erst groß, dann klein. Striche in `SCHRIFT`
   (SVG-Pfade, 0 = obere Linie, 50 = Mittellinie, 100 = Grundlinie, 140 = Unterlänge; Strich < 3 Einheiten = Punkt zum Antippen).
   Grüner Startpunkt mit Nummer, Pfeile, Glitzerstern fährt den Weg immer wieder vor (kein „Show me“-Knopf – auf Wunsch weg). Ein Strich zählt nur ab dem grünen Punkt und in Schreibrichtung
-  (falsch = zählt einfach nicht, keine Strafe). Stift: Regenbogen oder Farbe (`ela-stift`). Großes A fertig → Bild (`karte(L)`: im Oktober zuerst die Halloween-Bilder (bunt, sonst Ausmalbild) – H: Hut, G: Gespenst, B: Fledermaus –, sonst 3D-Bild; A: Apfel)
+  (falsch = zählt einfach nicht, keine Strafe). Stift: Regenbogen oder Farbe (`ela-stift`). Großes A fertig → Bild (`karte(L)`: im Oktober zuerst das Halloween-Bild, aber NUR wenn es dazu Elas Video gibt und das ABC-Wort selbst keins hat – B Bat, F Frankenstein, G Ghost, H Hat, W Witch; M–S zeigen auch im Oktober ihr 3D-Bild mit Elas Stimme (keine Mumie bei M); sonst 3D-Bild; A: Apfel)
   hüpft in den Rahmen; kleines a fertig → Bild tanzt, Elas Lob + „A is for Apple“, 1 Stern, nach 6 s nächster Buchstabe.
   Stimme: NUR Elas echte Aufnahmen, nie die Roboter-/Geräte-Stimme (auf Wunsch). Start = Elas Buchstabe („A“, davor „Let's trace!“ sobald `STIMMEN.spuren`
   aufgenommen ist; ohne Aufnahme still), großer Buchstabe fertig = ihr Wort („Apple!“), sonst ihr „Yay!“ (`STIMMEN.yay`),
@@ -55,7 +55,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   („Woo-hoo! W is for Witch!“, dann 9 s bis zum nächsten). Jede neue Ansage beendet ein laufendes Kreis-Video (`kreisStopp()`).
   Zahlen (`?nur=zahl`): Ziffern 1–10 (10 = „1“ + „0“), danach hüpfen n Dinge (`DINGE`: Äpfel, Eis, Drachen, Enten, Bären) einzeln in den Rahmen,
   Ela zählt mit `STIMMEN.zahl` mit, dann Stern. Geschaffte Zahlen in `ela-spur-zahlen`.
-  Leiste immer A–Z (auf Wunsch wieder das ganze ABC). Im Oktober tragen Halloween-Buchstaben mit Bild + Elas „… is for …“-Video ein kleines 🎃 (`KUERBIS`, B F G H P W); neue Videos in `ELA_VIDEOS.abc` → 🎃 kommt von selbst dazu.
+  Leiste immer A–Z (auf Wunsch wieder das ganze ABC). Im Oktober tragen Halloween-Buchstaben mit Bild + Elas „… is for …“-Video ein kleines 🎃 (`KUERBIS`, derzeit B F G H W); neue Videos in `ELA_VIDEOS.abc` → 🎃 kommt von selbst dazu.
   Knopf „🎬 Drawing video · for parents“ unter dem Bild-Rahmen, wenn das Malbuch-Bild zum Buchstaben einen `youtube`-Link hat (über `elternSperre`).
   Drucker-Knopf = rosa Drucker im Stil der Videos (`bilder/drucker-rosa.webp`, Vorlage der Betreiberin; KEIN Kürbis-Drucker – passte nicht zu jedem Buchstaben):
   Ablage (grün) und Deckel (blau) auf Logo-Lila umgefärbt, Zeichnung auf dem Blatt entfernt, Hintergrund durchsichtig. `druckerSvg()` legt das Bild des Buchstabens (`blattBild()`, Zahlen: Stern) aufs Blatt.
@@ -116,7 +116,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   Die KI-Videos haben am Ende oft ein kurzes Lachen mit fremder (Männer-)Stimme → Kreis-Videos enden vor dem letzten kurzen Laut nach Elas Satz
   (mit `silencedetect` die letzte Pause suchen, dort mit `-t` abschneiden, 0,3 s ausblenden). Bei neuen Videos gleich mitmachen.
   Auch `stimme/Yay.mp3` hatte hinten einen tiefen Laut → nach dem „Yay“ (0,97 s) abgeschnitten. Neue Aufnahmen ebenso prüfen.
-- Stimm-Clips S1–S11 (Prompts im Projekt „abc-m-s-stimm-clips“): je 3 Sätze bei ca. 1–2,5 / 3,5–5 / 6–7,5 s → `What-starts-with-M` (`frage`), `Monkey` (`wort`), `M-is-for-Monkey` (`abc`, Studio-Ton ersetzt den Garten-Satz). M–S eingebaut (R = Rainbow statt Raven, noch ohne 3D-Bild); Find the letter M–O eingebaut.
+- Stimm-Clips S1–S11 (Prompts im Projekt „abc-m-s-stimm-clips“): je 3 Sätze bei ca. 1–2,5 / 3,5–5 / 6–7,5 s → `What-starts-with-M` (`frage`), `Monkey` (`wort`), `M-is-for-Monkey` (`abc`, Studio-Ton ersetzt den Garten-Satz). M–S eingebaut (R = Rainbow statt Raven, 3D-Regenbogen `bilder/abc/R-Rainbow.jpg`); Find the letter M–O eingebaut.
   Offen: Find the letter P–S und die einzelnen Buchstaben M–S (Zuordnung der Stücke unklar, Betreiberin hört nach). Ela-Tonhöhe 205–340 Hz ist normal (ältere Aufnahmen G/L ebenso).
 - M–Q und S (Garten-Clips „A monkey!“ – „M is for Monkey!“): Kreis-Video = Clip bis 0,45 s nach Elas letztem Wort (ausgeblendet), dazu nur der Satz „M is for Monkey“ als `stimme/M-is-for-Monkey.mp3` (`STIMMEN.abc`).
   Tiefe Stellen am Satzende waren Elas eigene fallende Stimme (fließend, ohne Pause) – kein fremdes Lachen. ffmpeg in Schleifen immer mit `-nostdin`.
@@ -163,7 +163,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
 - Maskottchen: Ela mit Schürze (`bilder/ela-rund.png`); Hexen-Ela (`bilder/ela-hexe.png`) nur bei Halloween.
   Den Regenbogen-Pinsel mit Gesicht NICHT mehr verwenden (auf Wunsch entfernt).
   der Halloween-Drucker (`bilder/drucker.png`, „Print“-Knopf). ABC-Bilder im 3D-Stil der Videos: `bilder/abc/<L>-<Word>.jpg` (600×600), das ganze Tier mit etwas Rand (nichts abgeschnitten).
-  3D-Bilder gibt es für A–Q (M Monkey, N Nest, O Owl, P Penguin, Q Queen = Krone; aus den Vorlagen der Betreiberin, auf 600×600 zugeschnitten). S Star = 3D-Stern `bilder/abc/S-Star.jpg` (Vorlage); Türen: „Find the star!“. STICKER per Set ohne Doppelte. Neue Wörter mit `foto` → automatisch in ABC, Memory, Türen, Stickern.
+  3D-Bilder gibt es für A–S (R Rainbow; M Monkey, N Nest, O Owl, P Penguin, Q Queen = Krone; aus den Vorlagen der Betreiberin, auf 600×600 zugeschnitten). S Star = 3D-Stern `bilder/abc/S-Star.jpg` (Vorlage); Türen: „Find the star!“. STICKER per Set ohne Doppelte. Neue Wörter mit `foto` → automatisch in ABC, Memory, Türen, Stickern.
   Quelle z. B. die Shorts „Can you guess the letter?“: Bild aus Sekunde 0.3, `crop=680:700:200:540,pad=760:760:40:30:color=0xf8f8f8,scale=600:600`.
 - Keine Fotos von echten Kindern auf der Webseite (nur die gezeichnete Ela).
 - Schriften: "Baloo 2" (Überschriften), "Nunito" (Text). Große Knöpfe für Finger, kein horizontales Scrollen.

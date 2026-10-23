@@ -6,7 +6,7 @@
 <title>Tracing – Ela's Magic World</title>
 <link rel="icon" href="bilder/ela-rund.png">
 <link rel="stylesheet" href="schriften/schriften.css">
-<link rel="stylesheet" href="gemeinsam.css?v=86">
+<link rel="stylesheet" href="gemeinsam.css?v=87">
 <style>
 /* Nachspuren: links die Schreibfläche (Buchstabe mit Startpunkt, Nummern, Pfeilen), rechts der Bilderrahmen,
    in den nach dem Nachspuren das Bild hüpft (A: Apfel). Darunter Stifte, unten die ABC-Leiste. */
@@ -179,8 +179,8 @@
 <svg id="mess" aria-hidden="true"><path id="mess-pfad"/></svg>
 <div id="druckblatt" aria-hidden="true"></div>
 
-<script src="gemeinsam.js?v=86"></script>
-<script src="daten.js?v=86"></script>
+<script src="gemeinsam.js?v=87"></script>
+<script src="daten.js?v=87"></script>
 <script>
 const elaBild = document.getElementById("ela-tipp");   // fest merken: beim Kreis-Video ist das Bild kurz nicht im DOM
 elaTippen(elaBild, ELA_VIDEOS.seite.abc);
@@ -483,7 +483,14 @@ function strichFertig(s){
    H: Hut, G: Gespenst, B: Fledermaus … – sonst das 3D-Bild aus den ABC-Videos bzw. das erste Bild */
 const karte = Lx => {
   const alle = karten(Lx);
-  return (HALLOWEEN && alle.find(k => k.bild && k.bild.includes("bilder/halloween/"))) || alle.find(k => k.bild) || alle[0];
+  // Halloween-Bild im Oktober nur zuerst, wenn Ela dazu ein Video hat (B Bat, F Frankenstein, G Ghost, H Hat, P Pumpkin, W Witch) –
+  // sonst das ABC-Hauptwort mit Elas Aufnahmen (M Monkey statt Mumie, N Nest statt Nacht, S Star statt Spinne …)
+  const haupt = ABC_WOERTER[Lx];
+  if (HALLOWEEN && !(haupt.foto && ELA_VIDEOS.abc[haupt.en])) {   // hat das ABC-Wort selbst ein Video (M–S), gewinnt es auch im Oktober
+    const h = alle.find(k => k.bild && k.bild.includes("bilder/halloween/") && ELA_VIDEOS.abc[k.wort.en]);
+    if (h) return h;
+  }
+  return alle.find(k => k.bild) || alle[0];
 };
 /* Im Oktober erst einmal nur die Halloween-Buchstaben, zu denen es schon Elas Video gibt (Bild + "… is for …"-Video):
    B Bat, F Frankenstein, G Ghost, H Hat, P Pumpkin, W Witch. Neue Videos in ELA_VIDEOS.abc → Buchstabe erscheint von selbst. */
