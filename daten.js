@@ -77,7 +77,7 @@ const STIMMEN = {
                G: "stimme/Find-the-letter-G.mp3", H: "stimme/Find-the-letter-H.mp3", I: "stimme/Find-the-letter-I.mp3",
                J: "stimme/Find-the-letter-J.mp3", K: "stimme/Find-the-letter-K.mp3", L: "stimme/Find-the-letter-L.mp3",
                M: "stimme/Find-the-letter-M.mp3", N: "stimme/Find-the-letter-N.mp3", O: "stimme/Find-the-letter-O.mp3",
-               Q: "stimme/Find-the-letter-Q.mp3", R: "stimme/Find-the-letter-R.mp3", S: "stimme/Find-the-letter-S.mp3" },   // P: Aufnahme noch zu schlecht
+               P: "stimme/Find-the-letter-P.mp3", Q: "stimme/Find-the-letter-Q.mp3", R: "stimme/Find-the-letter-R.mp3", S: "stimme/Find-the-letter-S.mp3" },   // P zusammengesetzt: "Find the letter" (aus Q) + Elas "P"
   farbe:     { red: "stimme/Red.mp3", orange: "stimme/Orange.mp3", yellow: "stimme/Yellow.mp3", green: "stimme/Green.mp3",
                blue: "stimme/Blue.mp3", purple: "stimme/Purple.mp3" },
   zahl:      ["", "stimme/One.mp3", "stimme/Two.mp3", "stimme/Three.mp3", "stimme/Four.mp3", "stimme/Five.mp3",

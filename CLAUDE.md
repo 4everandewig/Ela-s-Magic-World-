@@ -9,7 +9,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   KEIN sprechendes Kätzchen im Kreis mehr (auf Wunsch entfernt), darunter große Kacheln zu den Bereichen (Zahlen vorerst ausgeblendet).
   KEIN Ela-Video beim Drüberfahren über Kacheln (auf Wunsch wieder entfernt – wird zu unruhig, wenn Kinder schnell über die Kacheln fahren).
   Kürbis (Malbuch), Bär (Memory), Apfel (Tracing) und der mittlere Sticker hüpfen sanft auf ihren Kacheln (`.hupf`, versetzt) – nicht mehr, sonst zu unruhig.
-  Unten Fußzeile mit Versionsnummer (`v91`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
+  Unten Fußzeile mit Versionsnummer (`v92`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
 - `malbuch.html` – Malbuch mit **Themen** (Halloween aktiv; Christmas, Animals, Sweets, Ocean sind vorbereitet, aber ausgeblendet, bis sie Bilder haben).
   Bilder-Liste zum Aufklappen: zu = nur gewähltes Bild + Knopf „Alle Bilder“ (4 Mini-Bilder + Anzahl), auf = alle als Raster; Bild wählen klappt zu.
   Thema + zugeklappte Bilder stehen in einer Zeile (`.leiste`), die Malfläche ist auf die Bildschirmhöhe begrenzt → am PC passt das ganze Bild ohne Scrollen.
@@ -25,7 +25,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   Knopf „Bb ✏️ Trace“ neben dem Wort → `schreiben.html?L=B` (gleicher Buchstabe zum Nachspuren). Öffnen mit `?thema=halloween&L=B` zeigt genau dieses Bild.
 - `abc.html` – ABC: „Explore“ (Buchstabe antippen → Ela liest „B is for Bat“ vor) und „Play“ (Bild → Buchstabe raten oder Buchstabe → Bild finden).
   Play: nächste Frage erst, wenn Ela ausgesprochen hat (`elaSagt(…, fertig)`), dann 1,5 s Pause – nie feste Zeiten, sonst sprechen Sätze übereinander.
-  Tab „Bubbles“: Ela „Find the letter G!“ (nur Buchstaben mit `STIMMEN.finde`, derzeit A–S ohne P), 5 Blasen mit G/g + 9 andere (gern ähnliche, `AEHNLICH`) schweben;
+  Tab „Bubbles“: Ela „Find the letter G!“ (nur Buchstaben mit `STIMMEN.finde`, derzeit A–S), 5 Blasen mit G/g + 9 andere (gern ähnliche, `AEHNLICH`) schweben;
   richtige antippen = platzt (Plopp-Ton im Browser erzeugt), falsche wackelt nur. Großes I / kleines l nie als falsche Blasen (sehen gleich aus).
   Alle 5 = Stern, Lob nur jede 2. Runde, sonst sagt Ela nur den Buchstaben.
 - `farben.html` – Farben: „Explore“ (Farbe antippen → wird vorgelesen) und „Play“ („Tap on blue!“).
@@ -117,7 +117,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   Die KI-Videos haben am Ende oft ein kurzes Lachen mit fremder (Männer-)Stimme → Kreis-Videos enden vor dem letzten kurzen Laut nach Elas Satz
   (mit `silencedetect` die letzte Pause suchen, dort mit `-t` abschneiden, 0,3 s ausblenden). Bei neuen Videos gleich mitmachen.
   Auch `stimme/Yay.mp3` hatte hinten einen tiefen Laut → nach dem „Yay“ (0,97 s) abgeschnitten. Neue Aufnahmen ebenso prüfen.
-- Stimm-Clips S1–S11 (Prompts im Projekt „abc-m-s-stimm-clips“): je 3 Sätze bei ca. 1–2,5 / 3,5–5 / 6–7,5 s → `What-starts-with-M` (`frage`), `Monkey` (`wort`), `M-is-for-Monkey` (`abc`, Studio-Ton ersetzt den Garten-Satz). M–S eingebaut (R = Rainbow statt Raven, 3D-Regenbogen `bilder/abc/R-Rainbow.jpg`); Find the letter M–S eingebaut außer P (Aufnahme zu schlecht, neu aufnehmen), Buchstaben M–S (`STIMMEN.buchstabe`) eingebaut.
+- Stimm-Clips S1–S11 (Prompts im Projekt „abc-m-s-stimm-clips“): je 3 Sätze bei ca. 1–2,5 / 3,5–5 / 6–7,5 s → `What-starts-with-M` (`frage`), `Monkey` (`wort`), `M-is-for-Monkey` (`abc`, Studio-Ton ersetzt den Garten-Satz). M–S eingebaut (R = Rainbow statt Raven, 3D-Regenbogen `bilder/abc/R-Rainbow.jpg`); Find the letter M–S eingebaut (P zusammengesetzt aus „Find the letter“ vom Q-Satz + Elas „P“, weil die P-Aufnahme schlecht war), Buchstaben M–S (`STIMMEN.buchstabe`) eingebaut.
   Ela-Tonhöhe 205–340 Hz ist normal (ältere Aufnahmen G/L ebenso).
 - M–Q und S (Garten-Clips „A monkey!“ – „M is for Monkey!“): Kreis-Video = Clip bis 0,45 s nach Elas letztem Wort (ausgeblendet), dazu nur der Satz „M is for Monkey“ als `stimme/M-is-for-Monkey.mp3` (`STIMMEN.abc`).
   Tiefe Stellen am Satzende waren Elas eigene fallende Stimme (fließend, ohne Pause) – kein fremdes Lachen. ffmpeg in Schleifen immer mit `-nostdin`.
