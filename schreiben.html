@@ -6,7 +6,7 @@
 <title>Tracing – Ela's Magic World</title>
 <link rel="icon" href="bilder/ela-rund.png">
 <link rel="stylesheet" href="schriften/schriften.css">
-<link rel="stylesheet" href="gemeinsam.css?v=89">
+<link rel="stylesheet" href="gemeinsam.css?v=90">
 <style>
 /* Nachspuren: links die Schreibfläche (Buchstabe mit Startpunkt, Nummern, Pfeilen), rechts der Bilderrahmen,
    in den nach dem Nachspuren das Bild hüpft (A: Apfel). Darunter Stifte, unten die ABC-Leiste. */
@@ -179,8 +179,8 @@
 <svg id="mess" aria-hidden="true"><path id="mess-pfad"/></svg>
 <div id="druckblatt" aria-hidden="true"></div>
 
-<script src="gemeinsam.js?v=89"></script>
-<script src="daten.js?v=89"></script>
+<script src="gemeinsam.js?v=90"></script>
+<script src="daten.js?v=90"></script>
 <script>
 const elaBild = document.getElementById("ela-tipp");   // fest merken: beim Kreis-Video ist das Bild kurz nicht im DOM
 elaTippen(elaBild, ELA_VIDEOS.seite.abc);
@@ -509,7 +509,7 @@ function formFertig(){
     // Nur Elas echte Stimme, nie die Roboter-Stimme: ihr Wort ("Apple!"), sonst ihr "Yay!"
     if (STIMMEN.wort[L] && k.wort === ABC_WOERTER[L]) elaSagt([STIMMEN.wort[L]]);
     else elaSagt([STIMMEN.tollGespurt && Math.random() < .5 ? STIMMEN.tollGespurt : STIMMEN.yay]);   // "Great tracing!" im Wechsel mit "Yay!"
-    setTimeout(() => { form = 1; neu(); }, 2200);
+    setTimeout(() => { form = 1; neu(); if (STIMMEN.kleiner) elaSagt([STIMMEN.kleiner]); }, 2200);   // "The little letter!"
   } else {
     // Kleiner Buchstabe geschafft: "Yes! A is for Apple", Bild tanzt, Stern
     document.getElementById("f-klein").className = "ok";
@@ -639,7 +639,9 @@ function sagBuchstabe(){
   if (ELA_VIDEOS.spuren && ELA_VIDEOS.spuren[L]) return elaKreisVideo(elaBild, ELA_VIDEOS.spuren[L], `Let's trace ${L}!`);   // Ela malt das W in die Luft
   // "Let's trace … A" – "Let's trace" nur mit Elas Aufnahme (STIMMEN.spuren), damit keine zwei Stimmen gemischt werden
   // Nur Elas Aufnahmen (keine Roboter-Stimme): "Let's trace!" (sobald aufgenommen) + ihr Buchstabe
-  const dateien = [STIMMEN.spuren, STIMMEN.buchstabe[L]].filter(Boolean);
+  // "Let's trace!" / "Trace with me!" im Wechsel, dann Elas Buchstabe, dann "The big letter!"
+  const auf = STIMMEN.mitMir && Math.random() < .5 ? STIMMEN.mitMir : STIMMEN.spuren;
+  const dateien = [auf, STIMMEN.buchstabe[L], STIMMEN.grosser].filter(Boolean);
   if (dateien.length) elaSagt(dateien);
 }
 function waehleZahl(n, laut){

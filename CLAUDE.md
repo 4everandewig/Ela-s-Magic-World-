@@ -9,7 +9,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   KEIN sprechendes Kätzchen im Kreis mehr (auf Wunsch entfernt), darunter große Kacheln zu den Bereichen (Zahlen vorerst ausgeblendet).
   KEIN Ela-Video beim Drüberfahren über Kacheln (auf Wunsch wieder entfernt – wird zu unruhig, wenn Kinder schnell über die Kacheln fahren).
   Kürbis (Malbuch), Bär (Memory), Apfel (Tracing) und der mittlere Sticker hüpfen sanft auf ihren Kacheln (`.hupf`, versetzt) – nicht mehr, sonst zu unruhig.
-  Unten Fußzeile mit Versionsnummer (`v89`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
+  Unten Fußzeile mit Versionsnummer (`v90`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
 - `malbuch.html` – Malbuch mit **Themen** (Halloween aktiv; Christmas, Animals, Sweets, Ocean sind vorbereitet, aber ausgeblendet, bis sie Bilder haben).
   Bilder-Liste zum Aufklappen: zu = nur gewähltes Bild + Knopf „Alle Bilder“ (4 Mini-Bilder + Anzahl), auf = alle als Raster; Bild wählen klappt zu.
   Thema + zugeklappte Bilder stehen in einer Zeile (`.leiste`), die Malfläche ist auf die Bildschirmhöhe begrenzt → am PC passt das ganze Bild ohne Scrollen.
@@ -48,7 +48,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   Grüner Startpunkt mit Nummer, Pfeile, Glitzerstern fährt den Weg immer wieder vor (kein „Show me“-Knopf – auf Wunsch weg). Ein Strich zählt nur ab dem grünen Punkt und in Schreibrichtung
   (falsch = zählt einfach nicht, keine Strafe). Stift: Regenbogen oder Farbe (`ela-stift`). Großes A fertig → Bild (`karte(L)`: IMMER das normale ABC-Wort mit 3D-Bild – B Bear, F Frog, M Monkey …; Halloween-Bilder gibt es nur im Malbuch (Wunsch). Nur wo das ABC-Wort selbst ein Halloween-Wort ohne 3D-Bild ist (T, V, W, Y, Z), kommt dessen Malbuch-Bild)
   hüpft in den Rahmen; kleines a fertig → Bild tanzt, Elas Lob + „A is for Apple“, 1 Stern, nach 6 s nächster Buchstabe.
-  Stimme: NUR Elas echte Aufnahmen, nie die Roboter-/Geräte-Stimme (auf Wunsch). Start = „Let's trace!“ (`STIMMEN.spuren`, Clip T1) + Elas Buchstabe („A“),
+  Stimme: NUR Elas echte Aufnahmen, nie die Roboter-/Geräte-Stimme (auf Wunsch). Start = „Let's trace!“ / „Trace with me!“ im Wechsel (`STIMMEN.spuren`, `.mitMir`) + Elas Buchstabe („A“) + „The big letter!“ (`.grosser`); kleiner kommt dran → „The little letter!“ (`.kleiner`),
   großer Buchstabe fertig = ihr Wort („Apple!“), sonst im Wechsel „Yay!“ / „Great tracing!“ (`STIMMEN.yay`, `.tollGespurt`),
   2 falsche Starts hintereinander → „Start at the green dot!“ (`STIMMEN.gruenerPunkt`, höchstens alle 10 s),
   kleiner fertig = Video im Kreis, sonst „A is for Apple!“, sonst ihr Buchstabe + Lob („G!“ – „You did it!“); Lob sonst nur bei jedem 3. Buchstaben.
