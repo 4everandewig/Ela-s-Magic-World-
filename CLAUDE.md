@@ -9,7 +9,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   KEIN sprechendes Kätzchen im Kreis mehr (auf Wunsch entfernt), darunter große Kacheln zu den Bereichen (Zahlen vorerst ausgeblendet).
   KEIN Ela-Video beim Drüberfahren über Kacheln (auf Wunsch wieder entfernt – wird zu unruhig, wenn Kinder schnell über die Kacheln fahren).
   Kürbis (Malbuch), Bär (Memory), Apfel (Tracing) und der mittlere Sticker hüpfen sanft auf ihren Kacheln (`.hupf`, versetzt) – nicht mehr, sonst zu unruhig.
-  Unten Fußzeile mit Versionsnummer (`v88`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
+  Unten Fußzeile mit Versionsnummer (`v89`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
 - `malbuch.html` – Malbuch mit **Themen** (Halloween aktiv; Christmas, Animals, Sweets, Ocean sind vorbereitet, aber ausgeblendet, bis sie Bilder haben).
   Bilder-Liste zum Aufklappen: zu = nur gewähltes Bild + Knopf „Alle Bilder“ (4 Mini-Bilder + Anzahl), auf = alle als Raster; Bild wählen klappt zu.
   Thema + zugeklappte Bilder stehen in einer Zeile (`.leiste`), die Malfläche ist auf die Bildschirmhöhe begrenzt → am PC passt das ganze Bild ohne Scrollen.
@@ -46,7 +46,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   erreichbar über die Seite „Numbers“ (Tabs „Count“ | „Trace“ auf beiden Seiten, Überschrift dann „Numbers“). Buchstaben A–Z mit dem Finger nachspuren, erst groß, dann klein. Striche in `SCHRIFT`
   (SVG-Pfade, 0 = obere Linie, 50 = Mittellinie, 100 = Grundlinie, 140 = Unterlänge; Strich < 3 Einheiten = Punkt zum Antippen).
   Grüner Startpunkt mit Nummer, Pfeile, Glitzerstern fährt den Weg immer wieder vor (kein „Show me“-Knopf – auf Wunsch weg). Ein Strich zählt nur ab dem grünen Punkt und in Schreibrichtung
-  (falsch = zählt einfach nicht, keine Strafe). Stift: Regenbogen oder Farbe (`ela-stift`). Großes A fertig → Bild (`karte(L)`: im Oktober zuerst das Halloween-Bild, aber NUR wenn es dazu Elas Video gibt und das ABC-Wort selbst keins hat – B Bat, F Frankenstein, G Ghost, H Hat, W Witch; M–S zeigen auch im Oktober ihr 3D-Bild mit Elas Stimme (keine Mumie bei M); sonst 3D-Bild; A: Apfel)
+  (falsch = zählt einfach nicht, keine Strafe). Stift: Regenbogen oder Farbe (`ela-stift`). Großes A fertig → Bild (`karte(L)`: IMMER das normale ABC-Wort mit 3D-Bild – B Bear, F Frog, M Monkey …; Halloween-Bilder gibt es nur im Malbuch (Wunsch). Nur wo das ABC-Wort selbst ein Halloween-Wort ohne 3D-Bild ist (T, V, W, Y, Z), kommt dessen Malbuch-Bild)
   hüpft in den Rahmen; kleines a fertig → Bild tanzt, Elas Lob + „A is for Apple“, 1 Stern, nach 6 s nächster Buchstabe.
   Stimme: NUR Elas echte Aufnahmen, nie die Roboter-/Geräte-Stimme (auf Wunsch). Start = „Let's trace!“ (`STIMMEN.spuren`, Clip T1) + Elas Buchstabe („A“),
   großer Buchstabe fertig = ihr Wort („Apple!“), sonst im Wechsel „Yay!“ / „Great tracing!“ (`STIMMEN.yay`, `.tollGespurt`),
@@ -56,14 +56,14 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   („Woo-hoo! W is for Witch!“, dann 9 s bis zum nächsten). Jede neue Ansage beendet ein laufendes Kreis-Video (`kreisStopp()`).
   Zahlen (`?nur=zahl`): Ziffern 1–10 (10 = „1“ + „0“), danach hüpfen n Dinge (`DINGE`: Äpfel, Eis, Drachen, Enten, Bären) einzeln in den Rahmen,
   Ela zählt mit `STIMMEN.zahl` mit, dann Stern. Geschaffte Zahlen in `ela-spur-zahlen`.
-  Leiste immer A–Z (auf Wunsch wieder das ganze ABC). Im Oktober tragen Halloween-Buchstaben mit Bild + Elas „… is for …“-Video ein kleines 🎃 (`KUERBIS`, derzeit B F G H W); neue Videos in `ELA_VIDEOS.abc` → 🎃 kommt von selbst dazu.
+  Leiste immer A–Z. Keine 🎃-Markierung mehr (`KUERBIS = []`, Halloween nur im Malbuch).
   Knopf „🎬 Drawing video · for parents“ unter dem Bild-Rahmen, wenn das Malbuch-Bild zum Buchstaben einen `youtube`-Link hat (über `elternSperre`).
   Drucker-Knopf = rosa Drucker im Stil der Videos (`bilder/drucker-rosa.webp`, Vorlage der Betreiberin; KEIN Kürbis-Drucker – passte nicht zu jedem Buchstaben):
   Ablage (grün) und Deckel (blau) auf Logo-Lila umgefärbt, Zeichnung auf dem Blatt entfernt, Hintergrund durchsichtig. `druckerSvg()` legt das Bild des Buchstabens (`blattBild()`, Zahlen: Stern) aufs Blatt.
   Beim Antippen erscheint der Drucker groß, das Bild hüpft aufs Blatt (ca. 1,2 s), dann Druckfenster. Hinweis dazu auch auf `info.html` („Worksheets to print“).
   Geschaffte Buchstaben in `ela-spur-fertig` (Sternchen in der ABC-Leiste: PC Kacheln, Handy ABC-Band). Aufwärm-Linien bewusst weggelassen.
   Knopf „Print“: A4-Nachspur-Blatt aus `SCHRIFT` (`druckblattBauen()`, #druckblatt nur beim Drucken sichtbar, „Als PDF speichern“ = Download):
-  Titel „Trace the letter A“, großes Aa mit grünen Nummern-Startpunkten + Pfeilen, schwarz-weißes Ausmalbild (Halloween-Bild, sonst `ABC_WOERTER[L].malbild` in `bilder/abc/malen/`, z. B. A: Apfel; sonst Feld „Draw a kite!“ – nie die bunten 3D-Bilder drucken),
+  Titel „Trace the letter A“, großes Aa mit grünen Nummern-Startpunkten + Pfeilen, schwarz-weißes Ausmalbild (`ABC_WOERTER[L].malbild`, z. B. A: Apfel, sonst Malbuch-Bild nur wenn es dasselbe Wort ist – C Cat, O Owl, W Witch –, sonst Feld „Draw a monkey!“; nie die bunten 3D-Bilder drucken; Satz immer mit dem ABC-Wort),
   „A is for Apple“, 2 Reihen groß + 2 Reihen klein gestrichelt mit Linien (oben/Mitte gestrichelt/unten), 1 leere Reihe, „My name“, Logo + Kanal.
   Zahlen: großes 3, drei Sterne zum Ausmalen, „3 three“, 4 Reihen 3er.
   Satz auf dem Blatt in klarer Schrift: Buchstabe dunkel, Rest grau (keine hohle Umriss-Schrift – Kleinbuchstaben wurden klobig).
