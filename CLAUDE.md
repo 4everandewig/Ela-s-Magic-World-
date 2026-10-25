@@ -9,7 +9,7 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   KEIN sprechendes Kätzchen im Kreis mehr (auf Wunsch entfernt), darunter große Kacheln zu den Bereichen (Zahlen vorerst ausgeblendet).
   KEIN Ela-Video beim Drüberfahren über Kacheln (auf Wunsch wieder entfernt – wird zu unruhig, wenn Kinder schnell über die Kacheln fahren).
   Kürbis (Malbuch), Bär (Memory), Apfel (Tracing) und der mittlere Sticker hüpfen sanft auf ihren Kacheln (`.hupf`, versetzt) – nicht mehr, sonst zu unruhig.
-  Unten Fußzeile mit Versionsnummer (`v87`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
+  Unten Fußzeile mit Versionsnummer (`v88`) – bei jeder sichtbaren Änderung hochzählen, damit man im Browser erkennt, ob die neue Version da ist.
 - `malbuch.html` – Malbuch mit **Themen** (Halloween aktiv; Christmas, Animals, Sweets, Ocean sind vorbereitet, aber ausgeblendet, bis sie Bilder haben).
   Bilder-Liste zum Aufklappen: zu = nur gewähltes Bild + Knopf „Alle Bilder“ (4 Mini-Bilder + Anzahl), auf = alle als Raster; Bild wählen klappt zu.
   Thema + zugeklappte Bilder stehen in einer Zeile (`.leiste`), die Malfläche ist auf die Bildschirmhöhe begrenzt → am PC passt das ganze Bild ohne Scrollen.
@@ -48,8 +48,9 @@ Statische Website auf GitHub Pages, keine Build-Tools, kein Framework.
   Grüner Startpunkt mit Nummer, Pfeile, Glitzerstern fährt den Weg immer wieder vor (kein „Show me“-Knopf – auf Wunsch weg). Ein Strich zählt nur ab dem grünen Punkt und in Schreibrichtung
   (falsch = zählt einfach nicht, keine Strafe). Stift: Regenbogen oder Farbe (`ela-stift`). Großes A fertig → Bild (`karte(L)`: im Oktober zuerst das Halloween-Bild, aber NUR wenn es dazu Elas Video gibt und das ABC-Wort selbst keins hat – B Bat, F Frankenstein, G Ghost, H Hat, W Witch; M–S zeigen auch im Oktober ihr 3D-Bild mit Elas Stimme (keine Mumie bei M); sonst 3D-Bild; A: Apfel)
   hüpft in den Rahmen; kleines a fertig → Bild tanzt, Elas Lob + „A is for Apple“, 1 Stern, nach 6 s nächster Buchstabe.
-  Stimme: NUR Elas echte Aufnahmen, nie die Roboter-/Geräte-Stimme (auf Wunsch). Start = Elas Buchstabe („A“, davor „Let's trace!“ sobald `STIMMEN.spuren`
-  aufgenommen ist; ohne Aufnahme still), großer Buchstabe fertig = ihr Wort („Apple!“), sonst ihr „Yay!“ (`STIMMEN.yay`),
+  Stimme: NUR Elas echte Aufnahmen, nie die Roboter-/Geräte-Stimme (auf Wunsch). Start = „Let's trace!“ (`STIMMEN.spuren`, Clip T1) + Elas Buchstabe („A“),
+  großer Buchstabe fertig = ihr Wort („Apple!“), sonst im Wechsel „Yay!“ / „Great tracing!“ (`STIMMEN.yay`, `.tollGespurt`),
+  2 falsche Starts hintereinander → „Start at the green dot!“ (`STIMMEN.gruenerPunkt`, höchstens alle 10 s),
   kleiner fertig = Video im Kreis, sonst „A is for Apple!“, sonst ihr Buchstabe + Lob („G!“ – „You did it!“); Lob sonst nur bei jedem 3. Buchstaben.
   Videos im Ela-Kreis: Buchstabe gewählt → `ELA_VIDEOS.spuren[L]` (auch Liste = nacheinander; W: „Today we learn the letter W!“, dann malt Ela das W in die Luft); kleiner Buchstabe fertig → `ELA_VIDEOS.abc[Wort]`
   („Woo-hoo! W is for Witch!“, dann 9 s bis zum nächsten). Jede neue Ansage beendet ein laufendes Kreis-Video (`kreisStopp()`).

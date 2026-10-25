@@ -100,7 +100,9 @@ const STIMMEN = {
   mitsprechen: "stimme/Can-you-say-it-with-me.mp3",
   denken: "stimme/Think-think-think.mp3",
   weiter: "stimme/Lets-try-the-next-one.mp3",
-  spuren: "",   // Nachspuren: "Let's trace!" vor dem Buchstaben (noch aufzunehmen: stimme/Lets-trace.mp3)
+  spuren: "stimme/Lets-trace.mp3",   // Nachspuren: "Let's trace!" vor dem Buchstaben
+  gruenerPunkt: "stimme/Start-at-the-green-dot.mp3",   // Nachspuren: nach 2 falschen Starts (höchstens alle 10 s)
+  tollGespurt: "stimme/Great-tracing.mp3",   // Nachspuren: Lob im Wechsel mit "Yay!"
   lob: ["stimme/Yes.mp3", "stimme/Yes-2.mp3", "stimme/You-did-it.mp3", "stimme/You-got-it.mp3", "stimme/Great-job-1.mp3",
         "stimme/Great-job-2.mp3", "stimme/Great-job-3.mp3", "stimme/Great-job-4.mp3", "stimme/Great-job-kids.mp3",
         "stimme/Great-job.mp3", "stimme/Yes-you-got-it.mp3", "stimme/Wow-superstar.mp3", "stimme/You-are-so-smart.mp3",

@@ -6,7 +6,7 @@
 <title>Tracing – Ela's Magic World</title>
 <link rel="icon" href="bilder/ela-rund.png">
 <link rel="stylesheet" href="schriften/schriften.css">
-<link rel="stylesheet" href="gemeinsam.css?v=87">
+<link rel="stylesheet" href="gemeinsam.css?v=88">
 <style>
 /* Nachspuren: links die Schreibfläche (Buchstabe mit Startpunkt, Nummern, Pfeilen), rechts der Bilderrahmen,
    in den nach dem Nachspuren das Bild hüpft (A: Apfel). Darunter Stifte, unten die ABC-Leiste. */
@@ -179,8 +179,8 @@
 <svg id="mess" aria-hidden="true"><path id="mess-pfad"/></svg>
 <div id="druckblatt" aria-hidden="true"></div>
 
-<script src="gemeinsam.js?v=87"></script>
-<script src="daten.js?v=87"></script>
+<script src="gemeinsam.js?v=88"></script>
+<script src="daten.js?v=88"></script>
 <script>
 const elaBild = document.getElementById("ela-tipp");   // fest merken: beim Kreis-Video ist das Bild kurz nicht im DOM
 elaTippen(elaBild, ELA_VIDEOS.seite.abc);
@@ -300,6 +300,7 @@ const DINGE = [
 ];
 const zahlFarbe = n => BUNT[(n - 1) % BUNT.length];
 let buchstabenFertig = 0;   // wie viele Buchstaben in diesem Besuch geschafft (für das seltene Lob)
+let falscheStarts = 0, letzterHinweis = -Infinity;
 let zugOk = false;   // zählt dieser Fingerzug? Nur wenn er am grünen Punkt (oder da, wo man aufgehört hat) beginnt
 let zeigeStart = 0, finger = false, spur = [], funken = [], weiterTimer = null, gesprochen = false;
 
@@ -442,6 +443,12 @@ cv.addEventListener("pointerdown", e => {
   const s = A && A.striche[A.aktiv];
   const nah = q => Math.hypot(p.x - q.x, p.y - q.y) < TOL * 1.4;
   zugOk = !!s && (s.punkt || nah(s.pts[s.k]) || nah(s.pts[0]));
+  // Falsch angesetzt: nach 2 Versuchen hintereinander sagt Ela sanft "Start at the green dot!" (höchstens alle 10 s)
+  if (s && !zugOk) {
+    if (++falscheStarts >= 2 && STIMMEN.gruenerPunkt && performance.now() - letzterHinweis > 10000) {
+      letzterHinweis = performance.now(); falscheStarts = 0; elaSagt([STIMMEN.gruenerPunkt]);
+    }
+  } else falscheStarts = 0;
   bewegt(p);
 });
 cv.addEventListener("pointermove", e => {
@@ -507,7 +514,7 @@ function formFertig(){
     say(`${en}! ${t("tr_small", { l: L.toLowerCase() })}`);
     // Nur Elas echte Stimme, nie die Roboter-Stimme: ihr Wort ("Apple!"), sonst ihr "Yay!"
     if (STIMMEN.wort[L] && k.wort === ABC_WOERTER[L]) elaSagt([STIMMEN.wort[L]]);
-    else elaSagt([STIMMEN.yay]);
+    else elaSagt([STIMMEN.tollGespurt && Math.random() < .5 ? STIMMEN.tollGespurt : STIMMEN.yay]);   // "Great tracing!" im Wechsel mit "Yay!"
     setTimeout(() => { form = 1; neu(); }, 2200);
   } else {
     // Kleiner Buchstabe geschafft: "Yes! A is for Apple", Bild tanzt, Stern
